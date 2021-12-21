@@ -1,0 +1,20 @@
+principal(){
+ enter anna = 24;
+ boolea juan = cert;
+ mentres(2==2){
+ juan = 34;
+ anna = fals;
+ boolea anna = fals;
+ anna = juan;
+ }
+ si(no!juan){
+ enter x = 3+2;
+ }sino{
+ enter y = 3*3;
+ }
+ si(anna){
+ enter x = nodeclarado;
+ }
+}
+
+

@@ -1,0 +1,276 @@
+package compilador.sintactic;
+
+import java_cup.runtime.*;
+import compilador.sintactic.symbols.*;
+
+class Parser;
+action code {: TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); int prof = 0; :}
+
+terminal                COND,ADD,SUB,LPAREN,RPAREN,MENOR,MAYOR,IGUAL,LCLAVE,ENTER,ELIGEIX,CAS,TALLA;
+terminal                RCLAVE,DIV,MUL,MOD,NEWLINE,MAIN,MAYIG,MENIG,ECOND,PNTCM,MENTRES,DOSPUNTS;
+terminal                BOOL,CONST,COMA,NULL,LECT,SORT,NO,VOID,RETORNA,AND,OR;
+terminal      String    numero;
+terminal      String    ID;
+terminal      String    VBOOL;
+
+non terminal  SymbolI        I;
+non terminal  SymbolP        P;
+non terminal  Symbolinstr    instr;
+non terminal  SymbolCND      CND;
+non terminal  SymbolEL       EL;
+non terminal  SymbolELp      ELp;
+non terminal  SymbolSENTS    SENTS;
+non terminal  SymbolCasos    CASOS;
+non terminal  SymbolCASn     CASn;
+non terminal  SymbolEB       EB;
+non terminal  SymbolArgs     ARGS;
+non terminal  SymbolArgs1    ARGS1;
+non terminal  SymbolSubP     SUBP;
+non terminal  SymbolSortTec  SortTec;
+non terminal  SymbolM        M;
+non terminal  SymbolRetInstr RetInstr;
+non terminal  SymbolAO       AO;
+non terminal  SymbolAOp      AOp;
+non terminal  SymbolENTRAB   ENTRAB;
+non terminal  SymbolSURTB    SURTB;
+
+precedence left  ADD, SUB;
+
+start with I;
+
+I     ::= MAIN LPAREN RPAREN LCLAVE NEWLINE P NEWLINE SUBP                      {: RESULT = new SymbolI(); :}
+    ;
+
+SUBP  ::= RCLAVE  NEWLINE                                                                                       {: RESULT = new SymbolSubP();                           :}
+    |     NEWLINE ENTER ID:e1 LPAREN ARGS1 LCLAVE NEWLINE ENTRAB:e4 P NEWLINE RetInstr:e3 SURTB NEWLINE SUBP    {: RESULT = new SymbolSubP();
+                                                                                                                if(e3.esBool){
+                                                                                                                System.out.println("ERROR: DEBE DEVOLVER ENTERO");
+                                                                                                                }
+                                                                                                                descripcion d = new descripcion(tipoDescripcion.Funcio, tipoSub.tipoSubInt);
+                                                                                                                TS.afegir(e1,d);
+                                                                                                                :}
+    |     NEWLINE BOOL ID:e1 LPAREN ARGS1 LCLAVE NEWLINE ENTRAB:e4 P NEWLINE  RetInstr:e3 SURTB NEWLINE SUBP    {:         RESULT = new SymbolSubP(); 
+                                                                                                                if(!e3.esBool){
+                                                                                                                System.out.println("ERROR: DEBE DEVOLVER BOOLEANO");
+                                                                                                                }
+                                                                                                                descripcion d = new descripcion(tipoDescripcion.Funcio, tipoSub.tipoSubBool);
+                                                                                                                TS.afegir(e1,d);
+                                                                                                                :}         
+    |     NEWLINE VOID ID:e1 LPAREN ARGS1 LCLAVE NEWLINE ENTRAB:e4 P NEWLINE SURTB SUBP                         {:  RESULT = new SymbolSubP();
+                                                                                                                descripcion d = new descripcion(tipoDescripcion.Funcio, tipoSub.tipoSubInt);
+                                                                                                                 TS.afegir(e1,d); :}
+    |     RCLAVE SUBP                                                                                           {: RESULT = new SymbolSubP();                                                    :}
+     ;
+
+ENTRAB ::= {: TS.entrabloc(); RESULT = new SymbolENTRAB(); :}
+     ;
+SURTB ::= {: TS.surtbloc(); RESULT = new SymbolSURTB(); :}
+     ;
+
+P     ::= instr:e1                                                              {: RESULT = new SymbolP(); :}
+    |     P NEWLINE instr:e1                                                    {: RESULT = new SymbolP(); :}
+    |                                                                           {: RESULT = new SymbolP(); :}
+    ;
+
+instr ::= CND:e1 ECOND LCLAVE NEWLINE P:e2 NEWLINE RCLAVE                       {: RESULT = new Symbolinstr(e1,e2); 
+                                                                               
+                                                                                :}
+    |     CND:e1                                                                {: RESULT = new Symbolinstr(e1); :}
+    |     ELp:e1                                                                {: RESULT = new Symbolinstr(e1); :} 
+    |     MENTRES LPAREN M:e1                                                   {: RESULT = new Symbolinstr(); 
+                                                                                //TS.entrabloc();
+                                                                                :}
+    |     SENTS:e1                                                              {: RESULT = new Symbolinstr(e1); :}
+    |     ELIGEIX LPAREN ID:e1 RPAREN LCLAVE NEWLINE CASOS:e2 NEWLINE RCLAVE    {: RESULT = new Symbolinstr(); 
+                                                                                    :}     /* Instrucció switch case*/
+    |     EB:e1                                                                 {: :}
+    |     ARGS:e1                                                               {: :}
+    |     NULL PNTCM                                                            {: :}
+    |     ENTER ID:e1 IGUAL LECT LPAREN RPAREN PNTCM                            {: System.out.println("Reconoce LECTURATECLADO"); :}
+    |     SORT LPAREN SortTec:e1 PNTCM                                          {: System.out.println("Reconoce SALIDAPANTALLA"); :}
+     ;
+
+M        ::= EL:e1 RPAREN LCLAVE NEWLINE ENTRAB:e4 P:e2 NEWLINE SURTB RCLAVE    {: RESULT = new SymbolM(); 
+                                                                                :}
+    |        AO:e1 RPAREN LCLAVE NEWLINE ENTRAB:e4 P:e2 NEWLINE SURTB RCLAVE    {: RESULT = new SymbolM(); 
+                                                                                :}
+     ;
+
+AO      ::= ID:e1 AOp AO                                                        {: descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else{
+                                                                                if(d1.tipoS!=tipoSub.tipoSubBool){
+                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                }} :}
+    |       NO ID:e1                                                            {: descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else{
+                                                                                if(d1.tipoS!=tipoSub.tipoSubBool){
+                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                }}  :}
+    |       NO ID:e1 AOp AO                                                     {: descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else{
+                                                                                if(d1.tipoS!=tipoSub.tipoSubBool){
+                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                }} :}
+    |       ID:e1                                                               {:descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else{
+                                                                                if(d1.tipoS!=tipoSub.tipoSubBool){
+                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                }} :}
+    ;
+
+AOp     ::= AND {: :}
+    |  OR {: :}
+     ;
+
+SortTec  ::= ID:e1 RPAREN                                                       {:  :}
+     ;
+
+ARGS  ::= ID:e1 LPAREN ARGS1 PNTCM                                              {: :}
+     ;
+ARGS1 ::= ID:e1 RPAREN                                                          {: :}
+    |     ENTER ID:e1 COMA ARGS1                                                {: :}
+    |     ENTER ID:e1 RPAREN                                                    {: :}
+    |     BOOL ID:e1 COMA ARGS1                                                 {: :}
+    |     BOOL ID:e1 RPAREN                                                     {: :}
+    |     ID:e1 COMA ARGS1                                                      {: :}
+    |     RPAREN                                                                {: :}
+     ;
+
+CND   ::= COND LPAREN EL:e1 RPAREN LCLAVE NEWLINE P:e2 NEWLINE RCLAVE           {: RESULT = new SymbolCND(e1,e2); 
+                                                                                
+                                                                                :}
+    |COND LPAREN AO:e1 RPAREN LCLAVE NEWLINE P:e2 NEWLINE RCLAVE                {: RESULT = new SymbolCND(); 
+                                                                                :}
+     ;
+
+CASOS::= CASOS NEWLINE CASn:e2                                                  {: RESULT= new SymbolCasos(); :}
+    |    CASn:e2                                                                {: RESULT= new SymbolCasos(); :}
+    | {: :}
+    ;
+
+CASn ::= CAS ELp:v1 DOSPUNTS NEWLINE    P:e1  NEWLINE     TALLA PNTCM           {: RESULT= new SymbolCASn(v1); :}
+    ;
+
+EL    ::= ELp:e3 MENOR ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MENOR, e3, e4); :}
+    |     ELp:e3 MAYOR ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MAYOR, e3, e4); :}
+    |     ELp:e3 IGUAL IGUAL ELp:e4                                             {: RESULT = new SymbolEL(ParserSym.IGUAL, e3, e4); :}
+    |     ELp:e3 MAYIG ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MAYIG, e3, e4); :}
+    |     ELp:e3 MENIG ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MENIG, e3, e4); :}
+    |
+     ;
+
+SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                                         {: RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1); 
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                 :}
+    |   ENTER  ID:e1 IGUAL ELp:e5 MUL ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MUL, e5, e6,e1);
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                :}
+    |   ENTER  ID:e1 IGUAL ELp:e5 DIV ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.DIV, e5, e6,e1); 
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                 :}
+    |   ENTER  ID:e1 IGUAL ELp:e5 MOD ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MOD, e5, e6,e1);
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                 :}
+    |   ENTER  ID:e1 IGUAL ELp:e5 SUB ELp:e6 PNTCM                                        {: RESULT = new SymbolSENTS(ParserSym.SUB, e5, e6,e1); 
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                 :}
+     ;
+
+ELp   ::= numero:v                                                              {: RESULT = new SymbolELp(Integer.parseInt(v)); :}
+    | ENTER ID:e1 IGUAL numero:v PNTCM                                          {: 
+                                                                                RESULT = new SymbolELp(Integer.parseInt(v));
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d); :}
+    | ENTER ID:e1 IGUAL ID:e2 PNTCM                                             {: 
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                descripcion d2 = TS.consultarD(e2);
+                                                                                if(d2 == null){
+                                                                                System.out.println("ERROR: La variable "+e2+" no ha sido declarada previamente");
+                                                                                }else if(d2.tipoS != tipoSub.tipoSubInt){
+                                                                                System.out.println("ERROR NO COINCIDEN LOS TIPOS");
+                                                                                }
+                                                                                :}
+    | ENTER ID:e1 PNTCM                                                         {:
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                :}
+    | ID:e1                                                                     {: RESULT = new SymbolELp(e1); :}
+    | CONST ID:e1 IGUAL VBOOL PNTCM                                             {: :} 
+     ;
+
+EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        {:
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubBool);
+                                                                                TS.afegir(e1,d);  :}
+    |    BOOL ID:e1 PNTCM                                                       {: 
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubBool);
+                                                                                TS.afegir(e1,d);  :}
+    |    ID:e1 IGUAL VBOOL:e2 PNTCM                                             {:
+                                                                                descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else{
+                                                                                if(d1.tipoS!=tipoSub.tipoSubBool){
+                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                } }
+                                                                                :}
+    |    ID:e1 IGUAL EL:e2 PNTCM                                                {:
+                                                                                descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else{
+                                                                                if(d1.tipoS!=tipoSub.tipoSubBool){
+                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                } }
+                                                                                 :}
+    |    BOOL ID:e1 IGUAL EL:e2 PNTCM                                           {:
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubBool);
+                                                                                TS.afegir(e1,d);
+                                                                                 :}
+    |    ID:e1 IGUAL numero:v PNTCM                                             {:
+                                                                                descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else{
+                                                                                if(d1.tipoS!=tipoSub.tipoSubInt){
+                                                                                System.out.println("ERROR: la variable debe de ser un ENTERO");
+                                                                                }} :}
+    |    ID:e1 IGUAL ID:e2 PNTCM                                                {: descripcion d1 = TS.consultarD(e1);
+                                                                                descripcion d2 = TS.consultarD(e2);
+                                                                                 if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else if(d2 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                }else if(d1.tipoS != d2.tipoS){
+                                                                                System.out.println("ERROR NO COINCIDEN LOS TIPOS");
+                                                                                }
+                                                                                 :}
+    ;
+RetInstr ::= RETORNA ID:e1 PNTCM                                                {: descripcion d1 = TS.consultarD(e1);
+                                                                                if(d1 == null){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                RESULT = new SymbolRetInstr();
+                                                                                }else{
+                                                                                if(d1.tipoS == tipoSub.tipoSubBool){
+                                                                                RESULT = new SymbolRetInstr(true);
+                                                                                }else{
+                                                                                RESULT = new SymbolRetInstr(false);
+                                                                                }
+                                                                                }
+                                                                                :}
+            | RETORNA numero PNTCM                                              {: RESULT = new SymbolRetInstr(false); :}
+            | RETORNA VBOOL PNTCM                                               {: RESULT = new SymbolRetInstr(false); :}
+;
