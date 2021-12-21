@@ -25,5 +25,10 @@ public class Codi3A {
     
     public void generaC3A(InstrCodi3A instruccio){
         
+       switch(){
+           
+           case :
+       }
+        
     }
 }

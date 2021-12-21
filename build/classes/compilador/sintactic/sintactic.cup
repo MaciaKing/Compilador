@@ -196,7 +196,13 @@ ELp   ::= numero:v                                                              
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);                                                                                   
                                                                                 int t= tv.addVariable(new Variable("",tipoSubInt, tp.getNP()));
-                                                                                genera(ASSIG,e1,v);
+                                                                                 //TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino
+
+                                                                                CODI3A.genera(new InstrCodi3A(TiposInstruccionC3A.ASSIG,null,new OperandoC3A(v,TiposOperandoC3A.enteroLit),new OperandoC3A(e1,TiposOperandoC3A.variable)));
+                                                                                 
+
+       
+                                                                                genera(ASSIG,e1,v, );
                                                                                 //}
                                                                                 :}
     | ENTER ID:e1 IGUAL ID:e2 PNTCM                                             {: 

@@ -23,6 +23,7 @@ public enum TiposInstruccionC3A {
     EQ,
     NE,
     GE,
-    GT
+    GT,
+    ASSIG
     
 }
