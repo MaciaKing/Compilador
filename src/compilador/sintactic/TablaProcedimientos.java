@@ -13,8 +13,19 @@ import java.util.ArrayList;
  */
 public class TablaProcedimientos {
     private ArrayList<Procedimiento> tablaP;
+    int np=-1;
     
     public TablaProcedimientos(){
         tablaP = new ArrayList();
+    }
+    
+    public int addProcedimiento(Procedimiento p){
+        np++;
+        tablaP.add(p);
+        return np;
+    }
+    
+    public int getNP(){
+        return np;
     }
 }

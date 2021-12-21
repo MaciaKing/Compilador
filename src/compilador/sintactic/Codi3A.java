@@ -22,4 +22,8 @@ public class Codi3A {
     public void addInstrC3A(InstrCodi3A c3a){
         C3A.add(c3a);
     }
+    
+    public void generaC3A(InstrCodi3A instruccio){
+        
+    }
 }

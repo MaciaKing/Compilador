@@ -14,13 +14,17 @@ import java.util.ArrayList;
 public class TablaVariables {
 
     ArrayList<variable> tVar = new ArrayList<variable>();
-
+    
+    public int nv=-1; //numero de variables que tenemos
+    
     public TablaVariables() {
 
     }
 
-    public void addVariables(variable var) {
+    public int addVariable(variable var) {
+        nv++;
         tVar.add(var);
+        return nv;
     }
 
     public variable obtenVariable(variable var) {

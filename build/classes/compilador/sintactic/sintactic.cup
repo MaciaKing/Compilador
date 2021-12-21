@@ -4,7 +4,7 @@ import java_cup.runtime.*;
 import compilador.sintactic.symbols.*;
 
 class Parser;
-action code {: TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); int prof = 0; :}
+action code {: TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); :}
 
 terminal                COND,ADD,SUB,LPAREN,RPAREN,MENOR,MAYOR,IGUAL,LCLAVE,ENTER,ELIGEIX,CAS,TALLA;
 terminal                RCLAVE,DIV,MUL,MOD,NEWLINE,MAIN,MAYIG,MENIG,ECOND,PNTCM,MENTRES,DOSPUNTS;
@@ -170,6 +170,7 @@ EL    ::= ELp:e3 MENOR ELp:e4                                                   
 SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                                         {: RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1); 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
+                                                                                
                                                                                  :}
     |   ENTER  ID:e1 IGUAL ELp:e5 MUL ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MUL, e5, e6,e1);
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
@@ -193,7 +194,11 @@ ELp   ::= numero:v                                                              
     | ENTER ID:e1 IGUAL numero:v PNTCM                                          {: 
                                                                                 RESULT = new SymbolELp(Integer.parseInt(v));
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
-                                                                                TS.afegir(e1,d); :}
+                                                                                TS.afegir(e1,d);                                                                                   
+                                                                                int t= tv.addVariable(new Variable("",tipoSubInt, tp.getNP()));
+                                                                                genera(ASSIG,e1,v);
+                                                                                //}
+                                                                                :}
     | ENTER ID:e1 IGUAL ID:e2 PNTCM                                             {: 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);

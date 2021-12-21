@@ -11,4 +11,18 @@ package compilador.sintactic;
  */
 public enum TiposInstruccionC3A {
     //AQUI TENEMOS QUE METER TODOS LOS TIPOS DE OPERACION QUE ADMITE NUESTRO CODIGO DE 3@ 
+    SUM,
+    SUB,
+    MULU,
+    DIV,
+    MOD,
+    AND,
+    OR,
+    LT,
+    LE,
+    EQ,
+    NE,
+    GE,
+    GT
+    
 }
