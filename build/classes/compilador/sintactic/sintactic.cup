@@ -4,7 +4,7 @@ import java_cup.runtime.*;
 import compilador.sintactic.symbols.*;
 
 class Parser;
-action code {: TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); :}
+action code {: TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); Codi3A c3a = new Codi3A(); Etiqueta e = new Etiqueta(); :}
 
 terminal                COND,ADD,SUB,LPAREN,RPAREN,MENOR,MAYOR,IGUAL,LCLAVE,ENTER,ELIGEIX,CAS,TALLA;
 terminal                RCLAVE,DIV,MUL,MOD,NEWLINE,MAIN,MAYIG,MENIG,ECOND,PNTCM,MENTRES,DOSPUNTS;
@@ -17,6 +17,8 @@ non terminal  SymbolI        I;
 non terminal  SymbolP        P;
 non terminal  Symbolinstr    instr;
 non terminal  SymbolCND      CND;
+non terminal  SymbolSCND     SCND;
+non terminal  SymbolCCND     CCND;
 non terminal  SymbolEL       EL;
 non terminal  SymbolELp      ELp;
 non terminal  SymbolSENTS    SENTS;
@@ -28,17 +30,21 @@ non terminal  SymbolArgs1    ARGS1;
 non terminal  SymbolSubP     SUBP;
 non terminal  SymbolSortTec  SortTec;
 non terminal  SymbolM        M;
+non terminal  SymbolCM       CM;
+non terminal  SymbolMm       Mm;
 non terminal  SymbolRetInstr RetInstr;
 non terminal  SymbolAO       AO;
 non terminal  SymbolAOp      AOp;
 non terminal  SymbolENTRAB   ENTRAB;
 non terminal  SymbolSURTB    SURTB;
 
-precedence left  ADD, SUB;
+precedence left  ADD, SUB, ECOND;
 
 start with I;
 
-I     ::= MAIN LPAREN RPAREN LCLAVE NEWLINE P NEWLINE SUBP                      {: RESULT = new SymbolI(); :}
+I     ::= MAIN LPAREN RPAREN LCLAVE NEWLINE P NEWLINE SUBP                      {: RESULT = new SymbolI();
+                                                                                c3a.imprimeC3A();
+                                                                                :}
     ;
 
 SUBP  ::= RCLAVE  NEWLINE                                                                                       {: RESULT = new SymbolSubP();                           :}
@@ -72,12 +78,9 @@ P     ::= instr:e1                                                              
     |                                                                           {: RESULT = new SymbolP(); :}
     ;
 
-instr ::= CND:e1 ECOND LCLAVE NEWLINE P:e2 NEWLINE RCLAVE                       {: RESULT = new Symbolinstr(e1,e2); 
-                                                                               
-                                                                                :}
-    |     CND:e1                                                                {: RESULT = new Symbolinstr(e1); :}
+instr ::= CND                                                                   {: RESULT = new Symbolinstr(); :}
     |     ELp:e1                                                                {: RESULT = new Symbolinstr(e1); :} 
-    |     MENTRES LPAREN M:e1                                                   {: RESULT = new Symbolinstr(); 
+    |     M:e1                                                                  {: RESULT = new Symbolinstr(); 
                                                                                 //TS.entrabloc();
                                                                                 :}
     |     SENTS:e1                                                              {: RESULT = new Symbolinstr(e1); :}
@@ -90,26 +93,55 @@ instr ::= CND:e1 ECOND LCLAVE NEWLINE P:e2 NEWLINE RCLAVE                       
     |     SORT LPAREN SortTec:e1 PNTCM                                          {: System.out.println("Reconoce SALIDAPANTALLA"); :}
      ;
 
-M        ::= EL:e1 RPAREN LCLAVE NEWLINE ENTRAB:e4 P:e2 NEWLINE SURTB RCLAVE    {: RESULT = new SymbolM(); 
+M        ::= CM:e1 P:e2 NEWLINE RCLAVE                                          {: RESULT = new SymbolM(); 
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A(e1.ei.getEtiqueta(),TiposOperandoC3A.etiqueta)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(e1.efi.getEtiqueta(),TiposOperandoC3A.etiqueta)));
                                                                                 :}
-    |        AO:e1 RPAREN LCLAVE NEWLINE ENTRAB:e4 P:e2 NEWLINE SURTB RCLAVE    {: RESULT = new SymbolM(); 
+     ;
+
+CM       ::= Mm:e2 EL:e1 RPAREN LCLAVE NEWLINE                   {:
+                                                                                String efi = e.novaET();
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
+                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(efi,TiposOperandoC3A.etiqueta)));
+                                                                                Etiqueta e = new Etiqueta(efi);
+                                                                                RESULT = new SymbolCM(e,e2.ei);
+                                                                                :}
+    |        MENTRES LPAREN Mm:e1 AO:e2 RPAREN LCLAVE NEWLINE                   {:
+                                                                                //LO MISMO QUE CON EL CONDICIONAL, TENGO QUE  
+                                                                                //HABLAR CON PERE A VER COMO PODRIAMOS HACER ESTO
+                                                                   
+                                                                                RESULT = new SymbolCM();
+                                                                                :}
+     ;
+
+Mm       ::=  MENTRES LPAREN                                                    {:
+                                                                                String ei = e.novaET();
+                                                                                OperandoC3A desti = new OperandoC3A(ei,TiposOperandoC3A.etiqueta);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti));
+                                                                                RESULT = new SymbolMm(new Etiqueta(ei));
                                                                                 :}
      ;
 
 AO      ::= ID:e1 AOp AO                                                        {: descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
                                                                                 System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
-                                                                                }else{
-                                                                                if(d1.tipoS!=tipoSub.tipoSubBool){
+                                                                                }else if(d1.tipoS!=tipoSub.tipoSubBool){
                                                                                 System.out.println("ERROR: la variable debe de ser booleana");
-                                                                                }} :}
+                                                                                }else{
+                                                                                int idx = tv.getIdVariable(e1);
+                                                                                variable v = tv.get(idx);
+                                                                                }
+                                                                                //LA MOVIDA AQUI ES, COMO SACO EL VALOR BOOLEANO FINAL DE ESTO
+                                                                                //ES DECIR COMO PUEDO SACAR EL VALOR FINAL DE TODA LA EXPRESION BOOLEANA                                                                                }
+                                                                                :}
     |       NO ID:e1                                                            {: descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
                                                                                 System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
                                                                                 System.out.println("ERROR: la variable debe de ser booleana");
-                                                                                }}  :}
+                                                                                }}  
+                                                                                RESULT = new SymbolAO(); :}
     |       NO ID:e1 AOp AO                                                     {: descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
                                                                                 System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
@@ -126,8 +158,8 @@ AO      ::= ID:e1 AOp AO                                                        
                                                                                 }} :}
     ;
 
-AOp     ::= AND {: :}
-    |  OR {: :}
+AOp     ::= AND                                                                 {: :}
+    |  OR                                                                       {: :}
      ;
 
 SortTec  ::= ID:e1 RPAREN                                                       {:  :}
@@ -144,10 +176,44 @@ ARGS1 ::= ID:e1 RPAREN                                                          
     |     RPAREN                                                                {: :}
      ;
 
-CND   ::= COND LPAREN EL:e1 RPAREN LCLAVE NEWLINE P:e2 NEWLINE RCLAVE           {: RESULT = new SymbolCND(e1,e2); 
-                                                                                
+CND   ::= SCND:e1 P:e2 NEWLINE RCLAVE                                           {:
+                                                                                String e = e1.getEtiqueta().getEtiqueta();
+                                                                                OperandoC3A desti = new OperandoC3A(e,TiposOperandoC3A.etiqueta);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti));
+                                                                                RESULT = new SymbolCND(); 
                                                                                 :}
-    |COND LPAREN AO:e1 RPAREN LCLAVE NEWLINE P:e2 NEWLINE RCLAVE                {: RESULT = new SymbolCND(); 
+    |     CCND:e1 P:e2 NEWLINE RCLAVE                                           {:
+                                                                                OperandoC3A desti = new OperandoC3A(e1.getEtiqueta().getEtiqueta(),TiposOperandoC3A.etiqueta);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti));
+                                                                                RESULT = new SymbolCND(); 
+                                                                                :}
+     ;
+
+SCND   ::= COND LPAREN EL:e1 RPAREN LCLAVE NEWLINE                              {:
+                                                                                String et = e.novaET();
+                                                                                //AQUI TENDRE EL VALOR DEL INDICE QUE OCUPA ESA VARIABLE EN LA TV, ¿BASTA CON ESO PARA CREAR EL OPERANDO?
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
+                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
+                                                                                Etiqueta e = new Etiqueta(et);
+                                                                                RESULT = new SymbolSCND(e); 
+                                                                                :}
+    |      COND LPAREN AO:e1 RPAREN LCLAVE NEWLINE                              {:
+                                                                                String et = e.novaET();
+                                                                                //AQUI TENDRE EL VALOR DEL INDICE QUE OCUPA ESA VARIABLE EN LA TV, ¿BASTA CON ESO PARA CREAR EL OPERANDO?
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
+                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
+                                                                                Etiqueta e = new Etiqueta(et);
+                                                                                RESULT = new SymbolSCND(e);
+                                                                                :}
+     ;
+
+CCND   ::= SCND:e1 P:e2 NEWLINE RCLAVE ECOND LCLAVE NEWLINE                     {:
+                                                                                String efi = e.novaET();
+                                                                                OperandoC3A desti1 = new OperandoC3A(efi,TiposOperandoC3A.etiqueta);
+                                                                                OperandoC3A desti2 = new OperandoC3A(e1.getEtiqueta().getEtiqueta(),TiposOperandoC3A.etiqueta);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti2));
+                                                                                RESULT = new SymbolCCND(new Etiqueta(efi)); 
                                                                                 :}
      ;
 
@@ -159,51 +225,390 @@ CASOS::= CASOS NEWLINE CASn:e2                                                  
 CASn ::= CAS ELp:v1 DOSPUNTS NEWLINE    P:e1  NEWLINE     TALLA PNTCM           {: RESULT= new SymbolCASn(v1); :}
     ;
 
-EL    ::= ELp:e3 MENOR ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MENOR, e3, e4); :}
-    |     ELp:e3 MAYOR ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MAYOR, e3, e4); :}
-    |     ELp:e3 IGUAL IGUAL ELp:e4                                             {: RESULT = new SymbolEL(ParserSym.IGUAL, e3, e4); :}
-    |     ELp:e3 MAYIG ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MAYIG, e3, e4); :}
-    |     ELp:e3 MENIG ELp:e4                                                   {: RESULT = new SymbolEL(ParserSym.MENIG, e3, e4); :}
-    |
+EL    ::= ELp:e3 MENOR ELp:e4                                                   {:
+                                                                                //ESTO LO DEJO ASI, DE FORMA PROVISIONAL PORQUE YA ESTABA ASI
+                                                                                SymbolEL EL = new SymbolEL(ParserSym.MENOR, e3, e4);
+                                                                                //ESTA VARIABLE SERA EN LA QUE DEJEMOS EL RESULTADO DE LA ® (0=FALS,-1=CERT)
+                                                                                Integer t = tv.addVariable(new variable(tipoSub.tipoSubBool, tp.getNP()));
+                                                                                //CREAMOS LAS DOS ETIQUETAS PARA CONTROLAR EL VALOR QUE LE DAMOS EN FUNCION DEL RESULTADO DE LA ®
+                                                                                String e1 = e.novaET();
+                                                                                String e2 = e.novaET();
+                                                                                //CREAMOS LOS DOS OPERANDOS CON LAS POSIBLES ETIQUETAS
+                                                                                OperandoC3A desti1 = new OperandoC3A(e1,TiposOperandoC3A.etiqueta);
+                                                                                OperandoC3A desti2 = new OperandoC3A(e2,TiposOperandoC3A.etiqueta);
+                                                                                //CREAMOS LOS OPERANDOS CON LOS DOS VALORES A EVALUAR
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e3.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e3.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op1 = new OperandoC3A(e3.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e4.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e4.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op2 = new OperandoC3A(e4.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                //if e3 ® e4 goto desti1 (PREGUNTAR SI ESTA BIEN PLANTEADO, TENGO DUDAS DE SI NOS FALTA EL GOTO AHI)
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.LT,op1,op2,desti1));
+                                                                                //t = 0
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("0",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                //goto desti2
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti2));
+                                                                                //skip e1
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti1));
+                                                                                //t = -1
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                //skip e2
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti2));
+                                                                                //AQUI ESTAMOS ASIGNANDO A EL.r EL INDEX ASOCIADO A LA VARIABLE BOOLEANA RESULTANTE DE ESTA ®
+                                                                                EL.setR(t);
+                                                                                RESULT = EL;
+                                                                                :}
+    |     ELp:e3 MAYOR ELp:e4                                                   {:
+                                                                                SymbolEL EL = new SymbolEL(ParserSym.MAYOR, e3, e4);
+                                                                                Integer t = tv.addVariable(new variable(tipoSub.tipoSubBool, tp.getNP()));
+                                                                                String e1 = e.novaET();
+                                                                                String e2 = e.novaET();
+                                                                                OperandoC3A desti1 = new OperandoC3A(e1,TiposOperandoC3A.etiqueta);
+                                                                                OperandoC3A desti2 = new OperandoC3A(e2,TiposOperandoC3A.etiqueta);
+                                                                                //CREAMOS LOS OPERANDOS CON LOS DOS VALORES A EVALUAR
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e3.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e3.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op1 = new OperandoC3A(e3.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e4.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e4.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op2 = new OperandoC3A(e4.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GT,op1,op2,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("0",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti2));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti2));
+                                                                                EL.setR(t);
+                                                                                RESULT = EL;
+                                                                                :}
+    |     ELp:e3 IGUAL IGUAL ELp:e4                                             {:
+                                                                                SymbolEL EL = new SymbolEL(ParserSym.IGUAL, e3, e4);
+                                                                                Integer t = tv.addVariable(new variable(tipoSub.tipoSubBool, tp.getNP()));
+                                                                                String e1 = e.novaET();
+                                                                                String e2 = e.novaET();
+                                                                                OperandoC3A desti1 = new OperandoC3A(e1,TiposOperandoC3A.etiqueta);
+                                                                                OperandoC3A desti2 = new OperandoC3A(e2,TiposOperandoC3A.etiqueta);
+                                                                                //CREAMOS LOS OPERANDOS CON LOS DOS VALORES A EVALUAR
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e3.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e3.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op1 = new OperandoC3A(e3.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e4.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e4.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op2 = new OperandoC3A(e4.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,op1,op2,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("0",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti2));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti2));
+                                                                                EL.setR(t);
+                                                                                RESULT = EL;
+                                                                                :}
+    |     ELp:e3 MAYIG ELp:e4                                                   {:
+                                                                                SymbolEL EL = new SymbolEL(ParserSym.MAYIG, e3, e4);
+                                                                                Integer t = tv.addVariable(new variable(tipoSub.tipoSubBool, tp.getNP()));
+                                                                                String e1 = e.novaET();
+                                                                                String e2 = e.novaET();
+                                                                                OperandoC3A desti1 = new OperandoC3A(e1,TiposOperandoC3A.etiqueta);
+                                                                                OperandoC3A desti2 = new OperandoC3A(e2,TiposOperandoC3A.etiqueta);
+                                                                                //CREAMOS LOS OPERANDOS CON LOS DOS VALORES A EVALUAR
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e3.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e3.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op1 = new OperandoC3A(e3.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e4.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e4.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op2 = new OperandoC3A(e4.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GE,op1,op2,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("0",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti2));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti2));
+                                                                                EL.setR(t);
+                                                                                RESULT = EL;
+                                                                                :}
+    |     ELp:e3 MENIG ELp:e4                                                   {:
+                                                                                SymbolEL EL = new SymbolEL(ParserSym.MENIG, e3, e4);
+                                                                                Integer t = tv.addVariable(new variable(tipoSub.tipoSubBool, tp.getNP()));
+                                                                                String e1 = e.novaET();
+                                                                                String e2 = e.novaET();
+                                                                                OperandoC3A desti1 = new OperandoC3A(e1,TiposOperandoC3A.etiqueta);
+                                                                                OperandoC3A desti2 = new OperandoC3A(e2,TiposOperandoC3A.etiqueta);
+                                                                                //CREAMOS LOS OPERANDOS CON LOS DOS VALORES A EVALUAR
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e3.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e3.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op1 = new OperandoC3A(e3.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e4.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e4.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                op2 = new OperandoC3A(e4.identificador,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.LE,op1,op2,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("0",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti2));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti1));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),null,new OperandoC3A(String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti2));
+                                                                                EL.setR(t);
+                                                                                RESULT = EL;
+                                                                                :}
+
      ;
 
 SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                                         {: RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1); 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
-                                                                                
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                //TENER EN CUENTA QUE AQUI HABRIA QUE COMPROBAR SI REALMENTE ES UNA VARIABLE O UN LITERAL
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ADD,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ENTER  ID:e1 IGUAL ELp:e5 MUL ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MUL, e5, e6,e1);
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.MUL,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                 :}
     |   ENTER  ID:e1 IGUAL ELp:e5 DIV ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.DIV, e5, e6,e1); 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.DIV,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ENTER  ID:e1 IGUAL ELp:e5 MOD ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MOD, e5, e6,e1);
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.MOD,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ENTER  ID:e1 IGUAL ELp:e5 SUB ELp:e6 PNTCM                                        {: RESULT = new SymbolSENTS(ParserSym.SUB, e5, e6,e1); 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SUB,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
+    |   ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                                         {: RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ADD,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
+                                                                                 :}
+    |   ID:e1 IGUAL ELp:e5 MUL ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MUL, e5, e6,e1);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.MUL,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
+                                                                                :}
+    |   ID:e1 IGUAL ELp:e5 DIV ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.DIV, e5, e6,e1); 
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.DIV,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
+                                                                                 :}
+    |   ID:e1 IGUAL ELp:e5 MOD ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MOD, e5, e6,e1);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.MOD,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
+                                                                                 :}
+    |   ID:e1 IGUAL ELp:e5 SUB ELp:e6 PNTCM                                        {: RESULT = new SymbolSENTS(ParserSym.SUB, e5, e6,e1); 
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                OperandoC3A op1;
+                                                                                OperandoC3A op2;
+                                                                                if(e5.esLiteral){
+                                                                                op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v1 = tv.get(e5.r);
+                                                                                op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                if(e6.esLiteral){
+                                                                                op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
+                                                                                }else{
+                                                                                variable v2 = tv.get(e6.r);
+                                                                                op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
+                                                                                }
+                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SUB,op1,op2,desti));
+                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
+                                                                                :}
      ;
 
-ELp   ::= numero:v                                                              {: RESULT = new SymbolELp(Integer.parseInt(v)); :}
+ELp   ::= numero:v                                                              {: 
+                                                                                RESULT = new SymbolELp(Integer.parseInt(v), true);
+                                                                                //tengo que revisar como lo hacemos con los literales
+                                                                                :}
     | ENTER ID:e1 IGUAL numero:v PNTCM                                          {: 
-                                                                                RESULT = new SymbolELp(Integer.parseInt(v));
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);                                                                                   
-                                                                                int t= tv.addVariable(new Variable("",tipoSubInt, tp.getNP()));
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
                                                                                  //TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino
-
-                                                                                CODI3A.genera(new InstrCodi3A(TiposInstruccionC3A.ASSIG,null,new OperandoC3A(v,TiposOperandoC3A.enteroLit),new OperandoC3A(e1,TiposOperandoC3A.variable)));
-                                                                                 
-
-       
-                                                                                genera(ASSIG,e1,v, );
-                                                                                //}
+                                                                                RESULT = new SymbolELp(t);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ASSIG,null,new OperandoC3A(v,TiposOperandoC3A.enteroLit),new OperandoC3A(e1,TiposOperandoC3A.variable)));
+                                                                                
                                                                                 :}
     | ENTER ID:e1 IGUAL ID:e2 PNTCM                                             {: 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
@@ -214,12 +619,25 @@ ELp   ::= numero:v                                                              
                                                                                 }else if(d2.tipoS != tipoSub.tipoSubInt){
                                                                                 System.out.println("ERROR NO COINCIDEN LOS TIPOS");
                                                                                 }
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                 //TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino
+                                                                                RESULT = new SymbolELp(t);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ASSIG,null,new OperandoC3A(e2,TiposOperandoC3A.variable),new OperandoC3A(e1,TiposOperandoC3A.variable)));
                                                                                 :}
     | ENTER ID:e1 PNTCM                                                         {:
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
+                                                                                tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
                                                                                 :}
-    | ID:e1                                                                     {: RESULT = new SymbolELp(e1); :}
+    | ID:e1                                                                     {: 
+                                                                                int id = tv.getIdVariable(e1);
+                                                                                if(id == -1){
+                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                RESULT = new SymbolELp(e1);
+                                                                                }else{
+                                                                                RESULT = new SymbolELp(e1);
+                                                                                }
+                                                                                :}
     | CONST ID:e1 IGUAL VBOOL PNTCM                                             {: :} 
      ;
 
@@ -255,10 +673,15 @@ EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
                                                                                 System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
-                                                                                }else{
-                                                                                if(d1.tipoS!=tipoSub.tipoSubInt){
+                                                                                }else if(d1.tipoS!=tipoSub.tipoSubInt){
                                                                                 System.out.println("ERROR: la variable debe de ser un ENTERO");
-                                                                                }} :}
+                                                                                }else{
+                                                                                int id = tv.getIdVariable(e1);
+                                                                                variable v1 = tv.get(id);
+                                                                                OperandoC3A op2 = new OperandoC3A(v,TiposOperandoC3A.enteroLit);
+                                                                                OperandoC3A desti = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ASSIG,null,op2,desti));
+                                                                                }:}
     |    ID:e1 IGUAL ID:e2 PNTCM                                                {: descripcion d1 = TS.consultarD(e1);
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                  if(d1 == null){

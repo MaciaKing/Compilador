@@ -10,5 +10,5 @@ package compilador.sintactic;
  * @author jfher
  */
 public enum TiposOperandoC3A {
-    variable, procedure, parametro, enteroLit, booleano
+    variable, procedure, parametro, enteroLit, booleano, etiqueta
 }

@@ -4,26 +4,27 @@
  */
 package compilador.sintactic.symbols;
 
+import compilador.sintactic.Etiqueta;
 import java_cup.runtime.ComplexSymbolFactory;
 
 /**
  *
  * @author macia
  */
-public class SymbolAO extends ComplexSymbolFactory.ComplexSymbol {
+public class SymbolMm extends ComplexSymbolFactory.ComplexSymbol {
+    
+    public Etiqueta ei;
 
-    public int r;
-
-    public SymbolAO(String name, int id) {
+    public SymbolMm(String name, int id) {
         super(name, id);
     }
 
-    public SymbolAO() {
-        super("AO", 0);
+    public SymbolMm() {
+        super("Mm", 0);
     }
 
-    public SymbolAO(int i) {
-        super("AO", 0);
-        this.r = i;
+    public SymbolMm(Etiqueta ei) {
+        super("Mm", 0);
+        this.ei = ei;
     }
 }

@@ -1,26 +1,11 @@
 principal(){
- enter anna = 24;
- boolea juan = cert;
- anna = juan;
- mentres(hola){
- boolea juan = cert;
- boolea juan = cert;
+ enter x = 0;
+ boolea y = fals;
+ mentres(cert){
+    enter x;
+      mentres(fals){
+	enter x = 0;
+      }
  }
-}
-enter hola(x){
- enter anna = 23;
- boolea juan = cert;
- retorna 0;
-}
-enter adios(x){
- boolea juan = cert;
- retorna 0;
-}
-enter vfdsvfds(x,vfd){
- boolea juan = cert;
- retorna 0;
-}
-enter frec(x){
- boolea juan = cert;
- retorna 0;
+ boolea y = cert;
 }

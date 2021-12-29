@@ -19,16 +19,16 @@ public class Codi3A {
         
     }
     
-    public void addInstrC3A(InstrCodi3A c3a){
+    public void generaC3A(InstrCodi3A c3a){
         C3A.add(c3a);
+        int x = 0;
     }
     
-    public void generaC3A(InstrCodi3A instruccio){
-        
-//       switch(){
-//           
-//           case :
-//       }
-        
+    public void imprimeC3A(){
+        for (int i = 0; i < C3A.size(); i++) {
+            InstrCodi3A inst = C3A.get(i);
+            System.out.println(inst);
+        }
     }
+    
 }

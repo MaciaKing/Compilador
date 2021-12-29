@@ -28,10 +28,10 @@ public class SymbolSENTS extends SymbolBase {
 
         switch (operacion) {
             case ParserSym.ADD:
-                resultado = e1.valor + e2.valor;
+                resultado = e1.r + e2.r;
                 break;
             case ParserSym.SUB:
-                resultado = e1.valor - e2.valor;
+                resultado = e1.r - e2.r;
                 break;
         }
     }

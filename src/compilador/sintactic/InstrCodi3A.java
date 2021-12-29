@@ -29,17 +29,17 @@ public class InstrCodi3A {
         if(param1 != null){
             devolver += param1 + " ";
         }else{
-            devolver += "_ ";
+            devolver += "OP{_____} ";
         }
         if(param2 != null){
             devolver += param2 + " ";
         }else{
-            devolver += "_ ";
+            devolver += "OP{_____} ";
         }
         if(destino != null){
             devolver += destino + " ";
         }else{
-            devolver += "_ ";
+            devolver += "OP{_____} ";
         }
         return devolver;
     }

@@ -11,9 +11,9 @@ package compilador.sintactic;
  */
 public enum TiposInstruccionC3A {
     //AQUI TENEMOS QUE METER TODOS LOS TIPOS DE OPERACION QUE ADMITE NUESTRO CODIGO DE 3@ 
-    SUM,
+    ADD,
     SUB,
-    MULU,
+    MUL,
     DIV,
     MOD,
     AND,
@@ -24,6 +24,10 @@ public enum TiposInstruccionC3A {
     NE,
     GE,
     GT,
-    ASSIG
+    ASSIG,
+    GOTO,
+    SKIP,
+    COPY,
+    
     
 }

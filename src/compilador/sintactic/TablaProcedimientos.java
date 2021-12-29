@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class TablaProcedimientos {
     private ArrayList<Procedimiento> tablaP;
-    int np=-1;
+    int np=0;
     
     public TablaProcedimientos(){
         tablaP = new ArrayList();

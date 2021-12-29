@@ -23,8 +23,9 @@ public class variable {
         this.procedure = p;
     }
 
-    variable(tipoSub t) {
+    variable(tipoSub t,int p) {
         this.tSub = t;
+        this.procedure = p;
     }
     
 }

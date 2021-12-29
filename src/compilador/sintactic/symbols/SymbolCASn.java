@@ -19,7 +19,7 @@ public class SymbolCASn extends ComplexSymbolFactory.ComplexSymbol{
     
     public SymbolCASn(SymbolELp v1) {
         super("CASn", 0);
-        this.v1=v1.valor;
+        this.v1=v1.r;
         System.out.println("He detectat case valor= "+v1);
     }
 }
