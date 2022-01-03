@@ -1,5 +1,5 @@
 principal(){
  enter x = 0;
- enter i = 0;
- boolea y = fals;
+ enter i = 10;
+ boolea y = cert;
 }

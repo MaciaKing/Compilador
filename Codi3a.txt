@@ -1,4 +1,4 @@
-SKIP E_MAIN 
-COPY 0 x 
-COPY 0 i 
-COPY 0 y 
+SKIP OP{_____} OP{_____} E_MAIN 
+COPY OP{_____} 0 x 
+COPY OP{_____} 10 i 
+COPY OP{_____} -1 y 
