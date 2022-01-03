@@ -21,11 +21,13 @@ public class GeneraEnsablador {
   }
   
   public void generaCodi68k(){
-     f.escrivirFichero("ORG    $600");
+     f.escrivirFichero("\tORG    $600");
      //primero generamos las variables
      for(int i=0; i< TablaVariables.tVar.size();i++){
          generaVariableGlobal68k(TablaVariables.tVar.get(i).idVariable);
      }
+     f.escrivirFichero("\n\tORG    $1000");
+     f.escrivirFichero("\nSTART:");
      
      f.cierraFichero();
   }

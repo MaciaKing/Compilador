@@ -1,0 +1,4 @@
+SKIP E_MAIN 
+COPY 0 x 
+COPY 0 i 
+COPY 0 y 
