@@ -12,26 +12,30 @@ import java.util.ArrayList;
  * @author jfher
  */
 public class Etiqueta {
-    
+
     ArrayList<Etiqueta> tET = new ArrayList<>();
     String etiqueta;
     int numET;
-    
-    public Etiqueta(){
-        
+
+    public Etiqueta() {
+
     }
-    
-    public Etiqueta(String s){
+
+    public Etiqueta(String s) {
         this.etiqueta = s;
     }
-    
-    public String novaET(){
+
+    public void addEtiqueta(String s) {
+        tET.add(new Etiqueta(s));
+    }
+
+    public String novaET() {
         String et = "";
-        if(tET.isEmpty()){
+        if (tET.isEmpty()) {
             et += "E_0";
             tET.add(new Etiqueta(et));
             numET++;
-        }else{
+        } else {
             Integer i = tET.size();
             et += "E_" + Integer.toString(i);
             tET.add(new Etiqueta(et));
@@ -39,8 +43,12 @@ public class Etiqueta {
         }
         return et;
     }
-    
-    public String getEtiqueta(){
+
+    public String getEtiqueta() {
         return etiqueta;
+    }
+    
+    public Etiqueta getLastEtiqueta() {
+        return tET.get(tET.size()-1);
     }
 }

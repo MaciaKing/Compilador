@@ -14,6 +14,7 @@ enum tipoDescripcion {
     Constant,
     Variable,
     IdNull,
-    Funcio,
-    Arguments
+    Proc,
+    Arg_in,
+    Arg
 }

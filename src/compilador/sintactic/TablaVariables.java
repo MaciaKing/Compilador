@@ -46,7 +46,7 @@ public class TablaVariables {
         int id = -1;
         boolean trobat = false;
         for (int i = 0; i < tVar.size() && !trobat; i++) {
-            if (tVar.get(i).idVariable.equals(nombre)) {
+            if ((tVar.get(i).idVariable != null) && tVar.get(i).idVariable.equals(nombre)) {
                 trobat = true;
                 id = i;
             }

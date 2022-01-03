@@ -1,8 +1,24 @@
-principal(){
- enter x = 3;
- enter y = 2;	
- mentres(x>y){
- x = x+1;
+func enter prueba(enter x, enter s){
+ enter y = 4;
+ mentres (y>0){
+  y = y-1;
  }
+ retorna y;
 }
-
+func enter prueba2(){
+ enter y2 = 4;
+ retorna y2;
+}
+func enter prueba3(){
+ enter y = 4;
+ retorna y;
+}
+principal(){
+ enter i = 3;
+ enter x = prueba(i,i);
+ si(i == 3){
+  boolea b = cert;
+ }
+ enter z = prueba2();
+ enter nose = prueba3();
+}

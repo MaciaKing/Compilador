@@ -25,7 +25,15 @@ public class TablaProcedimientos {
         return np;
     }
     
+    public Procedimiento removeProcedimiento(){
+        Procedimiento p = tablaP.get(this.np-1);
+        tablaP.remove(this.np-1);
+        np--;
+        return p;
+    }
+    
     public int getNP(){
         return np;
     }
+    
 }

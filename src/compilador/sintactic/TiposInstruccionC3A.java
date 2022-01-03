@@ -24,6 +24,7 @@ public enum TiposInstruccionC3A {
     NE,
     GE,
     GT,
+    IFGT,
     ASSIG,
     GOTO,
     SKIP,

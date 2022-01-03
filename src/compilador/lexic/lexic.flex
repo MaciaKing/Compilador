@@ -71,6 +71,7 @@ ENDLINE   = [\r\n]+
 "sortidaPantalla" { return symbol(ParserSym.SORT);                  }
 {vbooleano}       { return symbol(ParserSym.VBOOL,this.yytext());   }
 "constant"        { return symbol(ParserSym.CONST);                 }
+"func"            { return symbol(ParserSym.FUNC);                  }
 {id}              { return symbol(ParserSym.ID, this.yytext());     }
 "+"               { return symbol(ParserSym.ADD);                   }
 ":"               { return symbol(ParserSym.DOSPUNTS);              }

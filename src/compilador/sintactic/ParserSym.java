@@ -24,9 +24,9 @@ public class ParserSym {
   public static final int BOOL = 27;
   public static final int DIV = 16;
   public static final int TALLA = 14;
-  public static final int numero = 38;
+  public static final int numero = 39;
   public static final int MAIN = 20;
-  public static final int ID = 39;
+  public static final int ID = 40;
   public static final int LECT = 31;
   public static final int EOF = 0;
   public static final int error = 1;
@@ -43,10 +43,11 @@ public class ParserSym {
   public static final int MAYOR = 8;
   public static final int NO = 33;
   public static final int PNTCM = 24;
+  public static final int FUNC = 38;
   public static final int MAYIG = 21;
   public static final int LCLAVE = 10;
   public static final int ELIGEIX = 12;
-  public static final int VBOOL = 40;
+  public static final int VBOOL = 41;
   public static final int RCLAVE = 15;
   public static final int SUB = 4;
   public static final String[] terminalNames = new String[] {
@@ -88,6 +89,7 @@ public class ParserSym {
   "RETORNA",
   "AND",
   "OR",
+  "FUNC",
   "numero",
   "ID",
   "VBOOL"

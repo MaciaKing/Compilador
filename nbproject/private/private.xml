@@ -10,6 +10,7 @@
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolMm.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolELp.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolEL.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/declaracion.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolAO.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/lexic/lexic.flex</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/InstrCodi3A.java</file>
@@ -17,23 +18,30 @@
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compiladorprueba/CompiladorPrueba.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolCCND.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/variable.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolCRIDAS.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/TiposInstruccionC3A.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/Parser.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/tipoSub.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolCasos.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolM.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolTE_ARGS1.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolCASn.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/TABLASIMBOLOS.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolENCAP.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/descripcion.java</file>
-            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolSubPp.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolAOp.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolPARAM.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/Etiqueta.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolBase.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolCM.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/ParserSym.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolSCND.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/TiposOperandoC3A.java</file>
-            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/sintactic.cup</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolSubP.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/TablaProcedimientos.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/sintactic.cup</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/Procedimiento.java</file>
+            <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/symbols/SymbolENTRAB.java</file>
             <file>file:/C:/Users/jfher/OneDrive/Escritorio/compiladorPrueba/src/compilador/sintactic/TablaVariables.java</file>
         </group>
     </open-files>

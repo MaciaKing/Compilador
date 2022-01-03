@@ -62,7 +62,7 @@ public class TABLASIMBOLOS {
             declaracion decAux = (declaracion) td.get(i);
             if (decAux.id.equals(id)) {
                 if (decAux.np == n) {
-                    System.out.println("ERROR POR DECLARAR EN EL MISMO NIVEL");
+                    System.out.println("ERROR POR "+id+" DECLARAR EN EL MISMO NIVEL");
                     idRepetido = true;
                     break;
                 } else {
@@ -114,40 +114,5 @@ public class TABLASIMBOLOS {
         }
         return null;
     }
-
-//    //Salimos del bloque, si es diferente de null hi ha un error
-//    public Integer surtbloc2() {
-//        if (n == 0) {
-//            //DARIA ERROR
-//        }
-//        int lfi = (int) ta.get(n);
-//        n--; //Salimos del nivel
-//        int lini = (int) ta.get(n);
-//        //Colocamos los identificadores en la tabla de descripcion
-//        for (int j = lini; j <= lfi; j++) {
-//            declaracion dec = (declaracion) te.get(j); //Cogido de te
-//            for (int i = 0; i < td.size(); i++) {
-//                //Si encontramos en la tabla de expansion una variable con id igual a uno en la tabla de descripcion
-//                if (((declaracion) td.get(i)).id.equals(dec.id)) {
-//                    //lo añadimos a la tabla de descripcion
-//                    td.set(i, dec);
-//                    break;
-//                }
-//            }
-//        }
-//        //Borramos los identificadores que estan en un nivel superior al actual
-//        ArrayList ids = new ArrayList();
-//        for (int i = 0; i < td.size(); i++) {
-//            if (((declaracion) td.get(i)).np > n) {
-//                ids.add(((declaracion) td.get(i)));
-//            }
-//        }
-//        //Eliminamos los guardados
-//        for (int i = 0; i < ids.size(); i++) {
-//            td.remove(((declaracion) ids.get(i)));
-//        }
-//
-//        return null;
-//    }
 
 }
