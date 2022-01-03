@@ -1,0 +1,2 @@
+SKIP OP{_____} OP{_____} OP{E_MAIN tipo: etiqueta} 
+COPY OP{_____} OP{0 tipo: enteroLit} OP{x tipo: variable} 

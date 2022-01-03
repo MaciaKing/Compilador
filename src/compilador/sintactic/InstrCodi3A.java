@@ -10,62 +10,39 @@ package compilador.sintactic;
  * @author jfher
  */
 public class InstrCodi3A {
-
     TiposInstruccionC3A instruccion;
     OperandoC3A param1;
     OperandoC3A param2;
     OperandoC3A destino;
-
-   // EscritorFichero codi3a;
 
     public InstrCodi3A(TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino) {
         this.instruccion = instruccion;
         this.param1 = param1;
         this.param2 = param2;
         this.destino = destino;
-      //  codi3a = new EscritorFichero("codi3A.txt");
     }
 
     @Override
     public String toString() {
-//        String devolver = instruccion + " ";
-//        
-//        if(param1 != null){
-//            devolver += param1 + " ";
-//        }else{
-//            devolver += "OP{_____} ";
-//        }
-//        if(param2 != null){
-//            devolver += param2 + " ";
-//        }else{
-//            devolver += "OP{_____} ";
-//        }
-//        if(destino != null){
-//            devolver += destino + " ";
-//        }else{
-//            devolver += "OP{_____} ";
-//        }
-//        return devolver;
-
         String devolver = instruccion + " ";
-
-        if (param1 != null) {
+        
+        if(param1 != null){
             devolver += param1 + " ";
-        } else {
-            //devolver += "OP{_____} ";
+        }else{
+            devolver += "OP{_____} ";
         }
-        if (param2 != null) {
+        if(param2 != null){
             devolver += param2 + " ";
-        } else {
-            //  devolver += "OP{_____} ";
+        }else{
+            devolver += "OP{_____} ";
         }
-        if (destino != null) {
+        if(destino != null){
             devolver += destino + " ";
-        } else {
-            // devolver += "OP{_____} ";
+        }else{
+            devolver += "OP{_____} ";
         }
-        //codi3a.escrivirFichero(devolver);
         return devolver;
     }
-
+    
+    
 }

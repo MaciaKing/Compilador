@@ -1,4 +1,3 @@
 principal(){
- enter i = 3;
-
+ enter x = 0;
 }
