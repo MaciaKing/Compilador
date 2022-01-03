@@ -24,22 +24,33 @@ public class InstrCodi3A {
 
     @Override
     public String toString() {
+//        String devolver = instruccion + " ";
+//        
+//        if(param1 != null){
+//            devolver += param1 + " ";
+//        }else{
+//            devolver += "OP{_____} ";
+//        }
+//        if(param2 != null){
+//            devolver += param2 + " ";
+//        }else{
+//            devolver += "OP{_____} ";
+//        }
+//        if(destino != null){
+//            devolver += destino + " ";
+//        }else{
+//            devolver += "OP{_____} ";
+//        }
         String devolver = instruccion + " ";
         
         if(param1 != null){
             devolver += param1 + " ";
-        }else{
-            devolver += "OP{_____} ";
         }
         if(param2 != null){
             devolver += param2 + " ";
-        }else{
-            devolver += "OP{_____} ";
         }
         if(destino != null){
             devolver += destino + " ";
-        }else{
-            devolver += "OP{_____} ";
         }
         return devolver;
     }
