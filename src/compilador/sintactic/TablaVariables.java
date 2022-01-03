@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class TablaVariables {
 
-    ArrayList<variable> tVar = new ArrayList<variable>();
+    public static ArrayList<variable> tVar = new ArrayList<variable>();
     
     public int nv=-1; //numero de variables que tenemos
     

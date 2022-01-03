@@ -1,2 +1,0 @@
-SKIP E_MAIN 
-COPY 0 x 

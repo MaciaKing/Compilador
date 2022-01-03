@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Codi3A {
 
-    ArrayList<InstrCodi3A> C3A = new ArrayList<>();
+    public static ArrayList<InstrCodi3A> C3A = new ArrayList<>();
     EscritorFichero EF;
 
     public Codi3A() {

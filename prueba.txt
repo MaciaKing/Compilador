@@ -1,3 +1,5 @@
 principal(){
  enter x = 0;
+ enter i = 0;
+ boolea y = fals;
 }
