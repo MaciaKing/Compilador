@@ -4,6 +4,7 @@
  */
 package compilador.sintactic;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -15,20 +16,21 @@ import java.util.logging.Logger;
  */
 public class EscritorFichero {
     
-    FileWriter f;
-    
+    //FileWriter f;
+    BufferedWriter bw;
     public EscritorFichero(String nomFicher){
         try {
-            f= new FileWriter(nomFicher, true);            
+            bw=new BufferedWriter(new FileWriter(nomFicher));        
         } catch (IOException ex) {
             Logger.getLogger(EscritorFichero.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     
-    public void escrivirFichero(String text){
+    public void escribirFichero(String text){
         try {
-            f.write(text + "\n");
+            bw.write(text);
+            bw.newLine();
         } catch (IOException ex) {
             Logger.getLogger(EscritorFichero.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -36,7 +38,7 @@ public class EscritorFichero {
 
     public void cierraFichero(){
         try {
-            f.close();
+            bw.close();
         } catch (IOException ex) {
             Logger.getLogger(EscritorFichero.class.getName()).log(Level.SEVERE, null, ex);
         }
