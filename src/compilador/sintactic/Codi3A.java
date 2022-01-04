@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Codi3A {
 
     public static ArrayList<InstrCodi3A> C3A = new ArrayList<>();
-    EscritorFichero EF;
+    EscritorFichero EF= new EscritorFichero("Codi3a.txt");
 
     public Codi3A() {
 
@@ -22,16 +22,13 @@ public class Codi3A {
 
     public void generaC3A(InstrCodi3A c3a) {
         C3A.add(c3a);
-        EF = new EscritorFichero("Codi3a.txt");
-        EF.escrivirFichero(c3a.toString());
-        EF.cierraFichero();
         int x = 0;
     }
 
     public void generaFicheroC3A() {
         for (int i = 0; i < C3A.size(); i++) {
             InstrCodi3A inst = C3A.get(i);
-            EF.escrivirFichero(inst.toString());
+            EF.escribirFichero(inst.toString());
         }
         EF.cierraFichero();
 
