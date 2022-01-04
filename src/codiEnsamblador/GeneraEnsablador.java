@@ -166,7 +166,6 @@ public class GeneraEnsablador {
                 break;                
             /*
     
-    DIV,
     MOD,
     AND,
     OR,
