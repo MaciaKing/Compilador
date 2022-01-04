@@ -8,6 +8,7 @@ import compilador.sintactic.Codi3A;
 import compilador.sintactic.EscritorFichero;
 import compilador.sintactic.InstrCodi3A;
 import compilador.sintactic.TablaVariables;
+import compilador.sintactic.TiposOperandoC3A;
 
 /**
  *
@@ -32,7 +33,7 @@ public class GeneraEnsablador {
         f.escrivirFichero("\nSTART:");
         //Ahora cogemos las instrucciones del codigo 3A
         for (int i = 0; i < Codi3A.C3A.size(); i++) {
-             generaInstruccion68k(Codi3A.C3A.get(i));
+            generaInstruccion68k(Codi3A.C3A.get(i));
         }
 
         f.escrivirFichero("\tEND START");
@@ -47,14 +48,124 @@ public class GeneraEnsablador {
     public void generaInstruccion68k(InstrCodi3A inst) {
         switch (inst.instruccion) {
             case SKIP:
-                  f.escrivirFichero(inst.destino.toString() +":");
-                  break;
+                f.escrivirFichero(inst.destino.toString() + ":");
+                break;
             case COPY:
-                 f.escrivirFichero("\tMOVE.W #"+inst.param2 +","+inst.destino);
-                 break;
-   /*ADD,
-    SUB,
-    MUL,
+                f.escrivirFichero("\tMOVE.W #" + inst.param2 + "," + inst.destino);
+                break;
+            case ADD:
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tADD.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=#*v
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tADD.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                } else { //x = v*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tADD.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=v*v
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tADD.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                }
+                break;
+
+            case SUB:
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tSUB.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=#*v
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tSUB.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                } else { //x = v*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tSUB.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=v*v
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tSUB.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                }
+                break;
+
+            case MUL:
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tMULU.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=#*v
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tMULU.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                } else { //x = v*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tMULU.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=v*v
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tMULU.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                }
+                break;
+                
+            case DIV:
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tDIVS.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=#*v
+                        f.escrivirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tDIVS.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                } else { //x = v*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escrivirFichero("\tDIVS.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=v*v
+                        f.escrivirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escrivirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escrivirFichero("\tDIVS.W D0, D1");
+                        f.escrivirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                }
+                break;                
+            /*
+    
     DIV,
     MOD,
     AND,
@@ -69,7 +180,7 @@ public class GeneraEnsablador {
     ASSIG,
     GOTO,
     
-    */
+             */
         }
     }
 }

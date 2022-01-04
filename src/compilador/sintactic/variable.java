@@ -12,13 +12,17 @@ import compilador.sintactic.tipoSub;
  * @author jfher
  */
 public class variable {
+    static int nvar=0;
     /*Atributos de una variable*/
-    public String idVariable;
+    public int idV;
+    public String idVariable;// se puede quitar
     public tipoSub tSub;
     public int procedure;
     
     public variable(String s, tipoSub t, int p){
-        this.idVariable = s;
+        this.idV=nvar;
+        nvar++;
+        this.idVariable = s; //Se puede quitar
         this.tSub = t;
         this.procedure = p;
     }

@@ -23,8 +23,19 @@ public class TablaVariables {
 
     public int addVariable(variable var) {
         nv++;
-        tVar.add(var);
+        if(!existe(var)){
+           tVar.add(var); //mirar que no este duplicada esta variable
+        }
         return nv;
+    }
+    
+    public boolean existe(variable var){
+        for(int i=0; i<nv;i++){
+            if(tVar.get(i).idVariable.equals(var.idVariable)){ //miram si es igual la variable
+                return true;
+            }
+        }
+        return false;
     }
 
     public variable obtenVariable(variable var) {

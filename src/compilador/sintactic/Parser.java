@@ -1578,28 +1578,22 @@ class CUP$Parser$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		SymbolELp e6 = (SymbolELp)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		 RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1); 
-                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
-                                                                                TS.afegir(e1,d);
-                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
-                                                                                //TENER EN CUENTA QUE AQUI HABRIA QUE COMPROBAR SI REALMENTE ES UNA VARIABLE O UN LITERAL
-                                                                                OperandoC3A op1;
-                                                                                OperandoC3A op2;
-                                                                                if(e5.esLiteral){
+		 
+                                                                                    //NO VA BIEN
+                                                                                 if(e5.esLiteral){
                                                                                 op1 = new OperandoC3A(String.valueOf(e5.r),TiposOperandoC3A.enteroLit);
                                                                                 }else{
-                                                                                variable v1 = tv.get(e5.r);
+                                                                                int idx = tv.getIdVariable(e5.identificador);
+                                                                                variable v1 = tv.get(idx);
                                                                                 op1 = new OperandoC3A(v1.idVariable,TiposOperandoC3A.variable);
                                                                                 }
                                                                                 if(e6.esLiteral){
                                                                                 op2 = new OperandoC3A(String.valueOf(e6.r),TiposOperandoC3A.enteroLit);
                                                                                 }else{
-                                                                                variable v2 = tv.get(e6.r);
+                                                                                int idx = tv.getIdVariable(e6.identificador);
+                                                                                variable v2 = tv.get(idx);
                                                                                 op2 = new OperandoC3A(v2.idVariable,TiposOperandoC3A.variable);
                                                                                 }
-                                                                                OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ADD,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("SENTS",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -1774,7 +1768,9 @@ class CUP$Parser$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		SymbolELp e6 = (SymbolELp)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		 RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1);
+		 
+                                                                                //NO VA BIEN
+                                                                                RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1);
                                                                                 int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
                                                                                 OperandoC3A op1;
                                                                                 OperandoC3A op2;
@@ -1793,6 +1789,8 @@ class CUP$Parser$actions {
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ADD,op1,op2,desti));
                                                                                 //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
+
+
                                                                                  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("SENTS",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }

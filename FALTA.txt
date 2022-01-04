@@ -1,0 +1,2 @@
+Cuando es x=j+1; va bien
+Pero si es x=j+i no va bien
