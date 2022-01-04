@@ -52,6 +52,7 @@ I     ::= SUBP MAIN LPAREN RPAREN LCLAVE NEWLINE MAINSKIP P NEWLINE RCLAVE GEN3A
     ;
 
 GEN3A ::=   {:  RESULT = new SymbolGEN3A();
+            c3a.generaFicheroC3A();
             GeneraEnsablador e= new GeneraEnsablador(); 
             e.generaCodi68k();
             :}  
