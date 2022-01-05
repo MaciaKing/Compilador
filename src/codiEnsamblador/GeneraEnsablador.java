@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * 
  */
 package codiEnsamblador;
 
@@ -61,6 +60,7 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tADD.W D0, D1");
                         f.escribirFichero("\tMOVE.W D1, " + inst.destino);
                     } else { //x=#*v
+                       
                         f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
                         f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
                         f.escribirFichero("\tADD.W D0, D1");
@@ -73,6 +73,7 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tADD.W D0, D1");
                         f.escribirFichero("\tMOVE.W D1, " + inst.destino);
                     } else { //x=v*v
+                       
                         f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
                         f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
                         f.escribirFichero("\tADD.W D0, D1");

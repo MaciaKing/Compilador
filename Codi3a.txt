@@ -1,0 +1,4 @@
+SKIP OP{_____} OP{_____} E_MAIN 
+COPY OP{_____} 2 s 
+COPY OP{_____} 2 z 
+ADD s z x 
