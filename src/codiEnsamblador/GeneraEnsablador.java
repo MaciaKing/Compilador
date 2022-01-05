@@ -194,6 +194,9 @@ public class GeneraEnsablador {
                 }
                 break;
                 
+            case AND:
+                
+                break;
                 
   /*
     AND,
