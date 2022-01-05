@@ -164,10 +164,38 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tMOVE.W D1, " + inst.destino);
                     }
                 }
-                break;                
-            /*
-    
-    MOD,
+                break;          
+                
+            case MOD: // DIVU
+               if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tDIVU.W D0, D1");
+                        f.escribirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=#*v
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tDIVU.W D0, D1");
+                        f.escribirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                } else { //x = v*?
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tDIVU.W D0, D1");
+                        f.escribirFichero("\tMOVE.W D1, " + inst.destino);
+                    } else { //x=v*v
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tDIVU.W D0, D1");
+                        f.escribirFichero("\tMOVE.W D1, " + inst.destino);
+                    }
+                }
+                break;
+                
+                
+  /*
     AND,
     OR,
     LT,
@@ -179,8 +207,7 @@ public class GeneraEnsablador {
     IFGT,
     ASSIG,
     GOTO,
-    
-             */
+     */
         }
     }
 }

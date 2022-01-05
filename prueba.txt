@@ -2,5 +2,5 @@ principal(){
  enter x;
  enter s=2;
  enter z=2;
- x=s+z;
+ x=s%z;
 }
