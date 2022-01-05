@@ -1,0 +1,10 @@
+	ORG    $600
+x	DS.W 1
+y	DS.W 1
+
+	ORG    $1000
+
+START:
+E_MAIN:
+	MOVE.W #2,x
+	END START

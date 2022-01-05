@@ -198,18 +198,20 @@ public class GeneraEnsablador {
                 
                 break;
                 
-  /*
-    AND,
-    OR,
-    LT,
-    LE,
-    EQ,
-    NE,
-    GE,
-    GT,
-    IFGT,
-    ASSIG,
-    GOTO,
+            case OR:
+                
+                break;                
+  
+    /*
+    LT,--
+    LE,--
+    EQ,--
+    NE,--
+    GE,--
+    GT,--
+    IFGT, --
+    ASSIG, --* Es el copy
+    GOTO, --
      */
         }
     }

@@ -1,6 +1,6 @@
 principal(){
- enter x;
- enter s=2;
- enter z=2;
- x=s%z;
+ boolea y=cert;
+ mentres(y){
+ nul;
+ }
 }

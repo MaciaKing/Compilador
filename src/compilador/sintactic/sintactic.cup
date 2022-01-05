@@ -173,7 +173,7 @@ CM       ::= Mm:e2 EL:e1 RPAREN LCLAVE NEWLINE                                  
                                                                                 Etiqueta e = new Etiqueta(efi);
                                                                                 RESULT = new SymbolCM(e,e2.ei);
                                                                                 :}
-    |        MENTRES LPAREN Mm:e1 AO:e2 RPAREN LCLAVE NEWLINE                   {:
+    |         Mm:e1 AO:e2 RPAREN LCLAVE NEWLINE                                 {:
                                                                                 //LO MISMO QUE CON EL CONDICIONAL, TENGO QUE  
                                                                                 //HABLAR CON PERE A VER COMO PODRIAMOS HACER ESTO
                                                                    
