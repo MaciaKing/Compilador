@@ -16,6 +16,7 @@ public class TablaVariables {
     public static ArrayList<variable> tVar = new ArrayList<variable>();
     
     public int nv=-1; //numero de variables que tenemos
+    public int tempV=0;
     
     public TablaVariables() {
 
@@ -31,6 +32,12 @@ public class TablaVariables {
     
     public boolean existe(variable var){
         for(int i=0; i<nv;i++){
+            if(tVar.get(i).idVariable !=null){
+
+            }else{
+                tVar.get(i).idVariable="t"+tempV;
+                tempV++;
+            }
             if(tVar.get(i).idVariable.equals(var.idVariable)){ //miram si es igual la variable
                 return true;
             }

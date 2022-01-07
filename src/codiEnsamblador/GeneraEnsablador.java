@@ -60,7 +60,7 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tADD.W D0, D1");
                         f.escribirFichero("\tMOVE.W D1, " + inst.destino);
                     } else { //x=#*v
-                       
+
                         f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
                         f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
                         f.escribirFichero("\tADD.W D0, D1");
@@ -73,7 +73,7 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tADD.W D0, D1");
                         f.escribirFichero("\tMOVE.W D1, " + inst.destino);
                     } else { //x=v*v
-                       
+
                         f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
                         f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
                         f.escribirFichero("\tADD.W D0, D1");
@@ -137,7 +137,7 @@ public class GeneraEnsablador {
                     }
                 }
                 break;
-                
+
             case DIV:
                 if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
@@ -164,10 +164,10 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tMOVE.W D1, " + inst.destino);
                     }
                 }
-                break;          
-                
+                break;
+
             case MOD: // DIVU
-               if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
                         f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
                         f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
@@ -193,26 +193,52 @@ public class GeneraEnsablador {
                     }
                 }
                 break;
-                
+
             case AND:
-                
+
                 break;
-                
+
             case OR:
-                
-                break;                
-  
-    /*
+
+                break;
+
+            case IFGT: //A>B. A > B tras CMP B, A
+                f.escribirFichero("\t ---------- " + inst.param1 + "," + inst.param2 + "," + inst.destino);
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);
+                    }
+
+                } else { // (v > ?)
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (v > #)
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);
+                    } else { // (v > v)
+
+                    }
+
+                }
+                break;
+
+            case GOTO:
+                f.escribirFichero("\tJMP " + inst.destino);
+                break;
+            /*
     LT,--
     LE,--
     EQ,--
     NE,--
     GE,--
-    GT,--
+
     IFGT, --
     ASSIG, --* Es el copy
     GOTO, --
-     */
+             */
         }
     }
 }

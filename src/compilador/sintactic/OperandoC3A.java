@@ -21,8 +21,8 @@ public class OperandoC3A {
     
     @Override
     public String toString(){
-       // String s = "OP{"+operando+" tipo: "+type.toString()+"}";
-       // return s;
+//        String s = "OP{"+operando+" tipo: "+type.toString()+"}";
+//        return s;
        return operando;
     } 
     
