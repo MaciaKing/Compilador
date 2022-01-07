@@ -1,14 +1,7 @@
 principal(){
   enter y;
   enter x = 0;
-  si(2>10){
-  y=10;
- }
-   si(2>10){
-  y=10;
- }
-
-   si(2>10){
+ si(2>10){
   y=10;
  }
 }

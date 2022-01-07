@@ -35,7 +35,7 @@ public class TablaVariables {
             if(tVar.get(i).idVariable !=null){
 
             }else{
-                tVar.get(i).idVariable="t"+tempV;
+                tVar.get(i).idVariable="t"+i;
                 tempV++;
             }
             if(tVar.get(i).idVariable.equals(var.idVariable)){ //miram si es igual la variable
