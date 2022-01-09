@@ -428,6 +428,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 class CUP$Parser$actions {
 
  int nv = 0; int np = 0; int nivel = 0; TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); Codi3A c3a = new Codi3A(); Etiqueta e = new Etiqueta(); 
+               
   private final Parser parser;
 
   /** Constructor */
@@ -471,7 +472,7 @@ class CUP$Parser$actions {
                                                                                                                     c3a.imprimeC3A();
                                                                                                                     c3a.generaFicheroC3A();
                                                                                                                     GeneraEnsablador e= new GeneraEnsablador(); 
-                                                                                                                    e.generaCodi68k();                    
+                                                                                                                    e.generaCodi68k();                                                                                                                       
                                                                                                                     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("I",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-9)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -1068,7 +1069,7 @@ class CUP$Parser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String e2 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		
+		                                                                                 
                                                                                 String et = e.novaET();
                                                                                 if(np==0){
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A("E_MAIN",TiposOperandoC3A.etiqueta)));

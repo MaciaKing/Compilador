@@ -22,6 +22,10 @@ public class GeneraEnsablador {
         f = new EscritorFichero("XXXXXXXX.X68");
     }
 
+    public void veurePilaCridades(){
+        System.out.println("-------------------------------------------");
+        
+    }
     public void generaCodi68k() {
         f.escribirFichero("\tORG    $600");
         //primero generamos las variables

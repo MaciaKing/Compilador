@@ -5,7 +5,8 @@ import compilador.sintactic.symbols.*;
 import codiEnsamblador.*;
 
 class Parser;
-action code {: int nv = 0; int np = 0; int nivel = 0; TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); Codi3A c3a = new Codi3A(); Etiqueta e = new Etiqueta(); :}
+action code {: int nv = 0; int np = 0; int nivel = 0; TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); Codi3A c3a = new Codi3A(); Etiqueta e = new Etiqueta(); 
+               :}
 
 terminal                COND,ADD,SUB,LPAREN,RPAREN,MENOR,MAYOR,IGUAL,LCLAVE,ENTER,ELIGEIX,CAS,TALLA;
 terminal                RCLAVE,DIV,MUL,MOD,NEWLINE,MAIN,MAYIG,MENIG,ECOND,PNTCM,MENTRES,DOSPUNTS;
@@ -49,7 +50,7 @@ I     ::= SUBP MAIN LPAREN RPAREN LCLAVE NEWLINE MAINSKIP P NEWLINE RCLAVE      
                                                                                                                     c3a.imprimeC3A();
                                                                                                                     c3a.generaFicheroC3A();
                                                                                                                     GeneraEnsablador e= new GeneraEnsablador(); 
-                                                                                                                    e.generaCodi68k();                    
+                                                                                                                    e.generaCodi68k();                                                                                                                       
                                                                                                                     :}
     ;
 
@@ -252,7 +253,7 @@ ENCAP    ::= ID:e1 LPAREN RPAREN                                                
                                                                                 :}
      ;
 
-TE_ARGS1 ::= ID:e1 LPAREN ENTER ID:e2                                           {:
+TE_ARGS1 ::= ID:e1 LPAREN ENTER ID:e2                                           {:                                                                                 
                                                                                 String et = e.novaET();
                                                                                 if(np==0){
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A("E_MAIN",TiposOperandoC3A.etiqueta)));

@@ -1,0 +1,91 @@
+	ORG    $600
+t0	DS.W 1
+t1	DS.W 1
+t2	DS.W 1
+t3	DS.W 1
+t4	DS.W 1
+t5	DS.W 1
+
+	ORG    $1000
+
+START:
+E_MAIN:
+	MOVE.W #2, D0
+	MOVE.W #10, D1
+	CMP.W  D1, D0
+	BGT E_0
+	MOVE.W #0,t0
+	JMP E_1
+E_0:
+	MOVE.W #-1,t0
+E_1:
+	 EQUAAAAAL t0,t0,E_2
+	 CMP t0, t0
+	 BEQ t0, t0
+E_2:
+	MOVE.W #2, D0
+	MOVE.W #10, D1
+	CMP.W  D1, D0
+	BGT E_3
+	MOVE.W #0,t1
+	JMP E_4
+E_3:
+	MOVE.W #-1,t1
+E_4:
+	 EQUAAAAAL t1,t0,E_5
+	 CMP t1, t0
+	 BEQ t1, t0
+E_5:
+	MOVE.W #2, D0
+	MOVE.W #10, D1
+	CMP.W  D1, D0
+	BGT E_6
+	MOVE.W #0,t2
+	JMP E_7
+E_6:
+	MOVE.W #-1,t2
+E_7:
+	 EQUAAAAAL t2,t0,E_8
+	 CMP t2, t0
+	 BEQ t2, t0
+E_8:
+	MOVE.W #2, D0
+	MOVE.W #10, D1
+	CMP.W  D1, D0
+	BGT E_9
+	MOVE.W #0,t3
+	JMP E_10
+E_9:
+	MOVE.W #-1,t3
+E_10:
+	 EQUAAAAAL t3,t0,E_11
+	 CMP t3, t0
+	 BEQ t3, t0
+E_11:
+	MOVE.W #2, D0
+	MOVE.W #10, D1
+	CMP.W  D1, D0
+	BGT E_12
+	MOVE.W #0,t4
+	JMP E_13
+E_12:
+	MOVE.W #-1,t4
+E_13:
+	 EQUAAAAAL t4,t0,E_14
+	 CMP t4, t0
+	 BEQ t4, t0
+E_14:
+	MOVE.W #2, D0
+	MOVE.W #10, D1
+	CMP.W  D1, D0
+	BGT E_15
+	MOVE.W #0,t5
+	JMP E_16
+E_15:
+	MOVE.W #-1,t5
+E_16:
+	 EQUAAAAAL t5,t0,E_17
+	 CMP t5, t0
+	 BEQ t5, t0
+E_17:
+	END START
