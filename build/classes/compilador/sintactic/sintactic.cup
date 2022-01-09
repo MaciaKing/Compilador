@@ -94,7 +94,15 @@ instr ::= CND                                                                   
     |     EB:e1                                                                 {: :}
     |     CRIDAS:e1                                                             {: :}
     |     NULL PNTCM                                                            {: :}
-    |     ENTER ID:e1 IGUAL LECT LPAREN RPAREN PNTCM                            {: System.out.println("Reconoce LECTURATECLADO"); :}
+   |     LECT LPAREN ID:e1 RPAREN PNTCM                                        {:
+                                                                                int idx = tv.getIdVariable(e1);
+                                                                                variable v=tv.get(idx);
+                                                                                OperandoC3A desti;
+                                                                                desti = new OperandoC3A(e1,TiposOperandoC3A.parametro);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.PARAM_S,null,null,desti));
+                                                                                desti = new OperandoC3A("escriure",TiposOperandoC3A.procedure);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.CALL,null,null,desti));
+                                                                                :}
     |     SORT LPAREN SortTec:e1 PNTCM                                          {: System.out.println("Reconoce SALIDAPANTALLA"); :}
      ;
 
@@ -243,7 +251,20 @@ AOp     ::= AND                                                                 
     |  OR                                                                       {: :}
      ;
 
-SortTec  ::= ID:e1 RPAREN                                                       {:  :}
+SortTec  ::= ID:e1 RPAREN                                                       {: 
+                                                                                int idx = tv.getIdVariable(e1);
+                                                                                variable v=tv.get(idx);
+                                                                                OperandoC3A desti;
+                                                                                desti = new OperandoC3A(e1,TiposOperandoC3A.parametro);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.PARAM_S,null,null,desti));
+                                                                                if(v.tSub==tipoSub.tipoSubBool){
+                                                                                desti = new OperandoC3A("imprimeixBooleano",TiposOperandoC3A.procedure);
+                                                                                }else{
+                                                                                desti = new OperandoC3A("imprimeix",TiposOperandoC3A.procedure);
+                                                                                }
+
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.CALL,null,null,desti));
+                                                                                 :}
      ;
 
 ENCAP    ::= ID:e1 LPAREN RPAREN                                                {:

@@ -29,6 +29,7 @@ public enum TiposInstruccionC3A {
     GOTO,
     SKIP,
     COPY,
-    
-    
+    CALL,
+    PARAM_S,
+    PMB
 }

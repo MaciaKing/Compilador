@@ -1,9 +1,7 @@
-func enter hola(enter x, enter x2, boolea b1, boolea b2){
- enter f = x;
- retorna f;
-}
 principal(){
- boolea y = cert;
- enter p1 = 3;
- enter x = hola(p1,p1,y,y);
+ enter s=65;
+ enter x=0;
+ sortidaPantalla(s);
+ llegirTeclat(s);
+ sortidaPantalla(s);
 }
