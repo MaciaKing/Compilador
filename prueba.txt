@@ -1,7 +1,14 @@
 principal(){
- enter s=65;
- enter x=0;
- sortidaPantalla(s);
- llegirTeclat(s);
- sortidaPantalla(s);
+ si(2>10){
+  nul;
+ }
+ si(2>10){
+  nul;
+ }
+ si(2>10){
+  nul;
+ }
+ si(2>10){
+  nul;
+ }
 }

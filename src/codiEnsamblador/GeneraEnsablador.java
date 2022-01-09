@@ -244,15 +244,8 @@ public class GeneraEnsablador {
                 break;
 
             case EQ:
-                f.escribirFichero("\t EQUAAAAAL " + TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable + "," + TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando)).idVariable + "," + inst.destino);
-                //f.escribirFichero("\t EQUAAAAAL " + inst.param1.operando + "," + inst.param2.operando + "," + inst.destino);
-                //f.escribirFichero("\t CMP "+TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable+", "+TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando)).idVariable );
-                //f.escribirFichero("\t BEQ "+TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable+", "+TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando)).idVariable );
-                //variable v1=TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando));
-                //variable v2=TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando));
-                // variable v11=TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando));
-
-                //OperandoC3A v1=TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando));
+                //param1 es la variable, param2 es el # 
+                f.escribirFichero("\t EQUAAAAAL---- "  +TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable +" "+ inst.param2.operando + "," + inst.destino);
                 if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
                         f.escribirFichero("\t--------------------------------------------------------------------0");
@@ -282,7 +275,6 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tMOVE.W D1, " + inst.destino);
                     }
                 }
-
                 break;
 
             case GOTO:
