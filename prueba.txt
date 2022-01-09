@@ -1,14 +1,6 @@
 principal(){
- si(2>10){
-  nul;
- }
- si(2>10){
-  nul;
- }
- si(2>10){
-  nul;
- }
- si(2>10){
-  nul;
+ enter x;
+ si(20>10){
+  x=10;
  }
 }

@@ -33,13 +33,15 @@ public class TablaVariables {
     public boolean existe(variable var){
         if( tVar.isEmpty() ){
            if(var.idVariable == null){
-               var.idVariable="t"+tempV;
                tempV++;
+               var.idVariable="t"+tempV;
+               
            }
         }else{
             if(var.idVariable == null){
+                tempV++;
                var.idVariable="t"+tempV;
-               tempV++;
+               
            }
         }
         return false;
