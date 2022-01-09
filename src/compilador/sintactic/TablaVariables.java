@@ -33,28 +33,14 @@ public class TablaVariables {
     public boolean existe(variable var){
         if( tVar.isEmpty() ){
            if(var.idVariable == null){
-               var.idVariable="t"+tempV;  
+               var.idVariable="t"+tempV;
                tempV++;
            }
         }else{
             if(var.idVariable == null){
-               var.idVariable="t"+tempV;  
+               var.idVariable="t"+tempV;
                tempV++;
-           }else{
-                tVar.add(var);
-                nv++;
-            }
-        //for(int i=0; i<tVar.size();i++){
-            //if(tVar.get(i).idVariable !=null){
-
-           // }else{
-           //     tVar.get(i).idVariable="t"+i;
-           //     tempV++;
-           // }
-           // if(tVar.get(i).idVariable.equals(var.idVariable)){ //miram si es igual la variable
-           //     return true;
-           // }
-        //}
+           }
         }
         return false;
     }

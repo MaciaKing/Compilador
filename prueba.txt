@@ -1,19 +1,7 @@
 principal(){
- si(2>10){
-  nul;
- }
- si(2>10){
-  nul;
- }
- si(2>10){
-  nul;
- }
- si(2>10){
-  nul;
- }
- si(2>10){
-  nul;
- }
+ enter x;
+ enter y;
+ enter z;
  si(2>10){
   nul;
  }
