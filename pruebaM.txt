@@ -1,0 +1,8 @@
+principal(){
+ enter x;
+ enter y;
+ enter z;
+ si(2>10){
+  nul;
+ }
+}

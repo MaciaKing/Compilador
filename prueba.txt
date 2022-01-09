@@ -1,8 +1,9 @@
+func enter hola(enter x, enter x2, boolea b1, boolea b2){
+ enter f = x;
+ retorna f;
+}
 principal(){
- enter x;
- enter y;
- enter z;
- si(2>10){
-  nul;
- }
+ boolea y = cert;
+ enter p1 = 3;
+ enter x = hola(p1,p1,y,y);
 }

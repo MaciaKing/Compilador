@@ -1,5 +1,7 @@
 package compilador.sintactic;
 
+import java.util.ArrayList;
+
 public class descripcion {
 
     public tipoDescripcion tipoDesc;
@@ -15,6 +17,7 @@ public class descripcion {
     public int cantParamInt = 0;
     public int cantParamBool = 0;
     public Etiqueta etP;
+    public ArrayList tArg;
 
     //Constructor vacio
     public descripcion() {
@@ -43,7 +46,16 @@ public class descripcion {
         this.tipoS = ts;
     }
 
+    //Constructor para subprogramas con parametros
+    public descripcion(tipoDescripcion dt, int np, boolean tp, Etiqueta e, ArrayList a) {
+        this.tipoDesc = dt;
+        this.np = np;
+        this.teParametres = tp;
+        this.etP = e;
+        this.tArg = a;
+    }
     //Constructor para subprogramas
+
     public descripcion(tipoDescripcion dt, int np, boolean tp, Etiqueta e) {
         this.tipoDesc = dt;
         this.np = np;
@@ -61,5 +73,5 @@ public class descripcion {
     public void setTipusSub(tipoSub ts) {
         this.tipoS = ts;
     }
-    
+
 }

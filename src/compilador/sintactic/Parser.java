@@ -744,7 +744,17 @@ class CUP$Parser$actions {
                                                                                 }else if(e2.nParamBool != d1.cantParamBool || e2.nParamInt != d1.cantParamInt){
                                                                                 System.out.println("El subprograma "+e1+" TIENE PARAMETROS DISTINTOS");
                                                                                 }else{
+                                                                                int i;
+                                                                                for(i = 0; i < d1.tArg.size(); i++){
+                                                                                if(e2.tPar.get(i) != d1.tArg.get(i)){
+                                                                                break;
+                                                                                }
+                                                                                }
+                                                                                if(i<d1.tArg.size()){                                                                                
+                                                                                System.out.println("El subprograma "+e1+" TIENE LOS ARGUMENTOS DESORDENADOS");
+                                                                                }else{
                                                                                 System.out.println("El subprograma "+e1+" ESTA PERFECTO (CASO CON ARGUMENTOS)");
+                                                                                }
                                                                                 e.addEtiqueta(e1);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A(d1.etP.etiqueta, TiposOperandoC3A.etiqueta)));
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(e1,TiposOperandoC3A.etiqueta)));
@@ -770,9 +780,11 @@ class CUP$Parser$actions {
                                                                                 if(d1 != null){    
                                                                                 if(d1.tipoS==tipoSub.tipoSubBool){
                                                                                 e2.nParamBool++;
+                                                                                RESULT = new SymbolPARAM(1,e2.tPar);
                                                                                 }
                                                                                 if(d1.tipoS==tipoSub.tipoSubInt){
                                                                                 e2.nParamInt++;
+                                                                                RESULT = new SymbolPARAM(0,e2.tPar);
                                                                                 }
                                                                                 }else{
                                                                                 //ESTO DEBERIA DE FINALIZAR LA EJECUCION DEL PROGRAMA PERO AUN NO TENEMOS
@@ -780,7 +792,7 @@ class CUP$Parser$actions {
                                                                                 e2.nParamInt = 1000; //PONGO ESTO PORQUE ASI ME ASEGURO QUE SALTA EL SIGUIENTE ERROR 
                                                                                 System.out.println("El parametro "+e1+" no ha sido declarado previamente");
                                                                                 }
-                                                                                RESULT = e2;
+                                                                                
                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("PARAM",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -796,10 +808,10 @@ class CUP$Parser$actions {
 		
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1.tipoS==tipoSub.tipoSubBool){
-                                                                                RESULT = new SymbolPARAM(false);
+                                                                                RESULT = new SymbolPARAM(1);
                                                                                 }
                                                                                 if(d1.tipoS==tipoSub.tipoSubInt){
-                                                                                RESULT = new SymbolPARAM(true);
+                                                                                RESULT = new SymbolPARAM(0);
                                                                                 }
                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("PARAM",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -1036,7 +1048,7 @@ class CUP$Parser$actions {
                                                                                 descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(et));
                                                                                 TS.afegir(e1,d);
                                                                                 tp.addProcedimiento(new Procedimiento(e1));
-                                                                                //TS.entrabloc();ç
+                                                                                //TS.entrabloc();รง
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
                                                                                 RESULT = new SymbolENCAP(false,e1); 
                                                                                 
@@ -1052,7 +1064,17 @@ class CUP$Parser$actions {
 		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		SymbolTE_ARGS1 e1 = (SymbolTE_ARGS1)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
+                                                                                String et = e.novaET();
+                                                                                if(np==0){
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A("E_MAIN",TiposOperandoC3A.etiqueta)));
+                                                                                }
                                                                                 //TS.entrabloc();
+                                                                                np++;
+                                                                                descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(et),e1.tArg);
+                                                                                TS.afegir(e1.id,d);
+                                                                                tp.addProcedimiento(new Procedimiento(e1.id));
+                                                                                //TS.entrabloc();รง
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
                                                                                 RESULT = new SymbolENCAP(true, e1.id);  
                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ENCAP",12, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -1069,26 +1091,16 @@ class CUP$Parser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String e2 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		                                                                                 
-                                                                                String et = e.novaET();
-                                                                                if(np==0){
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A("E_MAIN",TiposOperandoC3A.etiqueta)));
-                                                                                }
-                                                                                np++;
-                                                                                descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(et));
-                                                                                TS.afegir(e1,d);
-                                                                                tp.addProcedimiento(new Procedimiento(e1));
-                                                                                //TS.entrabloc();
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
+		                                                                                                                                                                
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 != null && np == d2.np){
                                                                                 System.out.println("ERROR: La variable "+e2+" Ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
                                                                                 //TS.posaArgs(e1, e2, arg);
-                                                                                d.cantParamInt++;
+                                                                              
+                                                                                RESULT = new SymbolTE_ARGS1(e1,0);
                                                                                 }
-                                                                                RESULT = new SymbolTE_ARGS1(e1); 
                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("TE_ARGS1",13, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -1112,9 +1124,9 @@ class CUP$Parser$actions {
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
                                                                                 //TS.posaArgs(e1.id, e2, arg);
                                                                                 descripcion d = TS.consultarD(e1.id);
-                                                                                d.cantParamInt++;
-                                                                                }
-                                                                                RESULT = new SymbolTE_ARGS1(e1.id);  
+                                                                               
+                                                                                RESULT = new SymbolTE_ARGS1(e1.id,0,e1.tArg); 
+                                                                                } 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("TE_ARGS1",13, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1129,25 +1141,15 @@ class CUP$Parser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String e2 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		
-                                                                                String et = e.novaET();
-                                                                                if(np==0){
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A("E_MAIN",TiposOperandoC3A.etiqueta)));
-                                                                                }
-                                                                                np++;
-                                                                                descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(et));
-                                                                                TS.afegir(e1,d);
-                                                                                tp.addProcedimiento(new Procedimiento(e1));
+		                                                                                
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 != null && np == d2.np){
                                                                                 System.out.println("ERROR: La variable "+e2+" Ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubBool);
-                                                                                //TS.posaArgs(e1, e2, arg);
-                                                                                d.cantParamBool++; 
+                                                                                
+                                                                                RESULT = new SymbolTE_ARGS1(e1,1); 
                                                                                 }
-                                                                                TS.afegir(e1,d);
-                                                                                RESULT = new SymbolTE_ARGS1(e1); 
                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("TE_ARGS1",13, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -1171,9 +1173,9 @@ class CUP$Parser$actions {
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
                                                                                 //TS.posaArgs(e1.id, e2, arg);
                                                                                 descripcion d = TS.consultarD(e1.id);
-                                                                                d.cantParamBool++;
+                                                                              
+                                                                                RESULT = new SymbolTE_ARGS1(e1.id,1,e1.tArg);
                                                                                 }
-                                                                                RESULT = new SymbolTE_ARGS1(e1.id); 
                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("TE_ARGS1",13, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
