@@ -16,15 +16,16 @@ public class TablaVariables {
     public static ArrayList<variable> tVar = new ArrayList<variable>();
     
     public int nv=-1; //numero de variables que tenemos
-    public int tempV=0;
+    public int tempV=1;
     
     public TablaVariables() {
 
     }
 
-    public int addVariable(variable var) {
-        nv++;
+    public int addVariable(variable var) { 
+        
         if(!existe(var)){
+        nv++;  
            tVar.add(var); //mirar que no este duplicada esta variable
         }
         return nv;
@@ -39,7 +40,7 @@ public class TablaVariables {
            }
         }else{
             if(var.idVariable == null){
-                tempV++;
+               tempV++; 
                var.idVariable="t"+tempV;
                
            }

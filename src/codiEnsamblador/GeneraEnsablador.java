@@ -247,24 +247,24 @@ public class GeneraEnsablador {
                 //param1 es la variable, param2 es el # 
                 f.escribirFichero("\t ;EQUAAAAAL---- "  +TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable +" "+ inst.param2.operando + "," + inst.destino);
                 if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
-                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
-                        f.escribirFichero("\t--------------------------------------------------------------------0");
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# 
+                       f.escribirFichero("\t EQQQQQQ NO HAY SOPORTE!!!!!!!!!!!!");
            
                     } else { //x=#*v
-       
+                        f.escribirFichero("\t EQQQQQQ NO HAY SOPORTE!!!!!!!!!!!!");
                     }
                 } else { //x = v*?
-                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be
-                        
-                        f.escribirFichero("\t ;EQ");
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be     
                         f.escribirFichero("\tMOVE.W (" + TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable + "), D1");  
                         f.escribirFichero("\tMOVE.W #" + inst.param2.operando + ", D0");
                         f.escribirFichero("\tCMP.W D1, D0");
-                        f.escribirFichero("\tBEQ "+inst.destino+" ;-------------------------");
-                        
+                        f.escribirFichero("\tBEQ "+inst.destino);
                     } else { //x=v*v
-                        f.escribirFichero("\t--------------------------------------------------------------------3");
-                   
+                         f.escribirFichero("\t EQQQQQQ NO HAY SOPORTE!!!!!!!!!!!!");
+//                        f.escribirFichero("\tMOVE.W (" + TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable + "), D1");  
+//                        f.escribirFichero("\tMOVE.W #" + inst.param2.operando + ", D0");
+//                        f.escribirFichero("\tCMP.W D1, D0");
+//                        f.escribirFichero("\tBEQ "+inst.destino);
                     }
                 }
                 break;
