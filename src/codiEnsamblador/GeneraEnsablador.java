@@ -204,7 +204,7 @@ public class GeneraEnsablador {
                 break;
 
             case IFGT: //A>B. A > B tras CMP B, A
-                f.escribirFichero("\t ---------- " + inst.param1 + "," + inst.param2 + "," + inst.destino);
+               // f.escribirFichero("\t ---------- " + inst.param1 + "," + inst.param2 + "," + inst.destino);
                 if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
                         f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
@@ -227,32 +227,56 @@ public class GeneraEnsablador {
                 break;
                 
             case EQ:
-                f.escribirFichero("\t EQUAAAAAL " + inst.param1 + "," + inst.param2 + "," + inst.destino);
-                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
-                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
-                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
-                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
-                        f.escribirFichero("\tCMP.W  D1, D0");
-                        f.escribirFichero("\tBGT " + inst.destino);
-                    }
-
-                } else { // (v > ?)
-                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (v > #)
-                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
-                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
-                        f.escribirFichero("\tCMP.W  D1, D0");
-                        f.escribirFichero("\tBGT " + inst.destino);
-                    } else { // (v > v)
-
-                    }
-
-                } 
+                f.escribirFichero("\t EQUAAAAAL " + TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable + "," + TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando)).idVariable + "," + inst.destino);
+                f.escribirFichero("\t CMP "+TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable+", "+TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando)).idVariable );
+                f.escribirFichero("\t BEQ "+TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable+", "+TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando)).idVariable );
+//                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
+//                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
+//                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+//                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);
+//                    }
+//
+//                } else { // (v > ?)
+//                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (v > #)
+//                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+//                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);
+//                    } else { // (v > v)
+//                        f.escribirFichero("---------------------------");
+//                    }
+                
+                
+//                 if (TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
+//                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
+//                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+//                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);
+//                    }
+//
+//                } else { // (v > ?)
+//                    if ( TablaVariables.tVar.get(Integer.parseInt(inst.param2.operando)).equals(TiposOperandoC3A.enteroLit)) { // (v > #)
+//                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+//                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);
+//                    } else { // (v > v)
+//                        f.escribirFichero("---------------------------");
+//                    }
+//                } 
                 break;
 
             case GOTO:
                 f.escribirFichero("\tJMP " + inst.destino);
                 break;
+                
+              
+                
             /*
+                
     LT,--
     LE,--
     EQ,--

@@ -29,18 +29,32 @@ public class TablaVariables {
         }
         return nv;
     }
-    
-    public boolean existe(variable var){
-        for(int i=0; i<nv;i++){
-            if(tVar.get(i).idVariable !=null){
 
-            }else{
-                tVar.get(i).idVariable="t"+i;
-                tempV++;
+    public boolean existe(variable var){
+        if( tVar.isEmpty() ){
+           if(var.idVariable == null){
+               var.idVariable="t"+tempV;  
+               tempV++;
+           }
+        }else{
+            if(var.idVariable == null){
+               var.idVariable="t"+tempV;  
+               tempV++;
+           }else{
+                tVar.add(var);
+                nv++;
             }
-            if(tVar.get(i).idVariable.equals(var.idVariable)){ //miram si es igual la variable
-                return true;
-            }
+        //for(int i=0; i<tVar.size();i++){
+            //if(tVar.get(i).idVariable !=null){
+
+           // }else{
+           //     tVar.get(i).idVariable="t"+i;
+           //     tempV++;
+           // }
+           // if(tVar.get(i).idVariable.equals(var.idVariable)){ //miram si es igual la variable
+           //     return true;
+           // }
+        //}
         }
         return false;
     }
@@ -70,6 +84,10 @@ public class TablaVariables {
             }
         }
         return id;
+    }
+    
+    public variable obtenUltimaVariable(){
+        return tVar.get(nv);
     }
 
 }

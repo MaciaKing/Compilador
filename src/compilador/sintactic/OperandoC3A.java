@@ -12,7 +12,7 @@ package compilador.sintactic;
 public class OperandoC3A {
     
     public TiposOperandoC3A type;
-    String operando;
+    public String operando;
     
     public OperandoC3A(String s, TiposOperandoC3A tipo){
         this.operando = s;

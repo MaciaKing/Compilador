@@ -22,7 +22,7 @@ public class variable {
     public variable(String s, tipoSub t, int p){
         this.idV=nvar;
         nvar++;
-        this.idVariable = s; //Se puede quitar
+        this.idVariable = s; 
         this.tSub = t;
         this.procedure = p;
     }
@@ -32,5 +32,8 @@ public class variable {
         this.procedure = p;
     }
     
+//    public String toString(){
+//        return idVariable;
+//    }
 
 }

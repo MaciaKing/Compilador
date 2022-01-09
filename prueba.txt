@@ -1,7 +1,20 @@
 principal(){
-  enter y;
-  enter x = 0;
  si(2>10){
-  y=10;
+  nul;
+ }
+ si(2>10){
+  nul;
+ }
+ si(2>10){
+  nul;
+ }
+ si(2>10){
+  nul;
+ }
+ si(2>10){
+  nul;
+ }
+ si(2>10){
+  nul;
  }
 }

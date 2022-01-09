@@ -1392,6 +1392,7 @@ class CUP$Parser$actions {
 		
                                                                                 SymbolEL EL = new SymbolEL(ParserSym.MAYOR, e3, e4);
                                                                                 Integer t = tv.addVariable(new variable(tipoSub.tipoSubBool, tp.getNP()));
+                                                                                 System.out.println("-------------------------------------------------------------------------------------0"+tv.obtenUltimaVariable().idVariable);
                                                                                 String e1 = e.novaET();
                                                                                 String e2 = e.novaET();
                                                                                 OperandoC3A desti1 = new OperandoC3A(e1,TiposOperandoC3A.etiqueta);
@@ -1400,9 +1401,9 @@ class CUP$Parser$actions {
                                                                                 OperandoC3A op1;
                                                                                 OperandoC3A op2;
                                                                                 if(e3.esLiteral){
-                                                                                op1 = new OperandoC3A(String.valueOf(e3.r),TiposOperandoC3A.enteroLit);
+                                                                                op1 = new OperandoC3A(String.valueOf(e3.r),TiposOperandoC3A.enteroLit);                                                        
                                                                                 }else{
-                                                                                op1 = new OperandoC3A(e3.identificador,TiposOperandoC3A.variable);
+                                                                                op1 = new OperandoC3A(e3.identificador,TiposOperandoC3A.variable);                                                                                 
                                                                                 }
                                                                                 if(e4.esLiteral){
                                                                                 op2 = new OperandoC3A(String.valueOf(e4.r),TiposOperandoC3A.enteroLit);
@@ -1410,8 +1411,9 @@ class CUP$Parser$actions {
                                                                                 op2 = new OperandoC3A(e4.identificador,TiposOperandoC3A.variable);
                                                                                 }
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.IFGT,op1,op2,desti1));
+                                                                                System.out.println("t"+String.valueOf(t) + "----------------------------------------------------");
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A("t"+String.valueOf(t),TiposOperandoC3A.variable)));
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti2));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,desti2));//---------------------------------------------------------------------------------------------------------------------------------------
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti1));
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),new OperandoC3A("t"+String.valueOf(t),TiposOperandoC3A.variable)));
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,desti2));
@@ -2093,16 +2095,18 @@ class CUP$Parser$actions {
 		String e2 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
                                                                                 descripcion d1 = TS.consultarD(e1);
+                                                                                
                                                                                 if(d1 != null){
                                                                                 System.out.println("ERROR: La variable "+e1+" ya ha sido declarada previamente");
                                                                                 }else{
+                                                                                tv.addVariable(new variable(e1,tipoSub.tipoSubBool, tp.getNP()));
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubBool);
                                                                                 TS.afegir(e1,d);
                                                                                 if("fals".equals(e2)){
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A("t"+String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(e1,TiposOperandoC3A.variable)));
                                                                                 }
                                                                                 if("cert".equals(e2)){
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),new OperandoC3A("t"+String.valueOf(t),TiposOperandoC3A.variable)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A("-1",TiposOperandoC3A.enteroLit),new OperandoC3A(e1,TiposOperandoC3A.variable)));
                                                                                 }
                                                                                 } 
                                                                                 
