@@ -213,7 +213,32 @@ public class GeneraEnsablador {
                 break;
 
             case AND:
-
+//                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
+//                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
+//                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+//                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);
+//                    }else{ // (# > v)
+//                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+//                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);                        
+//                    }
+//
+//                } else { // (v > ?)
+//                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (v > #)
+//                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+//                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);
+//                    } else { // (v > v)
+//                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+//                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+//                        f.escribirFichero("\tCMP.W  D1, D0");
+//                        f.escribirFichero("\tBGT " + inst.destino);
+//                    }
+//                }
                 break;
 
             case OR:
@@ -247,6 +272,36 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
                         f.escribirFichero("\tCMP.W  D1, D0");
                         f.escribirFichero("\tBGT " + inst.destino);
+                    }
+                }
+                break;
+                
+            case GE:
+                 f.escribirFichero("\t ;GE " + inst.param1 + "," + inst.param2 + "," + inst.destino);
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGE " + inst.destino);
+                    }else{ // (# > v)
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGE " + inst.destino);                        
+                    }
+
+                } else { // (v > ?)
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (v > #)
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGE " + inst.destino);
+                    } else { // (v > v)
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGE " + inst.destino);
                     }
                 }
                 break;
@@ -287,8 +342,7 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tBEQ " + inst.destino);
                     }
                 }
-               }
-                            
+               }                            
                 break;
 
             case GOTO:
