@@ -2,7 +2,7 @@ principal(){
  enter x;
  enter y=2;	
  enter z=1;
- si(z >o= y){
+ si(2 <o= 3){
   x=10;
  }
 }
