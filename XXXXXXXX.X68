@@ -12,11 +12,11 @@ START:
 E_MAIN:
 	MOVE.W #2,y
 	MOVE.W #1,z
-	 ;LE 2,3,E_0
+	 ;LT 2,2,E_0
 	MOVE.W #2, D0
-	MOVE.W #3, D1
+	MOVE.W #2, D1
 	CMP.W  D1, D0
-	BLE E_0
+	BLT E_0
 	MOVE.W #0,t0
 	JMP E_1
 E_0:
