@@ -10,11 +10,11 @@ SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 START:
 	MOVE.W #0,SL
 E_MAIN:
-	MOVE.W #20,y
-	MOVE.W #20,z
-	 ;EQ z,y,E_0
+	MOVE.W #19,y
+	MOVE.W #1,z
+	 ;IFGT z,2,E_0
 	MOVE.W (z), D0
-	MOVE.W (y), D1
+	MOVE.W #2, D1
 	CMP.W  D1, D0
 	BGT E_0
 	MOVE.W #0,t0
@@ -23,10 +23,10 @@ E_0:
 	MOVE.W #-1,t0
 E_1:
 	 ;EQUAAAAAL----TEMPORAL t0, 0,E_2
-	 MOVE.W (t0), D0
-	 MOVE.W #0, D1
+	MOVE.W (t0), D0
+	MOVE.W #0, D1
 	CMP.W  D0, D1
-	BGT E_2
+	BEQ E_2
 	MOVE.W #10,x
 E_2:
 	JMP FIN

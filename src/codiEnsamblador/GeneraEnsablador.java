@@ -254,10 +254,10 @@ public class GeneraEnsablador {
             case EQ:
                if(inst.temporal){
                  f.escribirFichero("\t ;EQUAAAAAL----TEMPORAL "  +TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable +", "+ inst.param2.operando + "," + inst.destino);
-                 f.escribirFichero("\t MOVE.W ("+TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable+"), D0");
-                 f.escribirFichero("\t MOVE.W #"+ inst.param2.operando + ", D1");
+                 f.escribirFichero("\tMOVE.W ("+TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable+"), D0");
+                 f.escribirFichero("\tMOVE.W #"+ inst.param2.operando + ", D1");
                  f.escribirFichero("\tCMP.W  D0, D1");
-                 f.escribirFichero("\tBGT " + inst.destino);
+                 f.escribirFichero("\tBEQ " + inst.destino);
                } else{
                
                f.escribirFichero("\t ;EQ " + inst.param1 + "," + inst.param2 + "," + inst.destino);
@@ -266,12 +266,12 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
                         f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
                         f.escribirFichero("\tCMP.W  D1, D0");
-                        f.escribirFichero("\tBGT " + inst.destino);
+                        f.escribirFichero("\tBEQ " + inst.destino);
                     }else{ // (# > v)
                         f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
                         f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
                         f.escribirFichero("\tCMP.W  D1, D0");
-                        f.escribirFichero("\tBGT " + inst.destino);                        
+                        f.escribirFichero("\tBEQ " + inst.destino);                        
                     }
 
                 } else { // (v > ?)
@@ -279,12 +279,12 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
                         f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
                         f.escribirFichero("\tCMP.W  D1, D0");
-                        f.escribirFichero("\tBGT " + inst.destino);
+                        f.escribirFichero("\tBEQ " + inst.destino);
                     } else { // (v > v)
                         f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
                         f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
                         f.escribirFichero("\tCMP.W  D1, D0");
-                        f.escribirFichero("\tBGT " + inst.destino);
+                        f.escribirFichero("\tBEQ " + inst.destino);
                     }
                 }
                }
