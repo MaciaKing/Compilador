@@ -14,14 +14,23 @@ public class InstrCodi3A {
     public OperandoC3A param1;
     public OperandoC3A param2;
     public OperandoC3A destino;
+    public boolean temporal;
 
     public InstrCodi3A(TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino) {
         this.instruccion = instruccion;
         this.param1 = param1;
         this.param2 = param2;
         this.destino = destino;
+        this.temporal= false;
     }
-
+    
+    public InstrCodi3A(TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino, boolean temp) {
+        this.instruccion = instruccion;
+        this.param1 = param1;
+        this.param2 = param2;
+        this.destino = destino;
+        this.temporal= temp;
+    }
     @Override
     public String toString() {
         String devolver = instruccion + " ";

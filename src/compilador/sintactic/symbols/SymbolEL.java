@@ -19,6 +19,8 @@ public class SymbolEL extends SymbolBase {
     public boolean booleano;
     public int resultado = 0;
     public int r;
+    public boolean isLiteral1;
+    public boolean isLiteral2;
 
     public SymbolEL(String name, Integer id) {
         super(name, id);

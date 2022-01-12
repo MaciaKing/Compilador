@@ -1,7 +1,8 @@
 principal(){
  enter x;
- enter y=1;	
- si(2>10){
+ enter y=20;	
+ enter z=20;
+ si(z==y){
   x=10;
  }
 }

@@ -222,12 +222,18 @@ public class GeneraEnsablador {
 
             case IFGT: //A>B. A > B tras CMP B, A
                 // f.escribirFichero("\t ---------- " + inst.param1 + "," + inst.param2 + "," + inst.destino);
+                f.escribirFichero("\t ;IFGT " + inst.param1 + "," + inst.param2 + "," + inst.destino);
                 if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
                         f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
                         f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
                         f.escribirFichero("\tCMP.W  D1, D0");
                         f.escribirFichero("\tBGT " + inst.destino);
+                    }else{ // (# > v)
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);                        
                     }
 
                 } else { // (v > ?)
@@ -237,36 +243,52 @@ public class GeneraEnsablador {
                         f.escribirFichero("\tCMP.W  D1, D0");
                         f.escribirFichero("\tBGT " + inst.destino);
                     } else { // (v > v)
-
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);
                     }
-
                 }
                 break;
 
             case EQ:
-                //param1 es la variable, param2 es el # 
-                f.escribirFichero("\t ;EQUAAAAAL---- "  +TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable +" "+ inst.param2.operando + "," + inst.destino);
-                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
-                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# 
-                       f.escribirFichero("\t EQQQQQQ NO HAY SOPORTE!!!!!!!!!!!!");
-           
-                    } else { //x=#*v
-                        f.escribirFichero("\t EQQQQQQ NO HAY SOPORTE!!!!!!!!!!!!");
+               if(inst.temporal){
+                 f.escribirFichero("\t ;EQUAAAAAL----TEMPORAL "  +TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable +", "+ inst.param2.operando + "," + inst.destino);
+                 f.escribirFichero("\t MOVE.W ("+TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable+"), D0");
+                 f.escribirFichero("\t MOVE.W #"+ inst.param2.operando + ", D1");
+                 f.escribirFichero("\tCMP.W  D0, D1");
+                 f.escribirFichero("\tBGT " + inst.destino);
+               } else{
+               
+               f.escribirFichero("\t ;EQ " + inst.param1 + "," + inst.param2 + "," + inst.destino);
+                if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) { // (# > ?)
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (# > #)
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);
+                    }else{ // (# > v)
+                        f.escribirFichero("\tMOVE.W #" + inst.param1 + ", D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);                        
                     }
-                } else { //x = v*?
-                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be     
-                        f.escribirFichero("\tMOVE.W (" + TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable + "), D1");  
-                        f.escribirFichero("\tMOVE.W #" + inst.param2.operando + ", D0");
-                        f.escribirFichero("\tCMP.W D1, D0");
-                        f.escribirFichero("\tBEQ "+inst.destino);
-                    } else { //x=v*v
-                         f.escribirFichero("\t EQQQQQQ NO HAY SOPORTE!!!!!!!!!!!!");
-//                        f.escribirFichero("\tMOVE.W (" + TablaVariables.tVar.get(Integer.parseInt(inst.param1.operando)).idVariable + "), D1");  
-//                        f.escribirFichero("\tMOVE.W #" + inst.param2.operando + ", D0");
-//                        f.escribirFichero("\tCMP.W D1, D0");
-//                        f.escribirFichero("\tBEQ "+inst.destino);
+
+                } else { // (v > ?)
+                    if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (v > #)
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);
+                    } else { // (v > v)
+                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tBGT " + inst.destino);
                     }
                 }
+               }
+                            
                 break;
 
             case GOTO:

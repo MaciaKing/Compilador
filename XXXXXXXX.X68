@@ -1,9 +1,8 @@
 	ORG    $600
 x	DS.W 1
 y	DS.W 1
-t2	DS.W 1
-t3	DS.W 1
-t4	DS.W 1
+z	DS.W 1
+t0	DS.W 1
 SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 
 	ORG    $1000
@@ -11,55 +10,25 @@ SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 START:
 	MOVE.W #0,SL
 E_MAIN:
-	MOVE.W #1,y
-	MOVE.W #2, D0
-	MOVE.W #10, D1
+	MOVE.W #20,y
+	MOVE.W #20,z
+	 ;EQ z,y,E_0
+	MOVE.W (z), D0
+	MOVE.W (y), D1
 	CMP.W  D1, D0
 	BGT E_0
-	MOVE.W #0,t2
+	MOVE.W #0,t0
 	JMP E_1
 E_0:
-	MOVE.W #-1,t2
+	MOVE.W #-1,t0
 E_1:
-	 ;EQUAAAAAL---- t2 0,E_2
-	MOVE.W (t2), D1
-	MOVE.W #0, D0
-	CMP.W D1, D0
-	BEQ E_2
+	 ;EQUAAAAAL----TEMPORAL t0, 0,E_2
+	 MOVE.W (t0), D0
+	 MOVE.W #0, D1
+	CMP.W  D0, D1
+	BGT E_2
 	MOVE.W #10,x
 E_2:
-	MOVE.W #2, D0
-	MOVE.W #10, D1
-	CMP.W  D1, D0
-	BGT E_3
-	MOVE.W #0,t3
-	JMP E_4
-E_3:
-	MOVE.W #-1,t3
-E_4:
-	 ;EQUAAAAAL---- t3 0,E_5
-	MOVE.W (t3), D1
-	MOVE.W #0, D0
-	CMP.W D1, D0
-	BEQ E_5
-	MOVE.W #10,x
-E_5:
-	MOVE.W #2, D0
-	MOVE.W #10, D1
-	CMP.W  D1, D0
-	BGT E_6
-	MOVE.W #0,t4
-	JMP E_7
-E_6:
-	MOVE.W #-1,t4
-E_7:
-	 ;EQUAAAAAL---- t4 0,E_8
-	MOVE.W (t4), D1
-	MOVE.W #0, D0
-	CMP.W D1, D0
-	BEQ E_8
-	MOVE.W #10,x
-E_8:
 	JMP FIN
 imprimeix
 	MOVEM.L D0-D1,-(A7)

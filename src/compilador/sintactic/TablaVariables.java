@@ -16,7 +16,7 @@ public class TablaVariables {
     public static ArrayList<variable> tVar = new ArrayList<variable>();
     
     public int nv=-1; //numero de variables que tenemos
-    public int tempV=1; // tine que empezar desde 1. Esta bien
+    public int tempV=-1; // tine que empezar desde 1. Esta bien
     
     public TablaVariables() {
 
