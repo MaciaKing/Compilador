@@ -1,6 +1,6 @@
 principal(){
-enter x;
-mentres(fals){
-x=10;
+enter x=0;
+mentres(x<10){
+x=x+1;
 }
 }

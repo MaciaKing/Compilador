@@ -32,6 +32,7 @@ public class TablaVariables {
     }
 
     public boolean existe(variable var){
+
         if( tVar.isEmpty() ){
            if(var.idVariable == null){
                tempV++;
@@ -44,6 +45,11 @@ public class TablaVariables {
                var.idVariable="t"+tempV;
                
            }
+        }
+        for(int i=0;i<tVar.size();i++){
+            if(var.idVariable.equals(tVar.get(i).idVariable)){
+                return true;
+            }
         }
         return false;
     }
