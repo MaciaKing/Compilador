@@ -11,3 +11,5 @@ EQ 1 0 E_3
 ADD x 1 x 
 GOTO OP{_____} OP{_____} E_0 
 SKIP OP{_____} OP{_____} E_3 
+PARAM_S OP{_____} OP{_____} x 
+CALL OP{_____} OP{_____} imprimeix 

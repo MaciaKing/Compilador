@@ -31,6 +31,10 @@ E_2:
 	MOVE.W D1, x
 	JMP E_0
 E_3:
+	MOVE.W (x),-(A7)
+	JSR imprimeix
+	MOVE.W (A7)+,(x)
+	ADD.W #1,SL
 	JMP FIN
 imprimeix
 	MOVEM.L D0-D1,-(A7)
