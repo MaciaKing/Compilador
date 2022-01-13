@@ -1282,7 +1282,7 @@ class CUP$Parser$actions {
                                                                                 String et = e.novaET();
                                                                                 //AQUI TENDRE EL VALOR DEL INDICE QUE OCUPA ESA VARIABLE EN LA TV, ¿BASTA CON ESO PARA CREAR EL OPERANDO?
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
-                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
+                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(et,TiposOperandoC3A.etiqueta), true));
                                                                                 Etiqueta e = new Etiqueta(et);
                                                                                 RESULT = new SymbolSCND(e);
                                                                                 
