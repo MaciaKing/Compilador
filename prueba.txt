@@ -1,8 +1,6 @@
 principal(){
- enter x;
- enter y=2;	
- enter z=1;
- si(2 < 2){
-  x=10;
- }
+enter x;
+mentres(fals){
+x=10;
+}
 }
