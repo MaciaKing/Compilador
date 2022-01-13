@@ -9,26 +9,28 @@ START:
 	MOVE.W #0,SL
 E_MAIN:
 	MOVE.W #0,x
-	 ;LT x,10,E_0
+E_0:
+	 ;LT x,10,E_1
 	MOVE.W (x), D0
 	MOVE.W #10, D1
 	CMP.W  D1, D0
-	BLT E_0
+	BLT E_1
 	MOVE.W #0,t0
-	JMP E_1
-E_0:
-	MOVE.W #-1,t0
+	JMP E_2
 E_1:
-	 ;EQUAAAAAL----TEMPORAL t0, 0,E_2
+	MOVE.W #-1,t0
+E_2:
+	 ;EQUAAAAAL----TEMPORAL t0, 0,E_3
 	MOVE.W (t0), D0
 	MOVE.W #0, D1
 	CMP.W  D0, D1
-	BEQ E_2
+	BEQ E_3
 	MOVE.W (x), D0
 	MOVE.W #1, D1
 	ADD.W D0, D1
 	MOVE.W D1, x
-E_2:
+	JMP E_0
+E_3:
 	JMP FIN
 imprimeix
 	MOVEM.L D0-D1,-(A7)

@@ -873,10 +873,10 @@ class CUP$Parser$actions {
                                                                                 String efi = e.novaET();   
                                                                                 if(e1.isLiteral1){
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
-                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(efi,TiposOperandoC3A.etiqueta)));
+                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(efi,TiposOperandoC3A.etiqueta), true));//----------------------
                                                                                 }else{
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
-                                                                                new OperandoC3A("0",TiposOperandoC3A.variable),new OperandoC3A(efi,TiposOperandoC3A.etiqueta)));
+                                                                                new OperandoC3A("0",TiposOperandoC3A.variable),new OperandoC3A(efi,TiposOperandoC3A.etiqueta), true)); //----------------------
                                                                                 }
                                                                                 
                                                                                 Etiqueta e = new Etiqueta(efi);
