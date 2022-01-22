@@ -108,7 +108,7 @@ public class GeneraEnsablador {
                         //f.escribirFichero("\tSUB.L D0, D1");
                         //f.escribirFichero("\tMOVE.L D1, " + inst.destino);
                         f.escribirFichero("\tSUB.L D1, D0");
-                        f.escribirFichero("\tMOVE.L D1, " + inst.destino);
+                        f.escribirFichero("\tMOVE.L D0, " + inst.destino);
                     } else { //x=#*v
                         f.escribirFichero("\tMOVE.L #" + inst.param1 + ",D0");
                         f.escribirFichero("\tMOVE.L (" + inst.param2 + "),D1");

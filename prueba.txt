@@ -1,9 +1,5 @@
 principal(){
-enter x=2;
-enter y=11;
-mentres(y>10){
- x = x-10;
- y = y-1;
-}
+enter x;
+x=4-5;
 sortidaPantalla(x);
 }
