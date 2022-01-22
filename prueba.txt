@@ -1,7 +1,4 @@
 principal(){
-enter x=0;
-mentres(x<10){
-x=x+1;
-}
-sortidaPantalla(x);
+enter x=2;
+x=2*5;
 }
