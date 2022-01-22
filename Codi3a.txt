@@ -1,4 +1,0 @@
-SKIP OP{_____} OP{_____} E_MAIN 
-SUB 4 5 x 
-PARAM_S OP{_____} OP{_____} x 
-CALL OP{_____} OP{_____} imprimeix 

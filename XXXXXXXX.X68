@@ -1,4 +1,5 @@
 	ORG    $600
+i	DS.L 1
 x	DS.L 1
 SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 
@@ -7,10 +8,8 @@ SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 START:
 	MOVE.W #0,SL
 E_MAIN:
-	MOVE.L #4,D0
-	MOVE.L #5,D1
-	SUB.L D1, D0
-	MOVE.L D0, x
+	MOVE.L #-1,i
+	MOVE.L #i,x
 	MOVE.L (x),-(A7)
 	JSR imprimeix
 	MOVE.L (A7)+,(x)

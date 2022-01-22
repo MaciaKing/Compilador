@@ -3,8 +3,50 @@ package compilador.sintactic;
 import java_cup.runtime.*;
 import compilador.sintactic.symbols.*;
 import codiEnsamblador.*;
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
+import java_cup.runtime.ComplexSymbolFactory.Location;
 
 class Parser;
+
+parser code {: 
+  @Override
+    public void unrecovered_syntax_error(Symbol cur_token) throws Exception {
+        report_error("Error sintàctic catastròfic", cur_token);
+        done_parsing();        
+    }
+
+    @Override
+    public void syntax_error(Symbol cur_token) {
+        report_error("de sintaxis", cur_token);
+    }
+
+    @Override
+    public void report_error(String message, Object info) {
+        StringBuilder msg = new StringBuilder("ERROR");
+        if (info instanceof Symbol) {
+            ComplexSymbol token = (ComplexSymbol)info;
+            Location l = token.getLeft();
+            
+            if (l != null) {
+                msg.append(" (fila: ")
+                   .append(l.getLine())
+                   .append(", columna: ")
+                   .append(l.getColumn())
+                   .append(")");
+            }
+        }
+        msg.append(": ").append(message);
+        
+        System.err.println(msg);
+    }
+
+    @Override
+    public void report_fatal_error(String message, Object info) throws Exception {
+        report_error("Error catastròfic ("+message+")", info);
+        done_parsing();
+    }
+:};
+
 action code {: int nv = 0; int np = 0; int nivel = 0; TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); Codi3A c3a = new Codi3A(); Etiqueta e = new Etiqueta(); 
                :}
 
@@ -94,7 +136,7 @@ instr ::= CND                                                                   
     |     EB:e1                                                                 {: :}
     |     CRIDAS:e1                                                             {: :}
     |     NULL PNTCM                                                            {: :}
-   |     LECT LPAREN ID:e1 RPAREN PNTCM                                        {:
+    |     LECT LPAREN ID:e1 RPAREN PNTCM                                        {:
                                                                                 int idx = tv.getIdVariable(e1);
                                                                                 variable v=tv.get(idx);
                                                                                 OperandoC3A desti;
@@ -178,6 +220,7 @@ M        ::= CM:e1 P:e2 NEWLINE RCLAVE SURTB                                    
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A(e1.ei.getEtiqueta(),TiposOperandoC3A.etiqueta)));
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(e1.efi.getEtiqueta(),TiposOperandoC3A.etiqueta)));
                                                                                 :}
+    | error PNTCM                                                               
      ;
 
 CM       ::= Mm:e2 EL:e1 RPAREN LCLAVE NEWLINE                                  {:
@@ -919,6 +962,7 @@ EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        
                                                                                 System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
                                                                                 }else if(d1.tipoS != d2.tipoS){
                                                                                 System.out.println("ERROR NO COINCIDEN LOS TIPOS");
+                                                                                report_error("No coinciden los tipos \""+e2+"\"", new SymbolEB());
                                                                                 }
                                                                                  :}
     |    BOOL ID:e1 IGUAL CRIDAS:e2                                                                             
@@ -939,4 +983,4 @@ RetInstr ::= RETORNA ID:e1 PNTCM                                                
                                                                                 :}
             | RETORNA numero PNTCM                                              {: RESULT = new SymbolRetInstr(false); :}
             | RETORNA VBOOL PNTCM                                               {: RESULT = new SymbolRetInstr(false); :}
-;
+             ;
