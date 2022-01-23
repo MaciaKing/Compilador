@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 23/01/2022 10:00:52
+Created On: 23/01/2022 10:32:27
 
 00000600                             1      ORG    $600
 00000600= 45 52 52 4F 52 3A ...      2  true DC.B 'ERROR: La variable -i- no ha sido declarada previamente',0

@@ -65,7 +65,10 @@ public class TablaVariables {
     }
 
     public variable get(int index) {
-        variable v = tVar.get(index);
+        if(index ==-1 ){
+            return null;
+        }
+        variable v = tVar.get(index);        
         return v;
     }
 

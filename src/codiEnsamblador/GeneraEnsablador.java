@@ -19,8 +19,6 @@ import java.util.ArrayList;
  * @author macia
  */
 public class GeneraEnsablador {
-
-    //Codi3A c;
     EscritorFichero f;
     ArrayList<String> parametros;
 
@@ -35,22 +33,16 @@ public class GeneraEnsablador {
     }
 
     public void generaError68k() {
-       // f.escribirFichero(inst.destino.toString());
-       f.escribirFichero("\tORG    $600");
-       f.escribirFichero("true DC.B '"+Error.causaError+"',0");
-       f.escribirFichero("SL\tDS.W 1 *Variable auxiliar para los saltos de linea de la consola");
-       f.escribirFichero("\tORG    $1000");
-       f.escribirFichero("\nSTART:");
+        // f.escribirFichero(inst.destino.toString());
+        f.escribirFichero("\tORG    $600");
+        f.escribirFichero("true DC.B '" + Error.causaError + "',0");
+        f.escribirFichero("SL\tDS.W 1 *Variable auxiliar para los saltos de linea de la consola");
+        f.escribirFichero("\tORG    $1000");
+        f.escribirFichero("\nSTART:");
         f.escribirFichero("\tMOVEM.L D0-D1/A1,-(A7)");
         f.escribirFichero("\tMOVE.W (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
         f.escribirFichero("\tMOVE.W 16(A7),D1");
-        //f.escribirFichero("\tTST.W D1");
-        //f.escribirFichero("\tBEQ fals");
         f.escribirFichero("\tLEA true,A1");
-       // f.escribirFichero("\tJMP finb");
-       // f.escribirFichero("fals");
-       // f.escribirFichero("\tLEA false,A1");
-        //f.escribirFichero("finb");
         f.escribirFichero("\tMOVE.B #14,D0");
         f.escribirFichero("\tTRAP #15");
         f.escribirFichero("\tMOVEM.L (A7)+,D0-D1/A1");
@@ -527,19 +519,6 @@ public class GeneraEnsablador {
                     }
                 }
                 break;
-
-            /*
-                
-    LT,--
-    LE,--
-    EQ,--
-    NE,--
-    GE,--
-
-    IFGT, --
-    ASSIG, --* Es el copy
-    GOTO, --
-             */
         }
     }
 }

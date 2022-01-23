@@ -5,6 +5,9 @@
         <group>
             <file>file:/C:/Users/macia/Documents/GitHub/Compilador/src/codiEnsamblador/GeneraEnsablador.java</file>
             <file>file:/C:/Users/macia/Documents/GitHub/Compilador/src/compilador/sintactic/sintactic.cup</file>
+            <file>file:/C:/Users/macia/Documents/GitHub/Compilador/src/compilador/sintactic/Error.java</file>
+            <file>file:/C:/Users/macia/Documents/GitHub/Compilador/src/compilador/sintactic/TablaVariables.java</file>
+            <file>file:/C:/Users/macia/Documents/GitHub/Compilador/src/compilador/sintactic/Parser.java</file>
         </group>
     </open-files>
 </project-private>

@@ -879,10 +879,12 @@ ELp   ::= numero:v                                                              
                                                                                 er.causaError= "ERROR: La variable -"+e2+"- no ha sido declarada previamente";
                                                                                 GeneraEnsablador e= new GeneraEnsablador(); 
                                                                                 e.generaError68k();
-                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- no ha sido declarada previamente");
-                                                                                
-                                                                                }else if(d2.tipoS != tipoSub.tipoSubInt){
-                                                                                System.out.println("ERROR NO COINCIDEN LOS TIPOS");
+                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- no ha sido declarada previamente");                                                                                
+                                                                                }else if(d2.tipoS != tipoSub.tipoSubInt){                                                                               
+                                                                                er.causaError= "ERROR: no coinciden los tipos -"+e1+"- con -"+e2+"- ";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR: no coinciden los tipos -"+e1+"- con -"+e2+"- ");
                                                                                 }
                                                                                 int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
                                                                                  //TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino
@@ -898,9 +900,11 @@ ELp   ::= numero:v                                                              
                                                                                 :}
     | ID:e1                                                                     {: 
                                                                                 int id = tv.getIdVariable(e1);
-                                                                                if(id == -1){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
-                                                                                RESULT = new SymbolELp(e1);
+                                                                                if(id == -1){                                                                                
+                                                                                er.causaError= "ERROR: La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 RESULT = new SymbolELp(e1);
                                                                                 }
@@ -914,6 +918,10 @@ EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        
                                                                                 
                                                                                 if(d1 != null){
                                                                                 System.out.println("ERROR: La variable "+e1+" ya ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable "+e1+" ya ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR: La variable -"+e1+"- ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 tv.addVariable(new variable(e1,tipoSub.tipoSubBool, tp.getNP()));
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubBool);
@@ -975,7 +983,29 @@ EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        
                                                                                 report_error("No coinciden los tipos \""+e2+"\"", new SymbolEB());
                                                                                 }
                                                                                  :}
-    |    BOOL ID:e1 IGUAL CRIDAS:e2                                                                             
+    |    BOOL ID:e1 IGUAL CRIDAS:e2 
+
+    |   BOOL ID:e1 IGUAL ID:e2 PNTCM                                             {: 
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                descripcion d2 = TS.consultarD(e2);
+                                                                                if(d2 == null){
+                                                                                //generar codigo error 68k
+                                                                                er.causaError= "ERROR: La variable -"+e2+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- no ha sido declarada previamente");                                                                                
+                                                                                }else if(d2.tipoS != tipoSub.tipoSubInt){                                                                               
+                                                                                er.causaError= "ERROR: no coinciden los tipos -"+e1+"- con -"+e2+"- ";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR: no coinciden los tipos -"+e1+"- con -"+e2+"- ");
+                                                                                }
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                 //TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino
+                                                                                RESULT = new SymbolEB();
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A(e2,TiposOperandoC3A.variable),new OperandoC3A(e1,TiposOperandoC3A.variable)));
+                                                                                :}
     ;
 RetInstr ::= RETORNA ID:e1 PNTCM                                                {: descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
