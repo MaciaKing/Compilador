@@ -1,5 +1,4 @@
 principal(){
-boolea i=cert;
 enter x= i;
 sortidaPantalla(x);
 }

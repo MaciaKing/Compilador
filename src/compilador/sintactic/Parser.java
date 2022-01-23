@@ -479,7 +479,8 @@ public class Parser extends java_cup.runtime.lr_parser {
 class CUP$Parser$actions {
 
  int nv = 0; int np = 0; int nivel = 0; TablaVariables tv = new TablaVariables(); TABLASIMBOLOS TS = new TABLASIMBOLOS(); TablaProcedimientos tp = new TablaProcedimientos(); Codi3A c3a = new Codi3A(); Etiqueta e = new Etiqueta(); 
-               
+               Error er=new Error();
+    
   private final Parser parser;
 
   /** Constructor */
@@ -2115,7 +2116,12 @@ class CUP$Parser$actions {
                                                                                 TS.afegir(e1,d);
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 == null){
-                                                                                System.out.println("ERROR: La variable "+e2+" no ha sido declarada previamente");
+                                                                                //generar codigo error 68k
+                                                                                er.causaError= "ERROR: La variable -"+e2+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- no ha sido declarada previamente");
+                                                                                
                                                                                 }else if(d2.tipoS != tipoSub.tipoSubInt){
                                                                                 System.out.println("ERROR NO COINCIDEN LOS TIPOS");
                                                                                 }
