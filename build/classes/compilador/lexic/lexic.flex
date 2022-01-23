@@ -4,6 +4,7 @@ import java.io.*;
 import java_cup.runtime.*;
 import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 import compilador.sintactic.ParserSym;
+import java_cup.runtime.ComplexSymbolFactory.Location;
 
 %%
 %cup
@@ -29,22 +30,21 @@ ENDLINE   = [\r\n]+
 // El següent codi es copiarà també, dins de la classe. És a dir, si es posa res
 // ha de ser en el format adient: mètodes, atributs, etc. 
 %{
-    /***
-       Mecanismes de gestió de símbols basat en ComplexSymbol. Tot i que en
-       aquest cas potser no és del tot necessari.
-     ***/
-    /**
-     Construcció d'un symbol sense atribut associat.
-     **/
     private ComplexSymbol symbol(int type) {
-        return new ComplexSymbol(ParserSym.terminalNames[type], type);
+        Location left = new Location(yyline + 1,
+                yycolumn + 1, (int) yychar);
+        Location right = new Location(yyline + 1,
+                yycolumn + yylength(), (int) (yychar + yylength()));
+        return new ComplexSymbol(ParserSym.terminalNames[type], type, left, right);
     }
+
     
-    /**
-     Construcció d'un symbol amb un atribut associat.
-     **/
     private ComplexSymbol symbol(int type, Object value) {
-        return new ComplexSymbol(ParserSym.terminalNames[type], type, value);
+        Location left = new Location(yyline + 1,
+                yycolumn + 1, (int) yychar);
+        Location right = new Location(yyline + 1,
+                yycolumn + yylength(), (int) (yychar + yylength()));
+        return new ComplexSymbol(ParserSym.terminalNames[type], type, left, right, value);
     }
 %}
 
