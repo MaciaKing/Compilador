@@ -466,6 +466,10 @@ public class Parser extends java_cup.runtime.lr_parser {
         msg.append(": ").append(message);
         
         System.err.println(msg);
+        Error er=new Error();
+        er.causaError=msg.toString();
+        GeneraEnsablador e= new GeneraEnsablador(); 
+        e.generaError68k();
     }
 
     @Override

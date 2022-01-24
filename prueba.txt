@@ -1,4 +1,4 @@
 principal(){
-boolea x=i;
+boolea x=boolea;
 sortidaPantalla(x);
 }
