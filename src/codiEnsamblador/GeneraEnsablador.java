@@ -29,7 +29,7 @@ public class GeneraEnsablador {
 
     public void veurePilaCridades() {
         System.out.println("-------------------------------------------");
-
+ // hola ma
     }
 
     public void generaError68k() {
