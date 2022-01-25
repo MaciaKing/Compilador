@@ -1069,10 +1069,20 @@ class CUP$Parser$actions {
 		String e1 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: la variable -"+e1+"- debe de ser booleana");
+                                                                                er.causaError= "ERROR: la variable debe -"+e1+"- de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: la variable debe -"+e1+"- de ser booleana");
                                                                                 }}  
                                                                                 RESULT = new SymbolAO(); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("AO",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -1088,10 +1098,20 @@ class CUP$Parser$actions {
 		String e1 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: La variable "ERROR: la variable debe de ser booleana"no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: la variable -"+e1+"- debe de ser booleana");
+                                                                                er.causaError= "ERROR: la variable debe de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: la variable -"+e1+"- debe de ser booleana");
                                                                                 }} 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("AO",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -1106,10 +1126,20 @@ class CUP$Parser$actions {
 		String e1 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
+                                                                                er.causaError="ERROR: La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                er.causaError="ERROR: la variable debe de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: la variable debe de ser booleana");
                                                                                 }} 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("AO",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -1280,7 +1310,7 @@ class CUP$Parser$actions {
 		                                                                                
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 != null && np == d2.np){
-                                                                                System.out.println("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
                                                                                 er.causaError= "ERROR: La variable -"+e2+"- Ya ha sido declarada previamente";
                                                                                 GeneraEnsablador e= new GeneraEnsablador(); 
                                                                                 e.generaError68k();
@@ -1309,7 +1339,12 @@ class CUP$Parser$actions {
 		
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 != null && np == d2.np){
-                                                                                System.out.println("ERROR: La variable "+e2+" Ya ha sido declarada previamente");
+                                                                               //System.out.println("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable -"+e2+"- Ya ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
                                                                                 //TS.posaArgs(e1.id, e2, arg);
