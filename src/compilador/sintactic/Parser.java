@@ -1103,7 +1103,7 @@ class CUP$Parser$actions {
                                                                                 GeneraEnsablador e= new GeneraEnsablador(); 
                                                                                 e.generaError68k();
                                                                                 
-                                                                                throw new RuntimeException("ERROR: La variable "ERROR: la variable debe de ser booleana"no ha sido declarada previamente");
+                                                                                throw new RuntimeException("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
                                                                                 //System.out.println("ERROR: la variable -"+e1+"- debe de ser booleana");
