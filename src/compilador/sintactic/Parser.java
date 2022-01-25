@@ -547,7 +547,12 @@ class CUP$Parser$actions {
 		SymbolRetInstr e3 = (SymbolRetInstr)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
 		 RESULT = new SymbolSubP();
                                                                                                                 if(e3.esBool){
-                                                                                                                System.out.println("ERROR: DEBE DEVOLVER ENTERO");
+                                                                                                                //System.out.println("ERROR: DEBE DEVOLVER ENTERO");
+                                                                                                                er.causaError= "ERROR: DEBE DEVOLVER ENTERO";
+                                                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                                                e.generaError68k();
+                                                                                                                //RESULT = new SymbolRetInstr();
+                                                                                                                throw new RuntimeException("ERROR: DEBE DEVOLVER ENTERO");
                                                                                                                 }
                                                                                                                 //TOCA REVISAR ANTES DE HACER                                                                                                                
                                                                                                                 
@@ -567,7 +572,12 @@ class CUP$Parser$actions {
 		SymbolRetInstr e3 = (SymbolRetInstr)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
 		         RESULT = new SymbolSubP(); 
                                                                                                                 if(!e3.esBool){
-                                                                                                                System.out.println("ERROR: DEBE DEVOLVER BOOLEANO");
+                                                                                                                //System.out.println("ERROR: DEBE DEVOLVER BOOLEANO");
+                                                                                                                er.causaError= "ERROR: DEBE DEVOLVER BOOLEANO";
+                                                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                                                e.generaError68k();
+                                                                                                                //RESULT = new SymbolRetInstr();
+                                                                                                                throw new RuntimeException("ERROR: DEBE DEVOLVER BOOLEANO");        
                                                                                                                 }
                                                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("SUBP",14, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-13)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -796,9 +806,21 @@ class CUP$Parser$actions {
 		
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: El subprograma "+e1+" no ha sido declarado PREVIAMENTE");
+                                                                                //System.out.println("ERROR: El subprograma -"+e1+"- no ha sido declarado PREVIAMENTE");
+                                                                                er.causaError= "ERROR: El subprograma -"+e1+"- no ha sido declarado PREVIAMENTE";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                //RESULT = new SymbolRetInstr();
+                                                                                throw new RuntimeException("ERROR: El subprograma -"+e1+"- no ha sido declarado PREVIAMENTE");
+                                                                                                                
                                                                                 }else if(d1.tipoDesc!=tipoDescripcion.Proc){
-                                                                                System.out.println("ERROR: El subprograma "+e1+" no existe");
+                                                                                //System.out.println("ERROR: El subprograma -"+e1+"- no existe");
+                                                                                er.causaError= "ERROR: El subprograma -"+e1+"- no existe";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                //RESULT = new SymbolRetInstr();
+                                                                                throw new RuntimeException("ERROR: El subprograma -"+e1+"- no existe");
+
                                                                                 }else if(e2 == null && (d1.cantParamBool != 0 || d1.cantParamInt != 0)){
                                                                                 System.out.println("El subprograma "+e1+" TIENE PARAMETROS DISTINTOS");
                                                                                 }else if(e2 == null && (d1.cantParamBool == 0 && d1.cantParamBool == 0)){
@@ -1014,9 +1036,19 @@ class CUP$Parser$actions {
 		String e1 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable "+e1+" no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                //RESULT = new SymbolRetInstr();
+                                                                                throw new RuntimeException("ERROR: La variable "+e1+" no ha sido declarada previamente");
                                                                                 }else if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: la variable"+e1+" debe de ser booleana");
+                                                                                er.causaError= "ERROR: la variable"+e1+" debe de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                //RESULT = new SymbolRetInstr();
+                                                                                throw new RuntimeException("ERROR: la variable"+e1+" debe de ser booleana");
                                                                                 }else{
                                                                                 int idx = tv.getIdVariable(e1);
                                                                                 variable v = tv.get(idx);
@@ -1188,7 +1220,12 @@ class CUP$Parser$actions {
 		                                                                                                                                                                
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 != null && np == d2.np){
-                                                                                System.out.println("ERROR: La variable "+e2+" Ya ha sido declarada previamente");
+                                                                                System.out.println("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable -"+e2+"- Ya ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                //RESULT = new SymbolRetInstr();
+                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
                                                                                 //TS.posaArgs(e1, e2, arg);
@@ -1213,7 +1250,12 @@ class CUP$Parser$actions {
 		
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 != null && np == d2.np){
-                                                                                System.out.println("ERROR: La variable "+e2+" Ya ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable -"+e2+"- Ya ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
                                                                                 //TS.posaArgs(e1.id, e2, arg);
@@ -1238,7 +1280,12 @@ class CUP$Parser$actions {
 		                                                                                
                                                                                 descripcion d2 = TS.consultarD(e2);
                                                                                 if(d2 != null && np == d2.np){
-                                                                                System.out.println("ERROR: La variable "+e2+" Ya ha sido declarada previamente");
+                                                                                System.out.println("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable -"+e2+"- Ya ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                
+                                                                                throw new RuntimeException("ERROR: La variable -"+e2+"- Ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubBool);
                                                                                 
@@ -2430,8 +2477,13 @@ class CUP$Parser$actions {
 		String e1 = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                er.causaError= "ERROR: La variable "+e1+" no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
                                                                                 RESULT = new SymbolRetInstr();
+                                                                                throw new RuntimeException("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                
                                                                                 }else{
                                                                                 if(d1.tipoS == tipoSub.tipoSubBool){
                                                                                 RESULT = new SymbolRetInstr(true);
