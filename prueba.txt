@@ -1,7 +1,8 @@
 principal(){
-enter x=3;
+enter x=-3;
 mentres(x<10){
 x=x+1;
+sortidaPantalla(x);
 }
 sortidaPantalla(x);
 }

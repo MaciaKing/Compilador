@@ -8,7 +8,7 @@ SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 START:
 	MOVE.W #0,SL
 E_MAIN:
-	MOVE.L #3,x
+	MOVE.L #-3,x
 E_0:
 	 ;LT x,10,E_1
 	MOVE.L (x),D0
@@ -29,6 +29,10 @@ E_2:
 	MOVE.L #1,D1
 	ADD.L D0,D1
 	MOVE.L D1,x
+	MOVE.L (x),-(A7)
+	JSR imprimeix
+	MOVE.L (A7)+,(x)
+	ADD.L #1,SL
 	JMP E_0
 E_3:
 	MOVE.L (x),-(A7)
