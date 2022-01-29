@@ -1,4 +1,31 @@
+func void fibbonacci(enter num){
+enter anterior=0;
+enter actual=1;
+enter fibo=0;
+sortidaPantalla(fibo);
+sortidaPantalla(actual);
+fibo=anterior + actual;
+anterior=actual;
+actual=fibo;
+sortidaPantalla(fibo);
+sortidaPantalla(actual);
+}
+func enter MCD(enter a,enter b){
+enter tmp;
+enter j;
+mentres(b < 100){
+j=a * b;
+b=j;
+}
+retorna b;
+}
 principal(){
-enter y=m;
-sortidaPantalla(y);
+enter h;
+llegirTeclat(h);
+fibbonacci(h);
+enter q=2;
+enter w=2;
+enter fd;
+fd=MCD(q,w);
+sortidaPantalla(fd);
 }
