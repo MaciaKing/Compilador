@@ -1,6 +1,11 @@
 	ORG    $600
+y	DS.L 1
 x	DS.L 1
+z	DS.L 1
+m	DS.L 1
 t0	DS.L 1
+t1	DS.L 1
+t2	DS.L 1
 SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 
 	ORG    $1000
@@ -8,36 +13,31 @@ SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 START:
 	MOVE.W #0,SL
 E_MAIN:
-	MOVE.L #-3,x
-E_0:
-	 ;LT x,10,E_1
-	MOVE.L (x),D0
-	MOVE.L #10,D1
-	CMP.L  D1,D0
-	BLT E_1
-	MOVE.L #0,t0
-	JMP E_2
-E_1:
+	MOVE.L #0,y
+	MOVE.L #-1,x
+	MOVE.L #-1,z
+	MOVE.L #-1,m
 	MOVE.L #-1,t0
-E_2:
-	 ;EQUAAAAAL----TEMPORAL t0, 0,E_3
-	MOVE.L (t0), D0
+	;anddddddddddddddd
+	MOVE.L #-1, D0
+	MOVE.L (t0), D1
+	AND.L D0,D1
+	MOVE.L D1,t1
+	;anddddddddddddddd
+	MOVE.L #-1, D0
+	MOVE.L (t1), D1
+	AND.L D0,D1
+	MOVE.L D1,t2
+	 ;EQUAAAAAL----TEMPORAL t2, 0,E_2
+	MOVE.L (t2), D0
 	MOVE.L #0, D1
 	CMP.L  D0,D1
-	BEQ E_3
-	MOVE.L (x),D0
-	MOVE.L #1,D1
-	ADD.L D0,D1
-	MOVE.L D1,x
-	MOVE.L (x),-(A7)
+	BEQ E_2
+	MOVE.L #10,y
+E_2:
+	MOVE.L (y),-(A7)
 	JSR imprimeix
-	MOVE.L (A7)+,(x)
-	ADD.L #1,SL
-	JMP E_0
-E_3:
-	MOVE.L (x),-(A7)
-	JSR imprimeix
-	MOVE.L (A7)+,(x)
+	MOVE.L (A7)+,(y)
 	ADD.L #1,SL
 	JMP FIN
 imprimeix

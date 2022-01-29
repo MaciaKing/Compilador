@@ -1,100 +1,100 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 29/01/2022 10:39:46
+Created On: 29/01/2022 18:56:45
 
 00000600                             1      ORG    $600
-00000600                             2  x   DS.L 1
-00000604                             3  t0  DS.L 1
-00000608                             4  SL  DS.W 1 *Variable auxiliar para los saltos de linea de la consola
-0000060A                             5  
-00001000                             6      ORG    $1000
-00001000                             7  
-00001000                             8  START:
-00001000  31FC 0000 0608             9      MOVE.W #0,SL
-00001006                            10  E_MAIN:
-00001006  21FC FFFFFFFD 0600        11      MOVE.L #-3,x
-0000100E                            12  E_0:
-0000100E                            13       ;LT x,10,E_1
-0000100E  2038 0600                 14      MOVE.L (x),D0
-00001012  720A                      15      MOVE.L #10,D1
-00001014  B081                      16      CMP.L  D1,D0
-00001016  6D00 0010                 17      BLT E_1
-0000101A  21FC 00000000 0604        18      MOVE.L #0,t0
-00001022  4EF9 00001030             19      JMP E_2
-00001028                            20  E_1:
-00001028  21FC FFFFFFFF 0604        21      MOVE.L #-1,t0
-00001030                            22  E_2:
-00001030                            23       ;EQUAAAAAL----TEMPORAL t0, 0,E_3
-00001030  2038 0604                 24      MOVE.L (t0), D0
-00001034  7200                      25      MOVE.L #0, D1
-00001036  B280                      26      CMP.L  D0,D1
-00001038  6700 0024                 27      BEQ E_3
-0000103C  2038 0600                 28      MOVE.L (x),D0
-00001040  7201                      29      MOVE.L #1,D1
-00001042  D280                      30      ADD.L D0,D1
-00001044  21C1 0600                 31      MOVE.L D1,x
-00001048  2F38 0600                 32      MOVE.L (x),-(A7)
-0000104C  4EB9 00001076             33      JSR imprimeix
-00001052  21DF 0600                 34      MOVE.L (A7)+,(x)
-00001056  52B8 0608                 35      ADD.L #1,SL
-0000105A  4EF8 100E                 36      JMP E_0
-0000105E                            37  E_3:
-0000105E  2F38 0600                 38      MOVE.L (x),-(A7)
-00001062  4EB9 00001076             39      JSR imprimeix
-00001068  21DF 0600                 40      MOVE.L (A7)+,(x)
-0000106C  52B8 0608                 41      ADD.L #1,SL
-00001070  4EF9 00001118             42      JMP FIN
-00001076                            43  imprimeix
-00001076  48E7 C000                 44      MOVEM.L D0-D1,-(A7)
-0000107A  2238 0608                 45      MOVE.L (SL),D1
-0000107E  103C 000B                 46      MOVE.B #11,D0
-00001082  4E4F                      47      TRAP #15
-00001084  222F 000C                 48      MOVE.L 12(A7),D1
-00001088  103C 0003                 49      MOVE.B #3,D0
-0000108C  4E4F                      50      TRAP #15
-0000108E  4CDF 0003                 51      MOVEM.L (A7)+,D0-D1
-00001092  4E75                      52      RTS
-00001094                            53  imprimeixBooleano
-00001094  48E7 C040                 54      MOVEM.L D0-D1/A1,-(A7)
-00001098  3238 0608                 55      MOVE.W (SL),D1
-0000109C  103C 000B                 56      MOVE.B #11,D0
-000010A0  4E4F                      57      TRAP #15
-000010A2  322F 0010                 58      MOVE.W 16(A7),D1
-000010A6  4A41                      59      TST.W D1
-000010A8  6700 000E                 60      BEQ fals
-000010AC  43F9 000010CA             61      LEA true,A1
-000010B2  4EF9 000010BE             62      JMP finb
-000010B8                            63  fals
-000010B8  43F9 000010CF             64      LEA false,A1
-000010BE                            65  finb
-000010BE  103C 000E                 66      MOVE.B #14,D0
-000010C2  4E4F                      67      TRAP #15
-000010C4  4CDF 0203                 68      MOVEM.L (A7)+,D0-D1/A1
-000010C8  4E75                      69      RTS
-000010CA= 63 65 72 74 00            70  true DC.B 'cert',0
-000010CF= 66 61 6C 73 00            71  false DC.B 'fals',0
-000010D4                            72      DS.W 0
-000010D4                            73  escriure
-000010D4  48E7 C040                 74      MOVEM.L D0-D1/A1,-(A7)
-000010D8  3238 0608                 75      MOVE.W (SL),D1
-000010DC  103C 000B                 76      MOVE.B #11,D0
-000010E0  4E4F                      77      TRAP #15
-000010E2  43F9 0000110A             78      LEA write,A1
-000010E8  103C 000E                 79      MOVE.B #14,D0
-000010EC  4E4F                      80      TRAP #15
-000010EE  323C 0D00                 81      MOVE.W  #(13)<<8,D1
-000010F2  8278 0608                 82      OR.W (SL),D1
-000010F6  103C 000B                 83      MOVE.B #11,D0
-000010FA  4E4F                      84      TRAP #15
-000010FC  103C 0004                 85      MOVE.B #4,D0
-00001100  4E4F                      86      TRAP #15
-00001102  3401                      87      MOVE.W D1,D2
-00001104  4CDF 0203                 88      MOVEM.L (A7)+,D0-D1/A1
-00001108  4E75                      89      RTS
-0000110A= 65 73 63 72 69 75 ...     90  write DC.B 'escriu aqui: ',0
-00001118                            91      DS.W 0
-00001118                            92  FIN
-00001118                            93      END START
+00000600                             2  y   DS.L 1
+00000604                             3  x   DS.L 1
+00000608                             4  z   DS.L 1
+0000060C                             5  m   DS.L 1
+00000610                             6  t0  DS.L 1
+00000614                             7  t1  DS.L 1
+00000618                             8  t2  DS.L 1
+0000061C                             9  SL  DS.W 1 *Variable auxiliar para los saltos de linea de la consola
+0000061E                            10  
+00001000                            11      ORG    $1000
+00001000                            12  
+00001000                            13  START:
+00001000  31FC 0000 061C            14      MOVE.W #0,SL
+00001006                            15  E_MAIN:
+00001006  21FC 00000000 0600        16      MOVE.L #0,y
+0000100E  21FC FFFFFFFF 0604        17      MOVE.L #-1,x
+00001016  21FC FFFFFFFF 0608        18      MOVE.L #-1,z
+0000101E  21FC FFFFFFFF 060C        19      MOVE.L #-1,m
+00001026  21FC FFFFFFFF 0610        20      MOVE.L #-1,t0
+0000102E                            21      ;anddddddddddddddd
+0000102E  70FF                      22      MOVE.L #-1, D0
+00001030  2238 0610                 23      MOVE.L (t0), D1
+00001034  C280                      24      AND.L D0,D1
+00001036  21C1 0614                 25      MOVE.L D1,t1
+0000103A                            26      ;anddddddddddddddd
+0000103A  70FF                      27      MOVE.L #-1, D0
+0000103C  2238 0614                 28      MOVE.L (t1), D1
+00001040  C280                      29      AND.L D0,D1
+00001042  21C1 0618                 30      MOVE.L D1,t2
+00001046                            31       ;EQUAAAAAL----TEMPORAL t2, 0,E_2
+00001046  2038 0618                 32      MOVE.L (t2), D0
+0000104A  7200                      33      MOVE.L #0, D1
+0000104C  B280                      34      CMP.L  D0,D1
+0000104E  6700 000A                 35      BEQ E_2
+00001052  21FC 0000000A 0600        36      MOVE.L #10,y
+0000105A                            37  E_2:
+0000105A  2F38 0600                 38      MOVE.L (y),-(A7)
+0000105E  4EB9 00001072             39      JSR imprimeix
+00001064  21DF 0600                 40      MOVE.L (A7)+,(y)
+00001068  52B8 061C                 41      ADD.L #1,SL
+0000106C  4EF9 00001114             42      JMP FIN
+00001072                            43  imprimeix
+00001072  48E7 C000                 44      MOVEM.L D0-D1,-(A7)
+00001076  2238 061C                 45      MOVE.L (SL),D1
+0000107A  103C 000B                 46      MOVE.B #11,D0
+0000107E  4E4F                      47      TRAP #15
+00001080  222F 000C                 48      MOVE.L 12(A7),D1
+00001084  103C 0003                 49      MOVE.B #3,D0
+00001088  4E4F                      50      TRAP #15
+0000108A  4CDF 0003                 51      MOVEM.L (A7)+,D0-D1
+0000108E  4E75                      52      RTS
+00001090                            53  imprimeixBooleano
+00001090  48E7 C040                 54      MOVEM.L D0-D1/A1,-(A7)
+00001094  3238 061C                 55      MOVE.W (SL),D1
+00001098  103C 000B                 56      MOVE.B #11,D0
+0000109C  4E4F                      57      TRAP #15
+0000109E  322F 0010                 58      MOVE.W 16(A7),D1
+000010A2  4A41                      59      TST.W D1
+000010A4  6700 000E                 60      BEQ fals
+000010A8  43F9 000010C6             61      LEA true,A1
+000010AE  4EF9 000010BA             62      JMP finb
+000010B4                            63  fals
+000010B4  43F9 000010CB             64      LEA false,A1
+000010BA                            65  finb
+000010BA  103C 000E                 66      MOVE.B #14,D0
+000010BE  4E4F                      67      TRAP #15
+000010C0  4CDF 0203                 68      MOVEM.L (A7)+,D0-D1/A1
+000010C4  4E75                      69      RTS
+000010C6= 63 65 72 74 00            70  true DC.B 'cert',0
+000010CB= 66 61 6C 73 00            71  false DC.B 'fals',0
+000010D0                            72      DS.W 0
+000010D0                            73  escriure
+000010D0  48E7 C040                 74      MOVEM.L D0-D1/A1,-(A7)
+000010D4  3238 061C                 75      MOVE.W (SL),D1
+000010D8  103C 000B                 76      MOVE.B #11,D0
+000010DC  4E4F                      77      TRAP #15
+000010DE  43F9 00001106             78      LEA write,A1
+000010E4  103C 000E                 79      MOVE.B #14,D0
+000010E8  4E4F                      80      TRAP #15
+000010EA  323C 0D00                 81      MOVE.W  #(13)<<8,D1
+000010EE  8278 061C                 82      OR.W (SL),D1
+000010F2  103C 000B                 83      MOVE.B #11,D0
+000010F6  4E4F                      84      TRAP #15
+000010F8  103C 0004                 85      MOVE.B #4,D0
+000010FC  4E4F                      86      TRAP #15
+000010FE  3401                      87      MOVE.W D1,D2
+00001100  4CDF 0203                 88      MOVEM.L (A7)+,D0-D1/A1
+00001104  4E75                      89      RTS
+00001106= 65 73 63 72 69 75 ...     90  write DC.B 'escriu aqui: ',0
+00001114                            91      DS.W 0
+00001114                            92  FIN
+00001114                            93      END START
 
 No errors detected
 No warnings generated
@@ -103,21 +103,23 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-ESCRIURE            10D4
-E_0                 100E
-E_1                 1028
-E_2                 1030
-E_3                 105E
+ESCRIURE            10D0
+E_2                 105A
 E_MAIN              1006
-FALS                10B8
-FALSE               10CF
-FIN                 1118
-FINB                10BE
-IMPRIMEIX           1076
-IMPRIMEIXBOOLEANO   1094
-SL                  608
+FALS                10B4
+FALSE               10CB
+FIN                 1114
+FINB                10BA
+IMPRIMEIX           1072
+IMPRIMEIXBOOLEANO   1090
+M                   60C
+SL                  61C
 START               1000
-T0                  604
-TRUE                10CA
-WRITE               110A
-X                   600
+T0                  610
+T1                  614
+T2                  618
+TRUE                10C6
+WRITE               1106
+X                   604
+Y                   600
+Z                   608

@@ -18,6 +18,7 @@ public class descripcion {
     public int cantParamBool = 0;
     public Etiqueta etP;
     public ArrayList tArg;
+    public int valorBool;
 
     //Constructor vacio
     public descripcion() {
@@ -32,7 +33,14 @@ public class descripcion {
         this.limiteInf = limiteInf;
         this.limiteSup = limiteSup;
     }
-
+    
+//Contructor para booleanos 
+    public descripcion(tipoDescripcion dt, tipoSub ts, int v) {
+        this.tipoDesc = dt;
+        this.tipoS = ts;
+        this.valorBool = v;
+    }
+    
     //Contructor para variables 
     public descripcion(tipoDescripcion dt, tipoSub ts) {
         this.tipoDesc = dt;

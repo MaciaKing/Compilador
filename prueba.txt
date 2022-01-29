@@ -1,8 +1,10 @@
 principal(){
-enter x=-3;
-mentres(x<10){
-x=x+1;
-sortidaPantalla(x);
+enter y=0;
+boolea x=cert;
+boolea z=cert;
+boolea m=cert;
+si(x and z and m){
+y=10;
 }
-sortidaPantalla(x);
+sortidaPantalla(y);
 }
