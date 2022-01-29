@@ -2129,7 +2129,6 @@ class CUP$Parser$actions {
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.DIV,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("SENTS",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -2207,7 +2206,6 @@ class CUP$Parser$actions {
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SUB,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("SENTS",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -2458,10 +2456,20 @@ class CUP$Parser$actions {
 		
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                               // System.out.println("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"-  debe de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"-  debe de ser booleana");
                                                                                 }else{
                                                                                 if(e2 == "cert"){
                                                                                 d1.valorBool = -1;
@@ -2490,10 +2498,20 @@ class CUP$Parser$actions {
 		
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: La variable debe de ser booleana");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- debe de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- debe de ser booleana");
                                                                                 } }
                                                                                  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EB",11, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);

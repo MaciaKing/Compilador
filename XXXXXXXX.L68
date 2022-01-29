@@ -1,84 +1,23 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 29/01/2022 19:02:43
+Created On: 29/01/2022 19:18:18
 
 00000600                             1      ORG    $600
-00000600                             2  y   DS.L 1
-00000604                             3  x   DS.L 1
-00000608                             4  t0  DS.L 1
-0000060C                             5  SL  DS.W 1 *Variable auxiliar para los saltos de linea de la consola
-0000060E                             6  
-00001000                             7      ORG    $1000
-00001000                             8  
-00001000                             9  START:
-00001000  31FC 0000 060C            10      MOVE.W #0,SL
-00001006                            11  E_MAIN:
-00001006  21FC 00000000 0600        12      MOVE.L #0,y
-0000100E  21FC 00000000 0604        13      MOVE.L #0,x
-00001016  21FC FFFFFFFF 0608        14      MOVE.L #-1,t0
-0000101E                            15       ;EQUAAAAAL----TEMPORAL t0, 0,E_0
-0000101E  2038 0608                 16      MOVE.L (t0), D0
-00001022  7200                      17      MOVE.L #0, D1
-00001024  B280                      18      CMP.L  D0,D1
-00001026  6700 000A                 19      BEQ E_0
-0000102A  21FC 0000000A 0600        20      MOVE.L #10,y
-00001032                            21  E_0:
-00001032  2F38 0600                 22      MOVE.L (y),-(A7)
-00001036  4EB9 0000104A             23      JSR imprimeix
-0000103C  21DF 0600                 24      MOVE.L (A7)+,(y)
-00001040  52B8 060C                 25      ADD.L #1,SL
-00001044  4EF9 000010EC             26      JMP FIN
-0000104A                            27  imprimeix
-0000104A  48E7 C000                 28      MOVEM.L D0-D1,-(A7)
-0000104E  2238 060C                 29      MOVE.L (SL),D1
-00001052  103C 000B                 30      MOVE.B #11,D0
-00001056  4E4F                      31      TRAP #15
-00001058  222F 000C                 32      MOVE.L 12(A7),D1
-0000105C  103C 0003                 33      MOVE.B #3,D0
-00001060  4E4F                      34      TRAP #15
-00001062  4CDF 0003                 35      MOVEM.L (A7)+,D0-D1
-00001066  4E75                      36      RTS
-00001068                            37  imprimeixBooleano
-00001068  48E7 C040                 38      MOVEM.L D0-D1/A1,-(A7)
-0000106C  3238 060C                 39      MOVE.W (SL),D1
-00001070  103C 000B                 40      MOVE.B #11,D0
-00001074  4E4F                      41      TRAP #15
-00001076  322F 0010                 42      MOVE.W 16(A7),D1
-0000107A  4A41                      43      TST.W D1
-0000107C  6700 000E                 44      BEQ fals
-00001080  43F9 0000109E             45      LEA true,A1
-00001086  4EF9 00001092             46      JMP finb
-0000108C                            47  fals
-0000108C  43F9 000010A3             48      LEA false,A1
-00001092                            49  finb
-00001092  103C 000E                 50      MOVE.B #14,D0
-00001096  4E4F                      51      TRAP #15
-00001098  4CDF 0203                 52      MOVEM.L (A7)+,D0-D1/A1
-0000109C  4E75                      53      RTS
-0000109E= 63 65 72 74 00            54  true DC.B 'cert',0
-000010A3= 66 61 6C 73 00            55  false DC.B 'fals',0
-000010A8                            56      DS.W 0
-000010A8                            57  escriure
-000010A8  48E7 C040                 58      MOVEM.L D0-D1/A1,-(A7)
-000010AC  3238 060C                 59      MOVE.W (SL),D1
-000010B0  103C 000B                 60      MOVE.B #11,D0
-000010B4  4E4F                      61      TRAP #15
-000010B6  43F9 000010DE             62      LEA write,A1
-000010BC  103C 000E                 63      MOVE.B #14,D0
-000010C0  4E4F                      64      TRAP #15
-000010C2  323C 0D00                 65      MOVE.W  #(13)<<8,D1
-000010C6  8278 060C                 66      OR.W (SL),D1
-000010CA  103C 000B                 67      MOVE.B #11,D0
-000010CE  4E4F                      68      TRAP #15
-000010D0  103C 0004                 69      MOVE.B #4,D0
-000010D4  4E4F                      70      TRAP #15
-000010D6  3401                      71      MOVE.W D1,D2
-000010D8  4CDF 0203                 72      MOVEM.L (A7)+,D0-D1/A1
-000010DC  4E75                      73      RTS
-000010DE= 65 73 63 72 69 75 ...     74  write DC.B 'escriu aqui: ',0
-000010EC                            75      DS.W 0
-000010EC                            76  FIN
-000010EC                            77      END START
+00000600= 45 52 52 4F 52 20 ...      2  true DC.B 'ERROR en la linea:2 La variable -m- no ha sido declarada previamente',0
+00000646                             3  SL  DS.W 1 *Variable auxiliar para los saltos de linea de la consola
+00001000                             4      ORG    $1000
+00001000                             5  
+00001000                             6  START:
+00001000  48E7 C040                  7      MOVEM.L D0-D1/A1,-(A7)
+00001004  3238 0646                  8      MOVE.W (SL),D1
+00001008  103C 000B                  9      MOVE.B #11,D0
+0000100C  4E4F                      10      TRAP #15
+0000100E  322F 0010                 11      MOVE.W 16(A7),D1
+00001012  43F8 0600                 12      LEA true,A1
+00001016  103C 000E                 13      MOVE.B #14,D0
+0000101A  4E4F                      14      TRAP #15
+0000101C  4CDF 0203                 15      MOVEM.L (A7)+,D0-D1/A1
+00001020                            16      END START
 
 No errors detected
 No warnings generated
@@ -87,19 +26,6 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-ESCRIURE            10A8
-E_0                 1032
-E_MAIN              1006
-FALS                108C
-FALSE               10A3
-FIN                 10EC
-FINB                1092
-IMPRIMEIX           104A
-IMPRIMEIXBOOLEANO   1068
-SL                  60C
+SL                  646
 START               1000
-T0                  608
-TRUE                109E
-WRITE               10DE
-X                   604
-Y                   600
+TRUE                600

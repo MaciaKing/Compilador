@@ -1,8 +1,4 @@
 principal(){
-enter y=0;
-boolea x=fals;
-si(no!x){
-y=10;
-}
+enter y=m;
 sortidaPantalla(y);
 }

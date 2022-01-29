@@ -747,7 +747,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
                                                                                 TS.afegir(e1,d);
                                                                                 int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
-                                                                                //TENER EN CUENTA QUE AQUI HABRIA QUE COMPROBAR SI REALMENTE ES UNA VARIABLE O UN LITERAL
                                                                                 OperandoC3A op1;
                                                                                 OperandoC3A op2;
                                                                                 if(e5.esLiteral){
@@ -766,7 +765,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ADD,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ENTER  ID:e1 IGUAL ELp:e5 MUL ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MUL, e5, e6,e1);
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
@@ -790,7 +788,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.MUL,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                 :}
     |   ENTER  ID:e1 IGUAL ELp:e5 DIV ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.DIV, e5, e6,e1); 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
@@ -814,7 +811,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.DIV,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ENTER  ID:e1 IGUAL ELp:e5 MOD ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MOD, e5, e6,e1);
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
@@ -838,7 +834,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.MOD,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ENTER  ID:e1 IGUAL ELp:e5 SUB ELp:e6 PNTCM                                        {: RESULT = new SymbolSENTS(ParserSym.SUB, e5, e6,e1); 
                                                                                 descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
@@ -862,7 +857,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SUB,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                                         {: RESULT = new SymbolSENTS(ParserSym.ADD, e5, e6,e1);
                                                                                 int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
@@ -884,7 +878,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.ADD,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ID:e1 IGUAL ELp:e5 MUL ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MUL, e5, e6,e1);
                                                                                 int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
@@ -906,7 +899,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.MUL,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                 :}
     |   ID:e1 IGUAL ELp:e5 DIV ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.DIV, e5, e6,e1); 
                                                                                 int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
@@ -928,7 +920,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.DIV,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                  :}
     |   ID:e1 IGUAL ELp:e5 MOD ELp:e6  PNTCM                                       {: RESULT = new SymbolSENTS(ParserSym.MOD, e5, e6,e1);
                                                                                 int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
@@ -972,7 +963,6 @@ SENTS ::= ENTER ID:e1 IGUAL ELp:e5 ADD ELp:e6 PNTCM                             
                                                                                 }
                                                                                 OperandoC3A desti = new OperandoC3A(e1,TiposOperandoC3A.variable);
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SUB,op1,op2,desti));
-                                                                                //ME FALTA VER QUE HACER CON SENTS.r SI ES NECESARIO HABRA QUE DARLE VALOR
                                                                                 :}                                                                            
      ;
 
@@ -1082,10 +1072,20 @@ EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        
 |    ID:e1 IGUAL VBOOL:e2 PNTCM                                             {:
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                               // System.out.println("ERROR: La variable -"+e1+"- no ha sido declarada previamente");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"-  debe de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"-  debe de ser booleana");
                                                                                 }else{
                                                                                 if(e2 == "cert"){
                                                                                 d1.valorBool = -1;
@@ -1100,10 +1100,20 @@ EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        
     |    ID:e1 IGUAL EL:e2 PNTCM                                                {:
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1 == null){
-                                                                                System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                //System.out.println("ERROR: La variable "+e1+" no ha sido declarada previamente");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- no ha sido declarada previamente");
                                                                                 }else{
                                                                                 if(d1.tipoS!=tipoSub.tipoSubBool){
-                                                                                System.out.println("ERROR: la variable debe de ser booleana");
+                                                                                //System.out.println("ERROR: La variable debe de ser booleana");
+                                                                                ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));
+                                                                                er.causaError= "ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- debe de ser booleana";
+                                                                                GeneraEnsablador e= new GeneraEnsablador(); 
+                                                                                e.generaError68k();
+                                                                                throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e1+"- debe de ser booleana");
                                                                                 } }
                                                                                  :}
     |    BOOL ID:e1 IGUAL EL:e2 PNTCM                                           {:
