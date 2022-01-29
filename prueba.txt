@@ -1,8 +1,7 @@
 principal(){
 enter y=0;
 boolea x=fals;
-boolea z=fals;
-si(x or z){
+si(no!x){
 y=10;
 }
 sortidaPantalla(y);

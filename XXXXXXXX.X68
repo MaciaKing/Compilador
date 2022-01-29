@@ -1,9 +1,7 @@
 	ORG    $600
 y	DS.L 1
 x	DS.L 1
-z	DS.L 1
 t0	DS.L 1
-t1	DS.L 1
 SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 
 	ORG    $1000
@@ -13,20 +11,14 @@ START:
 E_MAIN:
 	MOVE.L #0,y
 	MOVE.L #0,x
-	MOVE.L #0,z
-	MOVE.L #0,t0
-	;anddddddddddddddd
-	MOVE.L #0, D0
-	MOVE.L (t0), D1
-	OR.L D0,D1
-	MOVE.L D1,t1
-	 ;EQUAAAAAL----TEMPORAL t1, 0,E_1
-	MOVE.L (t1), D0
+	MOVE.L #-1,t0
+	 ;EQUAAAAAL----TEMPORAL t0, 0,E_0
+	MOVE.L (t0), D0
 	MOVE.L #0, D1
 	CMP.L  D0,D1
-	BEQ E_1
+	BEQ E_0
 	MOVE.L #10,y
-E_1:
+E_0:
 	MOVE.L (y),-(A7)
 	JSR imprimeix
 	MOVE.L (A7)+,(y)
