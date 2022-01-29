@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author jfher
  */
 public class TablaProcedimientos {
-    private ArrayList<Procedimiento> tablaP;
+     public static ArrayList<Procedimiento> tablaP;
     int np=0;
     
     public TablaProcedimientos(){
@@ -35,5 +35,22 @@ public class TablaProcedimientos {
     public int getNP(){
         return np;
     }
-    
+    public  Procedimiento getProcedimiento(String s){
+        int i=0;
+    for(;i<tablaP.size();i++){
+        if(tablaP.get(i).idProcedimiento.equals(s)){
+            break;
+        }
+    }
+    return tablaP.get(i);
+    }
+   public static Procedimiento getProcedimiento2(String s){
+        int i=0;
+    for(;i<tablaP.size();i++){
+        if(tablaP.get(i).idProcedimiento.equals(s)){
+            break;
+        }
+    }
+    return tablaP.get(i);
+    }
 }

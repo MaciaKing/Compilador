@@ -17,7 +17,7 @@ public class descripcion {
     public int cantParamInt = 0;
     public int cantParamBool = 0;
     public Etiqueta etP;
-    public ArrayList tArg;
+    public ArrayList<variable> tArg;
     public int valorBool;
 
     //Constructor vacio

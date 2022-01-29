@@ -6,10 +6,12 @@ package codiEnsamblador;
 import compilador.sintactic.Codi3A;
 import compilador.sintactic.EscritorFichero;
 import compilador.sintactic.InstrCodi3A;
+import compilador.sintactic.TablaProcedimientos;
 import compilador.sintactic.OperandoC3A;
 import compilador.sintactic.TablaVariables;
 import compilador.sintactic.TiposInstruccionC3A;
 import compilador.sintactic.TiposOperandoC3A;
+import compilador.sintactic.tipoSub;
 import compilador.sintactic.variable;
 import compilador.sintactic.Error;
 import java.util.ArrayList;
@@ -29,20 +31,19 @@ public class GeneraEnsablador {
 
     public void veurePilaCridades() {
         System.out.println("-------------------------------------------");
- // hola ma
     }
 
     public void generaError68k() {
         // f.escribirFichero(inst.destino.toString());
         f.escribirFichero("\tORG    $600");
-        f.escribirFichero("true DC.B '" + Error.causaError + "',0");
+        f.escribirFichero("error DC.B '" + Error.causaError + "',0");
         f.escribirFichero("SL\tDS.W 1 *Variable auxiliar para los saltos de linea de la consola");
         f.escribirFichero("\tORG    $1000");
         f.escribirFichero("\nSTART:");
         f.escribirFichero("\tMOVEM.L D0-D1/A1,-(A7)");
         f.escribirFichero("\tMOVE.W (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
         f.escribirFichero("\tMOVE.W 16(A7),D1");
-        f.escribirFichero("\tLEA true,A1");
+        f.escribirFichero("\tLEA error,A1");
         f.escribirFichero("\tMOVE.B #14,D0");
         f.escribirFichero("\tTRAP #15");
         f.escribirFichero("\tMOVEM.L (A7)+,D0-D1/A1");
@@ -56,18 +57,18 @@ public class GeneraEnsablador {
         for (int i = 0; i < TablaVariables.tVar.size(); i++) {
             generaVariableGlobal68k(TablaVariables.tVar.get(i).idVariable);
         }
-        f.escribirFichero("SL\tDS.W 1 *Variable auxiliar para los saltos de linea de la consola");
+        f.escribirFichero("SL\tDS.L 1 *Variable auxiliar para los saltos de linea de la consola");
         f.escribirFichero("\n\tORG    $1000");
         f.escribirFichero("\nSTART:");
-        f.escribirFichero("\tMOVE.W #0,SL");
+        f.escribirFichero("\tMOVE.L #0,SL");
         //Ahora cogemos las instrucciones del codigo 3A
         for (int i = 0; i < Codi3A.C3A.size(); i++) {
             generaInstruccion68k(Codi3A.C3A.get(i));
         }
         f.escribirFichero("\tJMP FIN");
-        generaInstruccion68k(new InstrCodi3A(TiposInstruccionC3A.PMB, null, null, new OperandoC3A("imprimeix", TiposOperandoC3A.procedure)));
-        generaInstruccion68k(new InstrCodi3A(TiposInstruccionC3A.PMB, null, null, new OperandoC3A("imprimeixBooleano", TiposOperandoC3A.procedure)));
-        generaInstruccion68k(new InstrCodi3A(TiposInstruccionC3A.PMB, null, null, new OperandoC3A("escriure", TiposOperandoC3A.procedure)));
+        imprimir();
+        imprimirBooleano();
+        escribir();
         f.escribirFichero("FIN");
         f.escribirFichero("\tEND START");
         f.cierraFichero();
@@ -84,8 +85,22 @@ public class GeneraEnsablador {
                 f.escribirFichero(inst.destino.toString() + ":");
                 break;
             case COPY:
+                if (inst.param2.type == TiposOperandoC3A.procedure) {
+                    f.escribirFichero("\tMOVE.L (A0)," + inst.destino);
+                    f.escribirFichero("\tMOVE.L (A7)+,A0");
+                    for (int i = parametros.size() - 1; i >= 0; i--) {
+                        f.escribirFichero("\tMOVE.L (A7)+," + parametros.get(i));
+                    }
+                    parametros.clear();
+                } else {
+                    if (inst.param2.type == TiposOperandoC3A.variable) {
+                        f.escribirFichero("\tMOVE.L (" + inst.param2 + ")," + inst.destino);
+                    } else {
+                        f.escribirFichero("\tMOVE.L #" + inst.param2 + "," + inst.destino);
+                    }
 
-                f.escribirFichero("\tMOVE.L #" + inst.param2 + "," + inst.destino);
+                }
+
                 break;
             case ADD:
                 if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
@@ -157,26 +172,38 @@ public class GeneraEnsablador {
                 if (inst.param1.type.equals(TiposOperandoC3A.enteroLit)) {  //x=#*?
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= #*# //va be
                         f.escribirFichero("\tMOVE.L #" + inst.param1 + ",D0");
-                        f.escribirFichero("\tMOVE.L #" + inst.param2 + ",D1");
-                        f.escribirFichero("\tMULU.W D0,D1");
-                        f.escribirFichero("\tMOVE.L D1," + inst.destino);
+                        f.escribirFichero("\tMOVE.L #" + (inst.param2) + ",D1");
+                        f.escribirFichero("\tSUB.L #1, D1");
+                        f.escribirFichero("\tCLR.L D2");
+                        f.escribirFichero("LOOP\n\tADD.L D0,D2\n");
+                        f.escribirFichero("\tDBRA D1,LOOP");
+                        f.escribirFichero("\tMOVE.L D2," + inst.destino);
                     } else { //x=#*v
                         f.escribirFichero("\tMOVE.L #" + inst.param1 + ",D0");
                         f.escribirFichero("\tMOVE.L (" + inst.param2 + "),D1");
-                        f.escribirFichero("\tMULU.W D0,D1");
-                        f.escribirFichero("\tMOVE.W D1," + inst.destino);
+                        f.escribirFichero("\tSUB.L #1, D1");
+                        f.escribirFichero("\tCLR.L D2");
+                        f.escribirFichero("LOOP\n\tADD.L D0,D2\n");
+                        f.escribirFichero("\tDBRA D1,LOOP");
+                        f.escribirFichero("\tMOVE.L D2," + inst.destino);
                     }
                 } else { //x = v*?
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { //x= v*# //va be
                         f.escribirFichero("\tMOVE.L (" + inst.param1 + "),D0");
                         f.escribirFichero("\tMOVE.L #" + inst.param2 + ",D1");
-                        f.escribirFichero("\tMULU.W D0,D1");
-                        f.escribirFichero("\tMOVE.W D1," + inst.destino);
+                        f.escribirFichero("\tSUB.L #1, D1");
+                        f.escribirFichero("\tCLR.L D2");
+                        f.escribirFichero("LOOP\n\tADD.L D0,D2\n");
+                        f.escribirFichero("\tDBRA D1,LOOP");
+                        f.escribirFichero("\tMOVE.L D2," + inst.destino);
                     } else { //x=v*v
                         f.escribirFichero("\tMOVE.L (" + inst.param1 + "),D0");
                         f.escribirFichero("\tMOVE.L (" + inst.param2 + "),D1");
-                        f.escribirFichero("\tMULU.W D0,D1");
-                        f.escribirFichero("\tMOVE.W D1," + inst.destino);
+                        f.escribirFichero("\tSUB.L #1, D1");
+                        f.escribirFichero("\tCLR.L D2");
+                        f.escribirFichero("LOOP\n\tADD.L D0,D2\n");
+                        f.escribirFichero("\tDBRA D1,LOOP");
+                        f.escribirFichero("\tMOVE.L D2," + inst.destino);
                     }
                 }
                 break;
@@ -446,73 +473,99 @@ sortidaPantalla(y);
 
             case PARAM_S:
                 parametros.add(inst.destino.toString());
+                f.escribirFichero("\tMOVE.L (" + inst.destino + "),-(A7)");
                 break;
             case CALL:
                 if (inst.destino.toString().contains("imprimeix")) {
-                    f.escribirFichero("\tMOVE.L (" + parametros.get(0) + "),-(A7)");
-                    f.escribirFichero("\tJSR " + inst.destino);
-                    f.escribirFichero("\tMOVE.L (A7)+,(" + parametros.get(0) + ")");
-                    f.escribirFichero("\tADD.L #1,SL");
+                    f.escribirFichero("\tJSR " + inst.destino);// CALL
+                    f.escribirFichero("\tMOVE.L (A7)+,(" + parametros.get(0) + ")");//Recuperació de parámetros
+                    f.escribirFichero("\tADD.L #1,SL"); //Aumentro SL
+                    parametros.clear();
+                    break;
                 } else {
                     if (inst.destino.toString() == "escriure") {
+                        f.escribirFichero("\tJSR " + inst.destino);// CALL
                         f.escribirFichero("\tMOVE.L D2,-(A7)");
-                        f.escribirFichero("\tJSR " + inst.destino);
                         f.escribirFichero("\tMOVE.L D2," + parametros.get(0));
                         f.escribirFichero("\tMOVE.L (A7)+,D2");
+                        f.escribirFichero("\tMOVE.L (A7)+," + parametros.get(0));
                         f.escribirFichero("\tADD.L #1,SL");
+                        parametros.clear();
+                        break;
+                    } else {
+
+                        f.escribirFichero("\tMOVE.L A0,-(A7)");// CALL
+                        f.escribirFichero("\tJSR " + inst.destino);// CALL
+                        if (TablaProcedimientos.getProcedimiento2(inst.destino.toString()).tipo == tipoSub.tipoSubVoid) {
+                            f.escribirFichero("\tMOVE.L (A7)+,A0");
+                            for (int i = parametros.size() - 1; i >= 0; i--) {
+                                f.escribirFichero("\tMOVE.L (A7)+," + parametros.get(i));
+                            }
+                            parametros.clear();
+                        }
                     }
                 }
 
-                parametros.clear();
+                //parametros.clear();
                 break;
             case PMB:
-                if (inst.destino.toString() == "imprimeix") {
-                    f.escribirFichero(inst.destino.toString());
-                    f.escribirFichero("\tMOVEM.L D0-D1,-(A7)");
-                    f.escribirFichero("\tMOVE.L (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
-                    f.escribirFichero("\tMOVE.L 12(A7),D1");
-                    f.escribirFichero("\tMOVE.B #3,D0");
-                    f.escribirFichero("\tTRAP #15");
-                    f.escribirFichero("\tMOVEM.L (A7)+,D0-D1");
-                    f.escribirFichero("\tRTS");
-
-                } else {
-                    if (inst.destino.toString() == "imprimeixBooleano") {
-                        f.escribirFichero(inst.destino.toString());
-                        f.escribirFichero("\tMOVEM.L D0-D1/A1,-(A7)");
-                        f.escribirFichero("\tMOVE.W (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
-                        f.escribirFichero("\tMOVE.W 16(A7),D1");
-                        f.escribirFichero("\tTST.W D1");
-                        f.escribirFichero("\tBEQ fals");
-                        f.escribirFichero("\tLEA true,A1");
-                        f.escribirFichero("\tJMP finb");
-                        f.escribirFichero("fals");
-                        f.escribirFichero("\tLEA false,A1");
-                        f.escribirFichero("finb");
-                        f.escribirFichero("\tMOVE.B #14,D0");
-                        f.escribirFichero("\tTRAP #15");
-                        f.escribirFichero("\tMOVEM.L (A7)+,D0-D1/A1");
-                        f.escribirFichero("\tRTS");
-                        f.escribirFichero("true DC.B 'cert',0");
-                        f.escribirFichero("false DC.B 'fals',0\n\tDS.W 0");
-
-                    }
-                    if (inst.destino.toString() == "escriure") {
-                        f.escribirFichero(inst.destino.toString());
-                        f.escribirFichero("\tMOVEM.L D0-D1/A1,-(A7)");
-                        f.escribirFichero("\tMOVE.W (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
-                        f.escribirFichero("\tLEA write,A1\n\tMOVE.B #14,D0\n\tTRAP #15");
-                        f.escribirFichero("\tMOVE.W  #(13)<<8,D1\n\tOR.W (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
-                        f.escribirFichero("\tMOVE.B #4,D0");
-                        f.escribirFichero("\tTRAP #15");
-                        f.escribirFichero("\tMOVE.W D1,D2");
-                        f.escribirFichero("\tMOVEM.L (A7)+,D0-D1/A1");
-                        f.escribirFichero("\tRTS");
-                        f.escribirFichero("write DC.B 'escriu aqui: ',0\n\tDS.W 0");
-
-                    }
+                for (int i = TablaProcedimientos.tablaP.get(TablaProcedimientos.tablaP.size() - 1).Parametros.size() - 1; i >= 0; i--) {
+                    int posicionPila = ((TablaProcedimientos.tablaP.get(TablaProcedimientos.tablaP.size() - 1).Parametros.size() - i) * 4) + 4;
+                    f.escribirFichero("\tMOVE.L " + posicionPila + "(A7)," + TablaProcedimientos.tablaP.get(TablaProcedimientos.tablaP.size() - 1).Parametros.get(i).idVariable);
                 }
+                f.escribirFichero("\tMOVEM.L D0-D1,-(A7)");
+                break;
+            case RTN:
+                if (inst.destino != null) {
+                    f.escribirFichero("\tMOVE.L #" + inst.destino + ",A0");
+                }
+                f.escribirFichero("\tMOVEM.L (A7)+,D0-D1");
+                f.escribirFichero("\tRTS");
                 break;
         }
+    }
+    private void imprimir() {
+        f.escribirFichero("imprimeix:");
+        f.escribirFichero("\tMOVEM.L D0-D1,-(A7)");
+        f.escribirFichero("\tMOVE.L (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
+        f.escribirFichero("\tMOVE.L 12(A7),D1");
+        f.escribirFichero("\tMOVE.B #3,D0");
+        f.escribirFichero("\tTRAP #15");
+        f.escribirFichero("\tMOVEM.L (A7)+,D0-D1");
+        f.escribirFichero("\tRTS");
+    }
+
+    private void imprimirBooleano() {
+        f.escribirFichero("imprimeixBooleano");
+        f.escribirFichero("\tMOVEM.L D0-D1/A1,-(A7)");
+        f.escribirFichero("\tMOVE.L (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
+        f.escribirFichero("\tMOVE.L 16(A7),D1");
+        f.escribirFichero("\tTST.L D1");
+        f.escribirFichero("\tBEQ fals");
+        f.escribirFichero("\tLEA true,A1");
+        f.escribirFichero("\tJMP finb");
+        f.escribirFichero("fals");
+        f.escribirFichero("\tLEA false,A1");
+        f.escribirFichero("finb");
+        f.escribirFichero("\tMOVE.B #14,D0");
+        f.escribirFichero("\tTRAP #15");
+        f.escribirFichero("\tMOVEM.L (A7)+,D0-D1/A1");
+        f.escribirFichero("\tRTS");
+        f.escribirFichero("true DC.B 'cert',0");
+        f.escribirFichero("false DC.B 'fals',0\n\tDS.W 0");
+    }
+
+    private void escribir() {
+        f.escribirFichero("escriure");
+        f.escribirFichero("\tMOVEM.L D0-D1/A1,-(A7)");
+        f.escribirFichero("\tMOVE.L (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
+        f.escribirFichero("\tLEA write,A1\n\tMOVE.B #14,D0\n\tTRAP #15");
+        f.escribirFichero("\tMOVE.L  #(13)<<8,D1\n\tOR.W (SL),D1\n\tMOVE.B #11,D0\n\tTRAP #15");
+        f.escribirFichero("\tMOVE.B #4,D0");
+        f.escribirFichero("\tTRAP #15");
+        f.escribirFichero("\tMOVE.L D1,D2");
+        f.escribirFichero("\tMOVEM.L (A7)+,D0-D1/A1");
+        f.escribirFichero("\tRTS");
+        f.escribirFichero("write DC.B 'escriu aqui: ',0\n\tDS.W 0");
     }
 }

@@ -107,8 +107,9 @@ public class TABLASIMBOLOS {
             }
         }
         
-        for (int i = 0; i < td.size(); i++) {
+        for (int i = td.size()-1; i >=0; i--) {
             if (((declaracion) td.get(i)).np > n) {
+                if(((declaracion) td.get(i)).d.tipoDesc!=tipoDescripcion.Proc)
                 td.remove(((declaracion) td.get(i)));
             }
         }

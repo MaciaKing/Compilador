@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package compilador.sintactic.symbols;
-
+import compilador.sintactic.variable;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +15,7 @@ public class SymbolPARAM extends SymbolBase {
 
     public int nParamInt;
     public int nParamBool;
-    public ArrayList tPar = new ArrayList();
+    public ArrayList<variable> tPar = new ArrayList();
 
     public SymbolPARAM(String name, Integer id) {
         super(name, id);
@@ -43,12 +43,12 @@ public class SymbolPARAM extends SymbolBase {
         }
     }
 
-    public SymbolPARAM(int i) {
+    public SymbolPARAM(variable i) {
         super("PARAM", 0);
         tPar.add(i);
     }
 
-    public SymbolPARAM(int i, ArrayList a) {
+    public SymbolPARAM(variable i, ArrayList a) {
         super("PARAM", 0);
         this.tPar = a;
         tPar.add(i);

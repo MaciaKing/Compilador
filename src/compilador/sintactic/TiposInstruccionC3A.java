@@ -31,5 +31,6 @@ public enum TiposInstruccionC3A {
     COPY,
     CALL,
     PARAM_S,
-    PMB
+    PMB,
+    RTN
 }

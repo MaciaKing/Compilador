@@ -11,7 +11,7 @@ package compilador.sintactic.symbols;
  */
 public class SymbolCRIDAS extends SymbolBase {
 
-    String id;
+    public String id;
 
     public SymbolCRIDAS(String name, Integer id) {
         super(name, id);

@@ -101,7 +101,7 @@ I     ::= SUBP MAIN LPAREN RPAREN LCLAVE NEWLINE MAINSKIP P NEWLINE RCLAVE      
                                                                                                                     :}
     ;
 
-SUBP  ::=  FUNC ENTER ENCAP:e2 LCLAVE NEWLINE ENTRAB P NEWLINE RetInstr:e3 SURTB NEWLINE RCLAVE NEWLINE SUBP                      {: RESULT = new SymbolSubP();
+SUBP  ::=  FUNC ENTER ENTRAB ENCAP:e2 LCLAVE NEWLINE P NEWLINE RetInstr:e3 SURTB NEWLINE RCLAVE NEWLINE SUBP                      {: RESULT = new SymbolSubP();
                                                                                                                 if(e3.esBool){
                                                                                                                 //System.out.println("ERROR: DEBE DEVOLVER ENTERO");
                                                                                                                 ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3));                                                                                                                                                                                              
@@ -110,9 +110,10 @@ SUBP  ::=  FUNC ENTER ENCAP:e2 LCLAVE NEWLINE ENTRAB P NEWLINE RetInstr:e3 SURTB
                                                                                                                 e.generaError68k();
                                                                                                                 throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": DEBE DEVOLVER ENTERO");
                                                                                                                 }
+                                                                                                                tp.getProcedimiento(e2.id).tipo=tipoSub.tipoSubInt;
                                                                                                                 //TOCA REVISAR ANTES DE HACER                                                                                                                
                                                                                                                 :}
-    |     FUNC BOOL ENTRAB ENCAP:e2 LCLAVE NEWLINE P NEWLINE  RetInstr:e3 SURTB NEWLINE RCLAVE SUBP NEWLINE                      {:         RESULT = new SymbolSubP(); 
+    |     FUNC BOOL ENTRAB ENCAP:e2 LCLAVE NEWLINE P NEWLINE  RetInstr:e3 SURTB NEWLINE RCLAVE NEWLINE SUBP     {:         RESULT = new SymbolSubP(); 
                                                                                                                 if(!e3.esBool){
                                                                                                                 //System.out.println("ERROR: DEBE DEVOLVER BOOLEANO");
                                                                                                                 ComplexSymbol cs2 = (ComplexSymbol) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5));                                                                                                                                                                                              
@@ -121,8 +122,11 @@ SUBP  ::=  FUNC ENTER ENCAP:e2 LCLAVE NEWLINE ENTRAB P NEWLINE RetInstr:e3 SURTB
                                                                                                                 e.generaError68k();
                                                                                                                 throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": ERROR: DEBE DEVOLVER BOOLEANO");        
                                                                                                                 }
+                                                                                                                tp.getProcedimiento(e2.id).tipo=tipoSub.tipoSubBool;
                                                                                                                 :}         
-    |     FUNC VOID ENCAP:e2 LCLAVE NEWLINE P NEWLINE SURTB RCLAVE SUBP NEWLINE                                            {:  RESULT = new SymbolSubP();   :}
+    |     FUNC VOID ENCAP:e2 LCLAVE NEWLINE ENTRAB P NEWLINE RetInstr:e3 SURTB RCLAVE NEWLINE SUBP         {:  RESULT = new SymbolSubP();   
+                                                                                                                   tp.getProcedimiento(e2.id).tipo=tipoSub.tipoSubVoid;
+                                                                                                              :}
     |                                                                                                     {: RESULT = new SymbolSubP();                                                    :}
      ;
 
@@ -149,6 +153,9 @@ instr ::= CND                                                                   
     |     ELIGEIX LPAREN ID:e1 RPAREN LCLAVE NEWLINE CASOS:e2 NEWLINE RCLAVE    {: RESULT = new Symbolinstr(); 
                                                                                 :}     /* Instrucció switch case*/
     |     EB:e1                                                                 {: :}
+     |     ID:e3 IGUAL CRIDAS:e1                                                 {:
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A(e1.id, TiposOperandoC3A.procedure),new OperandoC3A(e3, TiposOperandoC3A.variable)));
+                                                                                :}
     |     CRIDAS:e1                                                             {: :}
     |     NULL PNTCM                                                            {: :}
     |     LECT LPAREN ID:e1 RPAREN PNTCM                                        {:
@@ -199,7 +206,7 @@ CRIDAS   ::= ID:e1 LPAREN PARAM:e2 RPAREN PNTCM                                 
                                                                                 }else{
                                                                                 int i;
                                                                                 for(i = 0; i < d1.tArg.size(); i++){
-                                                                                if(e2.tPar.get(i) != d1.tArg.get(i)){
+                                                                                if(e2.tPar.get(i).tSub != d1.tArg.get(i).tSub){
                                                                                 break;
                                                                                 }
                                                                                 }
@@ -209,8 +216,7 @@ CRIDAS   ::= ID:e1 LPAREN PARAM:e2 RPAREN PNTCM                                 
                                                                                 System.out.println("El subprograma "+e1+" ESTA PERFECTO (CASO CON ARGUMENTOS)");
                                                                                 }
                                                                                 e.addEtiqueta(e1);
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A(d1.etP.etiqueta, TiposOperandoC3A.etiqueta)));
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(e1,TiposOperandoC3A.etiqueta)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.CALL,null,null,new OperandoC3A(e1, TiposOperandoC3A.etiqueta)));
                                                                                 }
                                                                                 RESULT = new SymbolCRIDAS(e1);  
                                                                                 :}
@@ -221,12 +227,15 @@ PARAM    ::= PARAM:e2 COMA ID:e1                                                
                                                                                 if(d1 != null){    
                                                                                 if(d1.tipoS==tipoSub.tipoSubBool){
                                                                                 e2.nParamBool++;
-                                                                                RESULT = new SymbolPARAM(1,e2.tPar);
+                                                                                RESULT = new SymbolPARAM(new variable(e1,tipoSub.tipoSubBool,tp.getNP()),e2.tPar);
                                                                                 }
                                                                                 if(d1.tipoS==tipoSub.tipoSubInt){
                                                                                 e2.nParamInt++;
-                                                                                RESULT = new SymbolPARAM(0,e2.tPar);
+                                                                                RESULT = new SymbolPARAM(new variable(e1,tipoSub.tipoSubInt,tp.getNP()),e2.tPar);
                                                                                 }
+                                                                                OperandoC3A desti;
+                                                                                desti = new OperandoC3A(e1,TiposOperandoC3A.parametro);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.PARAM_S,null,null,desti));
                                                                                 }else{
                                                                                 //ESTO DEBERIA DE FINALIZAR LA EJECUCION DEL PROGRAMA PERO AUN NO TENEMOS
                                                                                 //ESO DISPONIBLE ASI QUE EL PROGRAMA SIGUE EJECUTANDOSE
@@ -238,11 +247,14 @@ PARAM    ::= PARAM:e2 COMA ID:e1                                                
     |        ID:e1                                                              {:
                                                                                 descripcion d1 = TS.consultarD(e1);
                                                                                 if(d1.tipoS==tipoSub.tipoSubBool){
-                                                                                RESULT = new SymbolPARAM(1);
+                                                                                RESULT = new SymbolPARAM(new variable(e1,tipoSub.tipoSubBool,tp.getNP()));
                                                                                 }
                                                                                 if(d1.tipoS==tipoSub.tipoSubInt){
-                                                                                RESULT = new SymbolPARAM(0);
+                                                                                RESULT = new SymbolPARAM(new variable(e1,tipoSub.tipoSubInt,tp.getNP()));
                                                                                 }
+                                                                                OperandoC3A desti;
+                                                                                desti = new OperandoC3A(e1,TiposOperandoC3A.parametro);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.PARAM_S,null,null,desti));
                                                                                 :}
     |                                                                           {:
                                                                                 RESULT = new SymbolPARAM(); 
@@ -431,16 +443,17 @@ SortTec  ::= ID:e1 RPAREN                                                       
      ;
 
 ENCAP    ::= ID:e1 LPAREN RPAREN                                                {:
-                                                                                String et = e.novaET();
+                                                                                //String et = e.novaET();
                                                                                 if(np==0){
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A("E_MAIN",TiposOperandoC3A.etiqueta)));
                                                                                 }
                                                                                 np++;
-                                                                                descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(et));
+                                                                                descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(e1));
                                                                                 TS.afegir(e1,d);
                                                                                 tp.addProcedimiento(new Procedimiento(e1));
                                                                                 //TS.entrabloc();รง
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(e1,TiposOperandoC3A.etiqueta)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.PMB, null, null, new OperandoC3A(e1, TiposOperandoC3A.procedure)));
                                                                                 RESULT = new SymbolENCAP(false,e1); 
                                                                                 :}
     |        TE_ARGS1:e1  RPAREN                                                {:
@@ -450,11 +463,12 @@ ENCAP    ::= ID:e1 LPAREN RPAREN                                                
                                                                                 }
                                                                                 //TS.entrabloc();
                                                                                 np++;
-                                                                                descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(et),e1.tArg);
+                                                                                descripcion d = new descripcion(tipoDescripcion.Proc, np, false, new Etiqueta(e1.id),e1.tArg);
                                                                                 TS.afegir(e1.id,d);
-                                                                                tp.addProcedimiento(new Procedimiento(e1.id));
+                                                                                tp.addProcedimiento(new Procedimiento(e1.id,e1.tArg));
                                                                                 //TS.entrabloc();ร ง
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(et,TiposOperandoC3A.etiqueta)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.SKIP,null,null,new OperandoC3A(e1.id,TiposOperandoC3A.etiqueta)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.PMB, null, null, new OperandoC3A(e1.id, TiposOperandoC3A.procedure)));
                                                                                 RESULT = new SymbolENCAP(true, e1.id);  
                                                                                 :}
      ;
@@ -469,7 +483,10 @@ TE_ARGS1 ::= ID:e1 LPAREN ENTER ID:e2                                           
                                                                                 throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e2+"- ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);   
-                                                                                RESULT = new SymbolTE_ARGS1(e1,0);
+                                                                                TS.afegir(e2,arg);
+                                                                                variable v=new variable(e2,tipoSub.tipoSubInt,tp.getNP());
+                                                                                int t= tv.addVariable(new variable(e2,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                RESULT = new SymbolTE_ARGS1(e1,v);
                                                                                 }
                                                                                 :}
     |        TE_ARGS1:e1 COMA ENTER ID:e2                                       {:
@@ -482,9 +499,13 @@ TE_ARGS1 ::= ID:e1 LPAREN ENTER ID:e2                                           
                                                                                 throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e2+"- ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
+                                                                                //TS.posaArgs(e1.id, e2, arg);
+                                                                                TS.afegir(e2,arg);
                                                                                 descripcion d = TS.consultarD(e1.id);
+                                                                                int t= tv.addVariable(new variable(e2,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                variable v=new variable(e2,tipoSub.tipoSubInt,tp.getNP());
+                                                                                RESULT = new SymbolTE_ARGS1(e1.id,v,e1.tArg);
                                                                                
-                                                                                RESULT = new SymbolTE_ARGS1(e1.id,0,e1.tArg); 
                                                                                 } :}
     |        ID:e1 LPAREN BOOL ID:e2                                            {:                                                                                
                                                                                 descripcion d2 = TS.consultarD(e2);
@@ -496,8 +517,10 @@ TE_ARGS1 ::= ID:e1 LPAREN ENTER ID:e2                                           
                                                                                 throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e2+"- ya ha sido declarada previamente");
                                                                                 }else{
                                                                                 descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubBool);
-                                                                                
-                                                                                RESULT = new SymbolTE_ARGS1(e1,1); 
+                                                                                TS.afegir(e2,arg);
+                                                                                variable v=new variable(e2,tipoSub.tipoSubBool,tp.getNP());
+                                                                                int t= tv.addVariable(new variable(e2,tipoSub.tipoSubBool, tp.getNP()));
+                                                                                RESULT = new SymbolTE_ARGS1(e1,v);
                                                                                 }
                                                                                 :}
     |        TE_ARGS1:e1 COMA BOOL ID:e2                                        {:
@@ -509,11 +532,13 @@ TE_ARGS1 ::= ID:e1 LPAREN ENTER ID:e2                                           
                                                                                 e.generaError68k();
                                                                                 throw new RuntimeException("ERROR en la linea "+cs2.xleft.getLine()+": La variable -"+e2+"- ya ha sido declarada previamente");
                                                                                 }else{
-                                                                                descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubInt);
+                                                                                descripcion arg = new descripcion(tipoDescripcion.Arg, np, tipoSub.tipoSubBool);
                                                                                 //TS.posaArgs(e1.id, e2, arg);
+                                                                                TS.afegir(e2,arg);
                                                                                 descripcion d = TS.consultarD(e1.id);
-                                                                              
-                                                                                RESULT = new SymbolTE_ARGS1(e1.id,1,e1.tArg);
+                                                                                variable v=new variable(e2,tipoSub.tipoSubBool,tp.getNP());
+                                                                                int t= tv.addVariable(new variable(e2,tipoSub.tipoSubBool, tp.getNP()));
+                                                                                RESULT = new SymbolTE_ARGS1(e1.id,v,e1.tArg);
                                                                                 }
                                                                                 :}
      ;
@@ -1156,6 +1181,7 @@ EB   ::= BOOL ID:e1 IGUAL VBOOL:e2 PNTCM                                        
                                                                                 System.out.println("ERROR NO COINCIDEN LOS TIPOS");
                                                                                 report_error("No coinciden los tipos \""+e2+"\"", new SymbolEB());
                                                                                 }
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A(e2,TiposOperandoC3A.variable),new OperandoC3A(e1,TiposOperandoC3A.variable))); 
                                                                                  :}
     |    BOOL ID:e1 IGUAL CRIDAS:e2 
 
@@ -1201,11 +1227,16 @@ RetInstr ::= RETORNA ID:e1 PNTCM                                                
                                                                                 RESULT = new SymbolRetInstr(true);
                                                                                 }else{
                                                                                 RESULT = new SymbolRetInstr(false);
-                                                                                Procedimiento p = tp.removeProcedimiento();
-                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A(p.idProcedimiento, TiposOperandoC3A.etiqueta)));
                                                                                 }
+                                                                                //Procedimiento p = tp.tablaP.get(tp.getNP());
+                                                                                //c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.GOTO,null,null,new OperandoC3A(p.idProcedimiTiposInstruccionC3A.RTN,null,null,new OperandoC3A(e1, TiposOperandoC3A.etiqueta)));ento, TiposOperandoC3A.etiqueta)));
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.RTN,null,null,new OperandoC3A(e1, TiposOperandoC3A.etiqueta)));
                                                                                 }
+                                                                                
                                                                                 :}
-            | RETORNA numero PNTCM                                              {: RESULT = new SymbolRetInstr(false); :}
+               | RETORNA numero PNTCM                                           {: RESULT = new SymbolRetInstr(false); :}
             | RETORNA VBOOL PNTCM                                               {: RESULT = new SymbolRetInstr(false); :}
+            |                                                                   {:
+                                                                                RESULT = new SymbolRetInstr(false);
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.RTN,null,null,null));:}
              ;
