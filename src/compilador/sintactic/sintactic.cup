@@ -260,10 +260,10 @@ CM       ::= Mm:e2 EL:e1 RPAREN LCLAVE NEWLINE                                  
                                                                                 String efi = e.novaET();   
                                                                                 if(e1.isLiteral1){
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
-                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(efi,TiposOperandoC3A.etiqueta)));
+                                                                                new OperandoC3A("0",TiposOperandoC3A.enteroLit),new OperandoC3A(efi,TiposOperandoC3A.etiqueta),true));
                                                                                 }else{
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.EQ,new OperandoC3A(String.valueOf(e1.r),TiposOperandoC3A.booleano),
-                                                                                new OperandoC3A("0",TiposOperandoC3A.variable),new OperandoC3A(efi,TiposOperandoC3A.etiqueta)));
+                                                                                new OperandoC3A("0",TiposOperandoC3A.variable),new OperandoC3A(efi,TiposOperandoC3A.etiqueta),true));
                                                                                 }
                                                                                 
                                                                                 Etiqueta e = new Etiqueta(efi);
@@ -960,6 +960,16 @@ ELp   ::= numero:v                                                              
                                                                                 c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A(v,TiposOperandoC3A.enteroLit),new OperandoC3A(e1,TiposOperandoC3A.variable)));
                                                                                 
                                                                                 :}
+    | ENTER ID:e1 IGUAL SUB numero:v PNTCM                                      {: 
+                                                                                descripcion d = new descripcion(tipoDescripcion.Variable, tipoSub.tipoSubInt);
+                                                                                TS.afegir(e1,d);
+                                                                                int t= tv.addVariable(new variable(e1,tipoSub.tipoSubInt, tp.getNP()));
+                                                                                 //TiposInstruccionC3A instruccion, OperandoC3A param1, OperandoC3A param2, OperandoC3A destino
+                                                                                RESULT = new SymbolELp(t);
+                                                                                String s = "-"+v;
+                                                                                c3a.generaC3A(new InstrCodi3A(TiposInstruccionC3A.COPY,null,new OperandoC3A(s,TiposOperandoC3A.enteroLit),new OperandoC3A(e1,TiposOperandoC3A.variable)));
+                                                                                :}
+                                                                            
     | SUB numero:v                                                              {: 
                                                                                 String s = "-"+v;
                                                                                 RESULT = new SymbolELp(Integer.parseInt(s), true);

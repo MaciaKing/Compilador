@@ -1,5 +1,7 @@
 principal(){
-boolea x=23;
-enter y=x;
+enter x=3;
+mentres(x<10){
+x=x+1;
+}
 sortidaPantalla(x);
 }
