@@ -1,9 +1,8 @@
 principal(){
 enter y=0;
-boolea x=cert;
-boolea z=cert;
-boolea m=cert;
-si(x and z and m){
+boolea x=fals;
+boolea z=fals;
+si(x or z){
 y=10;
 }
 sortidaPantalla(y);
