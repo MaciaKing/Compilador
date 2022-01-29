@@ -1,15 +1,15 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 24/01/2022 9:45:55
+Created On: 29/01/2022 9:28:54
 
 00000600                             1      ORG    $600
-00000600= 45 52 52 4F 52 20 ...      2  true DC.B 'ERROR (fila: 2, columna: 10): de sintaxis',0
-0000062A                             3  SL  DS.W 1 *Variable auxiliar para los saltos de linea de la consola
+00000600= 45 52 52 4F 52 20 ...      2  true DC.B 'ERROR en la linea:3 La variable -x- no ha sido declarada previamente',0
+00000646                             3  SL  DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 00001000                             4      ORG    $1000
 00001000                             5  
 00001000                             6  START:
 00001000  48E7 C040                  7      MOVEM.L D0-D1/A1,-(A7)
-00001004  3238 062A                  8      MOVE.W (SL),D1
+00001004  3238 0646                  8      MOVE.W (SL),D1
 00001008  103C 000B                  9      MOVE.B #11,D0
 0000100C  4E4F                      10      TRAP #15
 0000100E  322F 0010                 11      MOVE.W 16(A7),D1
@@ -26,6 +26,6 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-SL                  62A
+SL                  646
 START               1000
 TRUE                600

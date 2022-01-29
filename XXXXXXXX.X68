@@ -1,5 +1,5 @@
 	ORG    $600
-true DC.B 'ERROR (fila: 2, columna: 10): de sintaxis',0
+true DC.B 'ERROR en la linea:3 La variable -x- no ha sido declarada previamente',0
 SL	DS.W 1 *Variable auxiliar para los saltos de linea de la consola
 	ORG    $1000
 
