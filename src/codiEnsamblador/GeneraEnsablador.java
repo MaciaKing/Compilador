@@ -284,14 +284,14 @@ public class GeneraEnsablador {
 
                 } else { // (v > ?)
                     if (inst.param2.type.equals(TiposOperandoC3A.enteroLit)) { // (v > #)
-                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
-                        f.escribirFichero("\tMOVE.W #" + inst.param2 + ", D1");
-                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tMOVE.L (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.L #" + inst.param2 + ", D1");
+                        f.escribirFichero("\tCMP.L  D1, D0");
                         f.escribirFichero("\tBGT " + inst.destino);
                     } else { // (v > v)
-                        f.escribirFichero("\tMOVE.W (" + inst.param1 + "), D0");
-                        f.escribirFichero("\tMOVE.W (" + inst.param2 + "), D1");
-                        f.escribirFichero("\tCMP.W  D1, D0");
+                        f.escribirFichero("\tMOVE.L (" + inst.param1 + "), D0");
+                        f.escribirFichero("\tMOVE.L (" + inst.param2 + "), D1");
+                        f.escribirFichero("\tCMP.L  D1, D0");
                         f.escribirFichero("\tBGT " + inst.destino);
                     }
                 }                
